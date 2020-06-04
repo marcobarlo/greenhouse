@@ -9,4 +9,4 @@ todo:
 ~- 5-7a : l'agrono cambia idea sulla coltivazione selezionata~
 
 - possiamo mettere requisiti addizionali che nella pratica non facciamo?
-- use case diagram, sequence, diagramma di contesto (?), system domain model raffinato con pattern grasp
+- ~use case diagram, sequence, diagramma di contesto (?), system domain model raffinato con pattern grasp~
