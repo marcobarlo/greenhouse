@@ -1,7 +1,8 @@
 # greenhouse
 todo:
 - correggere requisiti addizionali... quello che scriviamo dobbiamo prevedere come farlo, anche se possiamo prevedere qualche requisito che di fatto non implementeremo
-- sensori etc nel sdm
+~- sensori etc nel sdm~
+
 - completa tutte le responsabilità nel grasp
 
 ~- allineare sequence e grasp~
