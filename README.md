@@ -16,4 +16,4 @@ todo:
 ~- attore a cui viene mandata la notifica di allarme~
 - cosa succede in caso di errori? il sensore non esiste, oppure altro
 - te215 per umidità del terreno 
-
+-impiegati notifier classe grasp
