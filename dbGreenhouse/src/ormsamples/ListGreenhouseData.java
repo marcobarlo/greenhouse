@@ -10,7 +10,7 @@ public class ListGreenhouseData {
 	
 	public void listTestData() throws PersistentException {
 		System.out.println("Listing Sezione...");
-		package_diagram_desktop_component.model.Sezione[] package_diagram_desktop_componentModelSeziones = package_diagram_desktop_component.model.Sezione.listSezioneByQuery(null, null);
+		package_diagram_desktop_component.model.Sezione[] package_diagram_desktop_componentModelSeziones = package_diagram_desktop_component.model.SezioneDAO.listSezioneByQuery(null, null);
 		int length = Math.min(package_diagram_desktop_componentModelSeziones.length, ROW_COUNT);
 		for (int i = 0; i < length; i++) {
 			System.out.println(package_diagram_desktop_componentModelSeziones[i]);
@@ -18,7 +18,7 @@ public class ListGreenhouseData {
 		System.out.println(length + " record(s) retrieved.");
 		
 		System.out.println("Listing Area_Coltivata...");
-		package_diagram_desktop_component.model.Area_Coltivata[] package_diagram_desktop_componentModelArea_Coltivatas = package_diagram_desktop_component.model.Area_Coltivata.listArea_ColtivataByQuery(null, null);
+		package_diagram_desktop_component.model.Area_Coltivata[] package_diagram_desktop_componentModelArea_Coltivatas = package_diagram_desktop_component.model.Area_ColtivataDAO.listArea_ColtivataByQuery(null, null);
 		length = Math.min(package_diagram_desktop_componentModelArea_Coltivatas.length, ROW_COUNT);
 		for (int i = 0; i < length; i++) {
 			System.out.println(package_diagram_desktop_componentModelArea_Coltivatas[i]);
@@ -26,7 +26,7 @@ public class ListGreenhouseData {
 		System.out.println(length + " record(s) retrieved.");
 		
 		System.out.println("Listing Coltivazione...");
-		package_diagram_desktop_component.model.Coltivazione[] package_diagram_desktop_componentModelColtivaziones = package_diagram_desktop_component.model.Coltivazione.listColtivazioneByQuery(null, null);
+		package_diagram_desktop_component.model.Coltivazione[] package_diagram_desktop_componentModelColtivaziones = package_diagram_desktop_component.model.ColtivazioneDAO.listColtivazioneByQuery(null, null);
 		length = Math.min(package_diagram_desktop_componentModelColtivaziones.length, ROW_COUNT);
 		for (int i = 0; i < length; i++) {
 			System.out.println(package_diagram_desktop_componentModelColtivaziones[i]);
@@ -34,7 +34,7 @@ public class ListGreenhouseData {
 		System.out.println(length + " record(s) retrieved.");
 		
 		System.out.println("Listing Ambiente...");
-		package_diagram_desktop_component.model.Ambiente[] package_diagram_desktop_componentModelAmbientes = package_diagram_desktop_component.model.Ambiente.listAmbienteByQuery(null, null);
+		package_diagram_desktop_component.model.Ambiente[] package_diagram_desktop_componentModelAmbientes = package_diagram_desktop_component.model.AmbienteDAO.listAmbienteByQuery(null, null);
 		length = Math.min(package_diagram_desktop_componentModelAmbientes.length, ROW_COUNT);
 		for (int i = 0; i < length; i++) {
 			System.out.println(package_diagram_desktop_componentModelAmbientes[i]);
@@ -42,7 +42,7 @@ public class ListGreenhouseData {
 		System.out.println(length + " record(s) retrieved.");
 		
 		System.out.println("Listing Impiegato...");
-		package_diagram_desktop_component.model.Impiegato[] package_diagram_desktop_componentModelImpiegatos = package_diagram_desktop_component.model.Impiegato.listImpiegatoByQuery(null, null);
+		package_diagram_desktop_component.model.Impiegato[] package_diagram_desktop_componentModelImpiegatos = package_diagram_desktop_component.model.ImpiegatoDAO.listImpiegatoByQuery(null, null);
 		length = Math.min(package_diagram_desktop_componentModelImpiegatos.length, ROW_COUNT);
 		for (int i = 0; i < length; i++) {
 			System.out.println(package_diagram_desktop_componentModelImpiegatos[i]);
@@ -50,7 +50,7 @@ public class ListGreenhouseData {
 		System.out.println(length + " record(s) retrieved.");
 		
 		System.out.println("Listing Descrizione_Coltivazione...");
-		package_diagram_desktop_component.model.Descrizione_Coltivazione[] package_diagram_desktop_componentModelDescrizione_Coltivaziones = package_diagram_desktop_component.model.Descrizione_Coltivazione.listDescrizione_ColtivazioneByQuery(null, null);
+		package_diagram_desktop_component.model.Descrizione_Coltivazione[] package_diagram_desktop_componentModelDescrizione_Coltivaziones = package_diagram_desktop_component.model.Descrizione_ColtivazioneDAO.listDescrizione_ColtivazioneByQuery(null, null);
 		length = Math.min(package_diagram_desktop_componentModelDescrizione_Coltivaziones.length, ROW_COUNT);
 		for (int i = 0; i < length; i++) {
 			System.out.println(package_diagram_desktop_componentModelDescrizione_Coltivaziones[i]);

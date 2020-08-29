@@ -9,24 +9,24 @@ public class RetrieveAndUpdateGreenhouseData {
 	public void retrieveAndUpdateTestData() throws PersistentException {
 		PersistentTransaction t = package_diagram_desktop_component.model.GreenhousePersistentManager.instance().getSession().beginTransaction();
 		try {
-			package_diagram_desktop_component.model.Sezione package_diagram_desktop_componentModelSezione = package_diagram_desktop_component.model.Sezione.loadSezioneByQuery(null, null);
+			package_diagram_desktop_component.model.Sezione package_diagram_desktop_componentModelSezione = package_diagram_desktop_component.model.SezioneDAO.loadSezioneByQuery(null, null);
 			// Update the properties of the persistent object
-			package_diagram_desktop_componentModelSezione.save();
-			package_diagram_desktop_component.model.Area_Coltivata package_diagram_desktop_componentModelArea_Coltivata = package_diagram_desktop_component.model.Area_Coltivata.loadArea_ColtivataByQuery(null, null);
+			package_diagram_desktop_component.model.SezioneDAO.save(package_diagram_desktop_componentModelSezione);
+			package_diagram_desktop_component.model.Area_Coltivata package_diagram_desktop_componentModelArea_Coltivata = package_diagram_desktop_component.model.Area_ColtivataDAO.loadArea_ColtivataByQuery(null, null);
 			// Update the properties of the persistent object
-			package_diagram_desktop_componentModelArea_Coltivata.save();
-			package_diagram_desktop_component.model.Coltivazione package_diagram_desktop_componentModelColtivazione = package_diagram_desktop_component.model.Coltivazione.loadColtivazioneByQuery(null, null);
+			package_diagram_desktop_component.model.Area_ColtivataDAO.save(package_diagram_desktop_componentModelArea_Coltivata);
+			package_diagram_desktop_component.model.Coltivazione package_diagram_desktop_componentModelColtivazione = package_diagram_desktop_component.model.ColtivazioneDAO.loadColtivazioneByQuery(null, null);
 			// Update the properties of the persistent object
-			package_diagram_desktop_componentModelColtivazione.save();
-			package_diagram_desktop_component.model.Ambiente package_diagram_desktop_componentModelAmbiente = package_diagram_desktop_component.model.Ambiente.loadAmbienteByQuery(null, null);
+			package_diagram_desktop_component.model.ColtivazioneDAO.save(package_diagram_desktop_componentModelColtivazione);
+			package_diagram_desktop_component.model.Ambiente package_diagram_desktop_componentModelAmbiente = package_diagram_desktop_component.model.AmbienteDAO.loadAmbienteByQuery(null, null);
 			// Update the properties of the persistent object
-			package_diagram_desktop_componentModelAmbiente.save();
-			package_diagram_desktop_component.model.Impiegato package_diagram_desktop_componentModelImpiegato = package_diagram_desktop_component.model.Impiegato.loadImpiegatoByQuery(null, null);
+			package_diagram_desktop_component.model.AmbienteDAO.save(package_diagram_desktop_componentModelAmbiente);
+			package_diagram_desktop_component.model.Impiegato package_diagram_desktop_componentModelImpiegato = package_diagram_desktop_component.model.ImpiegatoDAO.loadImpiegatoByQuery(null, null);
 			// Update the properties of the persistent object
-			package_diagram_desktop_componentModelImpiegato.save();
-			package_diagram_desktop_component.model.Descrizione_Coltivazione package_diagram_desktop_componentModelDescrizione_Coltivazione = package_diagram_desktop_component.model.Descrizione_Coltivazione.loadDescrizione_ColtivazioneByQuery(null, null);
+			package_diagram_desktop_component.model.ImpiegatoDAO.save(package_diagram_desktop_componentModelImpiegato);
+			package_diagram_desktop_component.model.Descrizione_Coltivazione package_diagram_desktop_componentModelDescrizione_Coltivazione = package_diagram_desktop_component.model.Descrizione_ColtivazioneDAO.loadDescrizione_ColtivazioneByQuery(null, null);
 			// Update the properties of the persistent object
-			package_diagram_desktop_componentModelDescrizione_Coltivazione.save();
+			package_diagram_desktop_component.model.Descrizione_ColtivazioneDAO.save(package_diagram_desktop_componentModelDescrizione_Coltivazione);
 			t.commit();
 		}
 		catch (Exception e) {
