@@ -78,7 +78,7 @@ public class Sezione {
 	
 	public final package_diagram_desktop_component.model.Area_ColtivataSetCollection aree = new package_diagram_desktop_component.model.Area_ColtivataSetCollection(this, _ormAdapter, package_diagram_desktop_component.model.ORMConstants.KEY_SEZIONE_AREE, package_diagram_desktop_component.model.ORMConstants.KEY_AREA_COLTIVATA_SEZIONE, package_diagram_desktop_component.model.ORMConstants.KEY_MUL_ONE_TO_MANY);
 	
-	public void ricercaColtivazione(String tipo) {
+	public package_diagram_desktop_component.model.Area_Coltivata[] getAreeColtivate(int posizione, int fila) {
 		//TODO: Implement Method
 		throw new UnsupportedOperationException();
 	}

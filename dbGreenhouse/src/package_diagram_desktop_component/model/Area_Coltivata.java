@@ -162,11 +162,6 @@ public class Area_Coltivata {
 		throw new UnsupportedOperationException();
 	}
 	
-	public void getTipoColtivazione() {
-		//TODO: Implement Method
-		throw new UnsupportedOperationException();
-	}
-	
 	public String toString() {
 		return String.valueOf(getAttribute());
 	}
