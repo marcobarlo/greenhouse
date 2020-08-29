@@ -10,6 +10,10 @@ public class Coltivazione {
 	private String stato;
 	private Date data_prossima_operazione;
 
+	public Coltivazione() {
+		
+	}
+	
 	public void getAreaColtivata() {
 		// TODO - implement Coltivazione.getAreaColtivata
 		throw new UnsupportedOperationException();
@@ -20,7 +24,7 @@ public class Coltivazione {
 		throw new UnsupportedOperationException();
 	}
 
-	public void getTipo() {
+	public String getTipo() {
 		// TODO - implement Coltivazione.getTipo
 		throw new UnsupportedOperationException();
 	}
