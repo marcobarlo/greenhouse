@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Sezione {
 
-	Collection<Area_Coltivata> aree;
+	List<Area_Coltivata> aree;
 	private int identificativo;
 
 	public int getIdentificativo() {
@@ -21,9 +21,19 @@ public class Sezione {
 	 * 
 	 * @param nome
 	 */
-	public void ricercaColtivazione(String nome) {
+	public List<Coltivazione> ricercaColtivazione(String tipo, int posizione, int fila) {
 		// TODO - implement Sezione.ricercaColtivazione
-		throw new UnsupportedOperationException();
+		List<Coltivazione> colt = new ArrayList<Coltivazione>();
+		for(Area_Coltivata temp : aree) 
+		{
+			if ( temp.getTipoColtivazione().equals(tipo))
+				if(temp.getFila() == fila)
+					if(temp.getPosizione() == posizione)
+						colt.add(temp.coltivazione);
+		}
+		return colt;
+		
+		//throw new UnsupportedOperationException();
 	}
 
 }

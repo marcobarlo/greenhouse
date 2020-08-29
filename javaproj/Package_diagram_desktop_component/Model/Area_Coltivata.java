@@ -20,7 +20,7 @@ public class Area_Coltivata {
 		throw new UnsupportedOperationException();
 	}
 
-	public void getTipoColtivazione() {
+	public String getTipoColtivazione() {
 		// TODO - implement Area_Coltivata.getTipoColtivazione
 		throw new UnsupportedOperationException();
 	}
