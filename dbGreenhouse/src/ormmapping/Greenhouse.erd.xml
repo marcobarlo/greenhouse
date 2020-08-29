@@ -287,7 +287,7 @@
       <Index>false</Index>
       <UserTypes/>
     </Column>
-    <Column name="Temperatura_target">
+    <Column name="TemperaturaTarget">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>false</ForeignKey>
       <Type>9</Type>
@@ -298,7 +298,7 @@
       <Index>false</Index>
       <UserTypes/>
     </Column>
-    <Column name="Irradianza_target">
+    <Column name="IrradianzaTarget">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>false</ForeignKey>
       <Type>9</Type>
@@ -309,7 +309,7 @@
       <Index>false</Index>
       <UserTypes/>
     </Column>
-    <Column name="Umidità_aria_target">
+    <Column name="UmiditaAriaTarget">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>false</ForeignKey>
       <Type>9</Type>
@@ -320,7 +320,7 @@
       <Index>false</Index>
       <UserTypes/>
     </Column>
-    <Column name="Umidità_suolo_target">
+    <Column name="UmiditaSuoloTarget">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>false</ForeignKey>
       <Type>9</Type>

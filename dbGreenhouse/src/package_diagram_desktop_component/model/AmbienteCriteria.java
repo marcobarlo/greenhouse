@@ -21,19 +21,19 @@ import org.orm.criteria.*;
 public class AmbienteCriteria extends AbstractORMCriteria {
 	public final IntegerExpression attribute;
 	public final IntegerExpression ID;
-	public final IntegerExpression temperatura_target;
-	public final IntegerExpression irradianza_target;
-	public final IntegerExpression umidità_aria_target;
-	public final IntegerExpression umidità_suolo_target;
+	public final IntegerExpression temperaturaTarget;
+	public final IntegerExpression irradianzaTarget;
+	public final IntegerExpression umiditaAriaTarget;
+	public final IntegerExpression umiditaSuoloTarget;
 	
 	public AmbienteCriteria(Criteria criteria) {
 		super(criteria);
 		attribute = new IntegerExpression("attribute", this);
 		ID = new IntegerExpression("ID", this);
-		temperatura_target = new IntegerExpression("temperatura_target", this);
-		irradianza_target = new IntegerExpression("irradianza_target", this);
-		umidità_aria_target = new IntegerExpression("umidità_aria_target", this);
-		umidità_suolo_target = new IntegerExpression("umidità_suolo_target", this);
+		temperaturaTarget = new IntegerExpression("temperaturaTarget", this);
+		irradianzaTarget = new IntegerExpression("irradianzaTarget", this);
+		umiditaAriaTarget = new IntegerExpression("umiditaAriaTarget", this);
+		umiditaSuoloTarget = new IntegerExpression("umiditaSuoloTarget", this);
 	}
 	
 	public AmbienteCriteria(PersistentSession session) {

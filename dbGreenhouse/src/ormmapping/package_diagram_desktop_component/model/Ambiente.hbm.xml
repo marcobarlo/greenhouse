@@ -11,9 +11,9 @@ License Type: Evaluation
 			</generator>
 		</id>
 		<property name="ID" column="ID" type="integer" length="10" not-null="true" lazy="false"/>
-		<property name="temperatura_target" column="Temperatura_target" type="integer" length="10" not-null="false" lazy="false"/>
-		<property name="irradianza_target" column="Irradianza_target" type="integer" length="10" not-null="false" lazy="false"/>
-		<property name="umidità_aria_target" column="Umidità_aria_target" type="integer" length="10" not-null="false" lazy="false"/>
-		<property name="umidità_suolo_target" column="Umidità_suolo_target" type="integer" length="10" not-null="false" lazy="false"/>
+		<property name="temperaturaTarget" column="TemperaturaTarget" type="integer" length="10" not-null="false" lazy="false"/>
+		<property name="irradianzaTarget" column="IrradianzaTarget" type="integer" length="10" not-null="false" lazy="false"/>
+		<property name="umiditaAriaTarget" column="UmiditaAriaTarget" type="integer" length="10" not-null="false" lazy="false"/>
+		<property name="umiditaSuoloTarget" column="UmiditaSuoloTarget" type="integer" length="10" not-null="false" lazy="false"/>
 	</class>
 </hibernate-mapping>
