@@ -1,4 +1,4 @@
-package Package_diagram_desktop_component.UI;
+package packagediagramdesktopcomponent.UI;
 
 public class Coltivazione_tab {
 
