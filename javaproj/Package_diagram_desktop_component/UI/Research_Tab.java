@@ -1,4 +1,4 @@
-package Package_diagram_desktop_component.UI;
+package nulla_piu_assoluto;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -12,14 +12,22 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.awt.event.ActionEvent;
+
+import package_diagram_desktop_component.Business_Logic;
+
 
 public class Research_Tab extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField rigaTextField;
+	private JTextField tipoTextField;
+	private JTextField sezioneTextField;
+	private JTextField posizioneTextField;
 	private JTable table;
 
 	/**
@@ -41,6 +49,22 @@ public class Research_Tab extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
+	private int getInt(String text)
+	{
+		if( !text.equals(""))
+		{
+			return -1;
+		}
+		else
+		{
+			int number;
+			try {number=Integer.parseInt(text);}
+			catch(NumberFormatException e)
+			{number = -1;}
+			return number;
+		}
+	}
 	public Research_Tab() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -65,47 +89,60 @@ public class Research_Tab extends JFrame {
 		lblPosizioneNellaRiga.setBounds(194, 55, 105, 14);
 		contentPane.add(lblPosizioneNellaRiga);
 		
-		textField = new JTextField();
-		textField.setBounds(80, 52, 86, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		rigaTextField = new JTextField();
+		rigaTextField.setBounds(80, 52, 86, 20);
+		contentPane.add(rigaTextField);
+		rigaTextField.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(80, 19, 86, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		tipoTextField = new JTextField();
+		tipoTextField.setBounds(80, 19, 86, 20);
+		contentPane.add(tipoTextField);
+		tipoTextField.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(294, 19, 86, 20);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
+		sezioneTextField = new JTextField();
+		sezioneTextField.setBounds(294, 19, 86, 20);
+		contentPane.add(sezioneTextField);
+		sezioneTextField.setColumns(10);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(294, 52, 86, 20);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
+		posizioneTextField = new JTextField();
+		posizioneTextField.setBounds(294, 52, 86, 20);
+		contentPane.add(posizioneTextField);
+		posizioneTextField.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Ricerca coltivazione");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String tipo, pos,sez,row;
+				int posizione,sezione,fila;
+				tipo = tipoTextField.getText();
+				pos=posizioneTextField.getText();
+				posizione=getInt(pos);
+				sezione=getInt(sez);
+				fila=getInt(row);
+				//Set<Coltivazione_Business> colts= new HashSet<Coltivazione_Business>();
+				//colts=Controller_Facade.ricercaColtivazione(tipo, sezione,posizione,fila);
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				for(Coltivazione_Business c: colts)
+				{
+					model.insertRow(model.getRowCount(), new Object[] {c.ID_coltivazione.toString(),c.data_prossima_op.toString(), c.fila.toString(),
+					c.posizione.toString(), c.tipo.toString(), c.stato.toString(),c.sezione.toString()});
+				}
+			}
+		});
 		btnNewButton.setBounds(152, 80, 146, 14);
 		contentPane.add(btnNewButton);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 125, 414, 109);
+		scrollPane.setBounds(10, 130, 414, 109);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
 			},
 			new String[] {
-				"New column", "New column", "New column", "New column", "New column"
+				"ID", "Sezione", "Fila", "Posizione", "Tipo", "Stato", "Data Prossima Op"
 			}
 		));
 	}
