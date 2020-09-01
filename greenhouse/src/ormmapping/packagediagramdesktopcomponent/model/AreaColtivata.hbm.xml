@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: 
+License Type: Evaluation
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="packagediagramdesktopcomponent.model.AreaColtivata" table="AreaColtivata" lazy="false">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="native">
+			</generator>
+		</id>
+		<property name="fila" column="Fila" type="integer" length="10" not-null="true" lazy="false"/>
+		<property name="posizione" column="Posizione" type="integer" length="10" not-null="true" lazy="false"/>
+		<property name="estensione" column="Estensione" type="float" length="10" not-null="true" lazy="false"/>
+		<property name="tipo_di_terreno" column="Tipo_di_terreno" type="string" length="255" not-null="false" lazy="false"/>
+		<many-to-one name="sezione" cascade="lock" column="SezioneID" class="packagediagramdesktopcomponent.model.Sezione" not-null="true" lazy="proxy" access="field">
+		</many-to-one>
+		<many-to-one name="coltivazione" column="ColtivazioneID" class="packagediagramdesktopcomponent.model.Coltivazione" cascade="save-update,lock" unique="true" not-null="false" lazy="proxy" access="field">
+		</many-to-one>
+		<many-to-one name="ambiente" column="AmbienteID" class="packagediagramdesktopcomponent.model.Ambiente" cascade="save-update,lock" unique="true" not-null="true" lazy="proxy" access="field">
+		</many-to-one>
+	</class>
+</hibernate-mapping>
