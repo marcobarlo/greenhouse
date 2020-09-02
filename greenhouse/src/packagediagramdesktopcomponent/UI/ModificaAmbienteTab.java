@@ -42,7 +42,6 @@ public class ModificaAmbienteTab extends JFrame {
 	}
 	
 	    //Create and set up the window.
-	    JFrame frame = new JFrame("SpringForm");
 	    private JTextField umiTxt;
 	    private JTextField tempTxt;
 	    private JTextField irrTxt;
