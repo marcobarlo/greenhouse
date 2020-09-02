@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.awt.event.ActionEvent;
 
@@ -99,7 +100,7 @@ public class Research_Tab extends JFrame {
 	
 	public Research_Tab() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 500, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -110,7 +111,7 @@ public class Research_Tab extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblSezione = new JLabel("sezione");
-		lblSezione.setBounds(252, 22, 46, 14);
+		lblSezione.setBounds(294, 22, 46, 14);
 		contentPane.add(lblSezione);
 		
 		JLabel lblRiga = new JLabel("fila");
@@ -118,7 +119,7 @@ public class Research_Tab extends JFrame {
 		contentPane.add(lblRiga);
 		
 		JLabel lblPosizioneNellaRiga = new JLabel("posizione nella riga");
-		lblPosizioneNellaRiga.setBounds(194, 55, 105, 14);
+		lblPosizioneNellaRiga.setBounds(235, 55, 105, 14);
 		contentPane.add(lblPosizioneNellaRiga);
 		
 		rigaTextField = new JTextField();
@@ -132,12 +133,12 @@ public class Research_Tab extends JFrame {
 		tipoTextField.setColumns(10);
 		
 		sezioneTextField = new JTextField();
-		sezioneTextField.setBounds(294, 19, 86, 20);
+		sezioneTextField.setBounds(350, 19, 86, 20);
 		contentPane.add(sezioneTextField);
 		sezioneTextField.setColumns(10);
 		
 		posizioneTextField = new JTextField();
-		posizioneTextField.setBounds(294, 52, 86, 20);
+		posizioneTextField.setBounds(350, 52, 86, 20);
 		contentPane.add(posizioneTextField);
 		posizioneTextField.setColumns(10);
 		
@@ -197,14 +198,15 @@ public class Research_Tab extends JFrame {
 				catch(NumberFormatException e){}
 			}
 		});
-		btnNewButton.setBounds(152, 80, 146, 14);
+		btnNewButton.setBounds(152, 80, 175, 30);
 		contentPane.add(btnNewButton);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 130, 414, 109);
+		scrollPane.setBounds(10, 130, 464, 163);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
+		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		scrollPane.setViewportView(table);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -220,7 +222,6 @@ public class Research_Tab extends JFrame {
 				int row=table.getSelectedRow();
 				if(row != -1)
 				{
-					
 					try {
 						Coltivazione_tab frame2 = new Coltivazione_tab(colts.get(row));
 						frame2.setVisible(true);
@@ -231,16 +232,38 @@ public class Research_Tab extends JFrame {
 
 			}
 		});
-		mostra.setBounds(152, 238, 130, 23);
+		mostra.setBounds(34, 304, 175, 23);
 		contentPane.add(mostra);
+		
+		JButton modificaParamAmb = new JButton("Modifica Parametri Ambientali");
+		modificaParamAmb.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int rows[] = table.getSelectedRows();
+				List<Integer> ids = new ArrayList<Integer>();
+				if(rows.length>0) 
+				{
+					for(int i=0 ; i< rows.length; i++)
+						ids.add(colts.get(rows[i]).getID_coltivazione());
+					try {
+						ModificaAmbienteTab frame2 = new ModificaAmbienteTab(ids);
+						frame2.setVisible(true);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		modificaParamAmb.setBounds(261, 304, 175, 23);
+		contentPane.add(modificaParamAmb);
 				
 		mostra.setVisible(false);
-		  
+		modificaParamAmb.setVisible(false); 
 		ListSelectionModel cellSelectionModel = table.getSelectionModel();
 		  
 		cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
 		public void valueChanged(ListSelectionEvent e) {
-		mostra.setVisible(true);}
+		mostra.setVisible(true);
+		modificaParamAmb.setVisible(true); }
 		});
 
 	

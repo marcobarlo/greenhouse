@@ -14,6 +14,8 @@ import packagediagramdesktopcomponent.Business_Logic.ControllerFacade;
 
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
@@ -32,7 +34,8 @@ public class ModificaAmbienteTab extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ModificaAmbienteTab frame = new ModificaAmbienteTab(0);
+					List<Integer> a = new ArrayList<Integer>();
+					ModificaAmbienteTab frame = new ModificaAmbienteTab(a);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -80,7 +83,7 @@ public class ModificaAmbienteTab extends JFrame {
 			{number = (Float) null;}
 			return number;
 	}
-	public ModificaAmbienteTab(int IDColtivazione) {
+	public ModificaAmbienteTab(List<Integer> IDColtivazioni) {
 	    //Display the window.
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -128,7 +131,7 @@ public class ModificaAmbienteTab extends JFrame {
 		modifyButt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Float temp,umi,irr;
-				boolean retval;
+				List<Boolean> retval = new ArrayList<Boolean>();
 				lblError.setVisible(false);
 			
 				
@@ -143,17 +146,28 @@ public class ModificaAmbienteTab extends JFrame {
 						int dialogRes=JOptionPane.showConfirmDialog(null, "Sei sicuro di voler aggiornare i parametri?", "Attenzione!", JOptionPane.OK_CANCEL_OPTION);
 						if(dialogRes==JOptionPane.OK_OPTION)
 						{
-							retval=ControllerFacade.modificaAmbiente(IDColtivazione, temp, umi, irr);
-							if(retval)
+							for(int IDColtivazione : IDColtivazioni)
 							{
-								lblError.setText("Modifica avvenuta con succcesso!");
+								retval.add(ControllerFacade.modificaAmbiente(IDColtivazione, temp, umi, irr));
+							}
+							
+							if(!retval.contains(false))
+							{
+								lblError.setText("Modifica avvenuta con successo!");
 								lblError.setVisible(true);
 							}
 							else
 							{
-								lblError.setText("Problemi nel salvataggio dei parametri!");
+								String error = new String("Problemi nel salvataggio dei parametri per le coltivazioni ");
+								for(int i = 0; i < IDColtivazioni.size(); i++) 
+								{
+									if(retval.get(i)==false)
+										error = error + IDColtivazioni.get(i) + " ";
+								}
+								lblError.setText(error);
 								lblError.setVisible(true);
-							}
+							}	
+							
 						}
 					}
 				}

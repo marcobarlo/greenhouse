@@ -14,6 +14,8 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class Coltivazione_tab extends JFrame {
@@ -102,7 +104,10 @@ public class Coltivazione_tab extends JFrame {
 		modificaAmbientebutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ModificaAmbienteTab mod = new ModificaAmbienteTab(colt.getID_coltivazione());
+					
+					List<Integer> colts = new ArrayList<Integer>();
+					colts.add( colt.getID_coltivazione());
+					ModificaAmbienteTab mod = new ModificaAmbienteTab(colts);
 					mod.setVisible(true);
 				} catch (Exception e1) {
 					e1.printStackTrace();
