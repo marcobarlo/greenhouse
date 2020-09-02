@@ -46,7 +46,7 @@ public class Coltivazione_tab extends JFrame {
 	 */
 	public Coltivazione_tab(ColtivazioneBusiness colt) throws PersistentException {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 561, 363);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -88,7 +88,7 @@ public class Coltivazione_tab extends JFrame {
 		JLabel dettagli = new JLabel("Dettagli Coltivazione");
 		dettagli.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		dettagli.setHorizontalAlignment(SwingConstants.TRAILING);
-		dettagli.setBounds(137, 11, 187, 25);
+		dettagli.setBounds(221, 11, 187, 25);
 		contentPane.add(dettagli);
 		
 		
@@ -110,7 +110,7 @@ public class Coltivazione_tab extends JFrame {
 			}
 		});
 		modificaAmbientebutton.setHorizontalAlignment(SwingConstants.RIGHT);
-		modificaAmbientebutton.setBounds(123, 242, 187, 21);
+		modificaAmbientebutton.setBounds(221, 292, 187, 21);
 		contentPane.add(modificaAmbientebutton);
 		errorLabel.setVisible(false);
 		

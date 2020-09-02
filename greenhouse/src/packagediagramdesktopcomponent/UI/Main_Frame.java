@@ -54,7 +54,7 @@ public class Main_Frame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
+		this.setExtendedState( this.getExtendedState()|JFrame.MAXIMIZED_BOTH );
 		setLayout(null);
 		
 		JButton searchButton = new JButton("Cerca una coltivazione");

@@ -524,14 +524,12 @@ public class Coltivazione {
 	
 	public final packagediagramdesktopcomponent.model.ImpiegatoSetCollection impiegato = new packagediagramdesktopcomponent.model.ImpiegatoSetCollection(this, _ormAdapter, packagediagramdesktopcomponent.model.ORMConstants.KEY_COLTIVAZIONE_IMPIEGATO, packagediagramdesktopcomponent.model.ORMConstants.KEY_MUL_MANY_TO_MANY);
 	
-	public void getAreaColtivata() {
-		//TODO: Implement Method
-		throw new UnsupportedOperationException();
+	public AreaColtivata getAreaColtivata() {
+		return area;
 	}
 	
-	public void modificaAmbiente() {
-		//TODO: Implement Method
-		throw new UnsupportedOperationException();
+	public boolean modificaAmbiente(Float temperatura, Float umidita, Float irradianza) {
+		return this.area.modificaAmbiente(temperatura, umidita, irradianza);
 	}
 	
 	public String getTipo() {

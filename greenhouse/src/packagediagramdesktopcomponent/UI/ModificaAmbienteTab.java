@@ -1,26 +1,17 @@
 package packagediagramdesktopcomponent.UI;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SpringLayout;
 import javax.swing.border.EmptyBorder;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.layout.FormSpecs;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import net.miginfocom.swing.MigLayout;
 import packagediagramdesktopcomponent.Business_Logic.ControllerFacade;
 
-import java.awt.CardLayout;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -100,7 +91,7 @@ public class ModificaAmbienteTab extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
+		this.setResizable(false);
 		
 		JLabel lblUmi = new JLabel("Umidit\u00E0: ");
 		lblUmi.setBounds(53, 49, 80, 13);
@@ -142,17 +133,18 @@ public class ModificaAmbienteTab extends JFrame {
 				Float temp,umi,irr;
 				boolean retval;
 				lblError.setVisible(false);
-				//dialog box
-				int dialogRes=JOptionPane.showConfirmDialog(null, "Sei sicuro di voler aggiornare i parametri?", "Attenzione!", JOptionPane.OK_CANCEL_OPTION);
+			
 				
-				if(dialogRes==JOptionPane.OK_OPTION)
+				temp=getFloat(tempTxt.getText());
+				umi=getFloat(umiTxt.getText());
+				irr=getFloat(irrTxt.getText());
+				if(!(temp==null && umi==null && irr==null))
 				{
-					temp=getFloat(tempTxt.getText());
-					umi=getFloat(umiTxt.getText());
-					irr=getFloat(irrTxt.getText());
-					if(!(temp==null && umi==null && irr==null))
+					if(validaValori(lblError, temp,umi,irr))
 					{
-						if(validaValori(lblError, temp,umi,irr))
+						//dialog box
+						int dialogRes=JOptionPane.showConfirmDialog(null, "Sei sicuro di voler aggiornare i parametri?", "Attenzione!", JOptionPane.OK_CANCEL_OPTION);
+						if(dialogRes==JOptionPane.OK_OPTION)
 						{
 							retval=ControllerFacade.modificaAmbiente(IDColtivazione, temp, umi, irr);
 							if(retval)
@@ -167,6 +159,11 @@ public class ModificaAmbienteTab extends JFrame {
 							}
 						}
 					}
+				}
+				else
+				{
+					lblError.setText("Non hai inserito alcun parametro, tutto invariato!");
+					lblError.setVisible(true);
 				}
 			}
 		});

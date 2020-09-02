@@ -529,9 +529,8 @@ public class AreaColtivata {
 		return ambiente;
 	}
 	
-	public void modificaAmbiente() {
-		//TODO: Implement Method
-		throw new UnsupportedOperationException();
+	public boolean modificaAmbiente(Float temperatura, Float umidita, Float irradianza) {
+		return this.ambiente.modificaAmbiente(temperatura, umidita, irradianza);
 	}
 	
 	public String toString() {

@@ -378,6 +378,24 @@ public class Ambiente {
 		return getID();
 	}
 	
+	public boolean modificaAmbiente(Float temperatura, Float umidita, Float irradianza) {
+		if(temperatura != null)
+			this.setTemperaturaTarget(temperatura);
+		if(umidita != null)
+			this.setUmiditaSuoloTarget(umidita);
+		if(irradianza != null)
+			this.setIrradianzaTarget(irradianza);
+		try {
+			PersistentTransaction sess = GreenhousePersistentManager.instance().getSession().beginTransaction();
+			this.save();
+			sess.commit();
+		} catch (PersistentException e) {
+			return false;
+		}
+		// TODO : invia i parametri ambientali al controllore, ritorna true se è andato tutto a buon fine, false altrimenti
+		return true;
+	}
+	
 	public void setTemperaturaTarget(float value) {
 		this.temperaturaTarget = value;
 	}

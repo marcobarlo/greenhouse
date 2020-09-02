@@ -57,14 +57,46 @@ public class Research_Tab extends JFrame {
 	 * Create the frame.
 	 */
 	
-	private int getInt(String text)
+	private int getInt(JLabel lblError,String text)
 	{
 		int number;
 		try {number=Integer.parseInt(text);}
 		catch(NumberFormatException e)
-		{number = -1;}
+		{
+			number = -1;
+			if(!text.equals(""))
+			{
+				lblError.setText("Errore, sezione, fila e posizione sono numeri positivi!");
+				lblError.setVisible(true);
+				throw e;
+			}
+		}
 		return number;
 	}
+	
+	private boolean validaValori(JLabel lblError,int sezione, int posizione,  int fila)
+	{
+		if(sezione==0 || sezione < -1)
+		{
+			lblError.setText("Errore, inserisci un identificativo di sezione positivo");
+			lblError.setVisible(true);
+			return false;
+		}
+		else if(posizione==0 || posizione < -1 )
+		{
+			lblError.setText("Errore, inserisci una posizione positiva");
+			lblError.setVisible(true);
+			return false;
+		}
+		else if(fila==0 || fila < -1 )
+		{
+			lblError.setText("Errore, inserisci una fila positiva");
+			lblError.setVisible(true);
+			return false;
+		}
+		return true;
+	}
+	
 	public Research_Tab() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -109,10 +141,10 @@ public class Research_Tab extends JFrame {
 		contentPane.add(posizioneTextField);
 		posizioneTextField.setColumns(10);
 		
-		JLabel errorlbl = new JLabel("Errore");
-		errorlbl.setBounds(20, 105, 371, 14);
-		contentPane.add(errorlbl);
-		errorlbl.setVisible(false);
+		JLabel lblError = new JLabel("Errore");
+		lblError.setBounds(20, 105, 371, 14);
+		contentPane.add(lblError);
+		lblError.setVisible(false);
 
 		JButton btnNewButton = new JButton("Ricerca coltivazione");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -123,38 +155,46 @@ public class Research_Tab extends JFrame {
 				pos=posizioneTextField.getText();
 				sez=sezioneTextField.getText();
 				row=rigaTextField.getText();
-				errorlbl.setVisible(false);
+				lblError.setVisible(false);
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				int n_rows=model.getRowCount();
 				for(int i=0; i<n_rows; i++)
 				{
 					model.removeRow(0);
 				}
-				if(tipo.equals("") && sez.equals(""))
+				try
 				{
-					errorlbl.setVisible(true);
-					errorlbl.setText("Inserisci almeno uno dei campi tra sezione e tipo!!");
-				}
-				else if( (!pos.equals("")) && row.equals(""))
-				{
-					errorlbl.setVisible(true);
-					errorlbl.setText("Se inserisci la posizione nella fila devi inserirla!!");
-				}
-				else
-				{
-					posizione=getInt(pos);
-					sezione=getInt(sez);
-					fila=getInt(row);
-					if(tipo.equals(""))
-						tipo=null;
-					Set<ColtivazioneBusiness> set=ControllerFacade.ricercaColtivazione(tipo, sezione,posizione,fila);
-					colts= new ArrayList<ColtivazioneBusiness>(set);
-					for(ColtivazioneBusiness c: colts)
+					posizione=getInt(lblError,pos);
+					sezione=getInt(lblError,sez);
+					fila=getInt(lblError,row);
+					if (validaValori(lblError, sezione, posizione, fila)) 
 					{
-						model.insertRow(model.getRowCount(), new Object[] {String.valueOf(c.getID_coltivazione()),String.valueOf(c.getSezione()), String.valueOf(c.getFila()),
-								String.valueOf(c.getPosizione()), String.valueOf(c.getTipo()),String.valueOf(c.getStato()),String.valueOf(c.getData_prossima_op())});
+						if(tipo.equals("") && (sezione==-1))
+						{
+							lblError.setVisible(true);
+							lblError.setText("Inserisci correttamente almeno uno dei campi tra sezione e tipo!!");
+						}
+						else if( (posizione!=-1) && (fila==-1))
+						{
+							lblError.setVisible(true);
+							lblError.setText("Se inserisci la posizione devi inserire anche la fila!!");
+						}
+						else
+						{
+							if(tipo.equals(""))
+								tipo=null;
+							Set<ColtivazioneBusiness> set=ControllerFacade.ricercaColtivazione(tipo, sezione,posizione,fila);
+							colts= new ArrayList<ColtivazioneBusiness>(set);
+							for(ColtivazioneBusiness c: colts)
+							{
+								model.insertRow(model.getRowCount(), new Object[] {String.valueOf(c.getID_coltivazione()),String.valueOf(c.getSezione()), String.valueOf(c.getFila()),
+										String.valueOf(c.getPosizione()), String.valueOf(c.getTipo()),String.valueOf(c.getStato()),String.valueOf(c.getData_prossima_op())});
+							}
+						
+						}
 					}
 				}
+				catch(NumberFormatException e){}
 			}
 		});
 		btnNewButton.setBounds(152, 80, 146, 14);
@@ -193,9 +233,7 @@ public class Research_Tab extends JFrame {
 		});
 		mostra.setBounds(152, 238, 130, 23);
 		contentPane.add(mostra);
-		
-
-		
+				
 		mostra.setVisible(false);
 		  
 		ListSelectionModel cellSelectionModel = table.getSelectionModel();

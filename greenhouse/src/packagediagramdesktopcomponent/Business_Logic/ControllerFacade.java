@@ -24,8 +24,8 @@ public class ControllerFacade {
 	 * @param irradianza
 	 * @param umdita
 	 */
-	public static void modificaAmbiente(ColtivazioneBusiness coltivaz, float temp, float irradianza, float umdita) {
-
+	public static boolean modificaAmbiente(int id, Float temperatura, Float umidita, Float irradianza) {
+			return ControllerParametriAmbientali.modificaAmbiente(id, temperatura, umidita, irradianza);
 	}
 
 	/**
