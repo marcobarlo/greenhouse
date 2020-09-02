@@ -139,7 +139,7 @@ public class ModificaAmbienteTab extends JFrame {
 		JButton modifyButt = new JButton("Modifica Parametri");
 		modifyButt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				float temp,umi,irr;
+				Float temp,umi,irr;
 				boolean retval;
 				lblError.setVisible(false);
 				//dialog box
@@ -150,18 +150,21 @@ public class ModificaAmbienteTab extends JFrame {
 					temp=getFloat(tempTxt.getText());
 					umi=getFloat(umiTxt.getText());
 					irr=getFloat(irrTxt.getText());
-					if(validaValori(lblError, temp,umi,irr))
+					if(!(temp==null && umi==null && irr==null))
 					{
-						retval=ControllerFacade.modificaAmbiente(IDColtivazione, temp, umi, irr);
-						if(retval)
+						if(validaValori(lblError, temp,umi,irr))
 						{
-							lblError.setText("Modifica avvenuta con succcesso!");
-							lblError.setVisible(true);
-						}
-						else
-						{
-							lblError.setText("Problemi nel salvataggio dei parametri!");
-							lblError.setVisible(true);
+							retval=ControllerFacade.modificaAmbiente(IDColtivazione, temp, umi, irr);
+							if(retval)
+							{
+								lblError.setText("Modifica avvenuta con succcesso!");
+								lblError.setVisible(true);
+							}
+							else
+							{
+								lblError.setText("Problemi nel salvataggio dei parametri!");
+								lblError.setVisible(true);
+							}
 						}
 					}
 				}
