@@ -22,10 +22,6 @@ import java.util.Set;
 import java.awt.event.ActionEvent;
 
 import packagediagramdesktopcomponent.Business_Logic.*;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
 
 
 public class Research_Tab extends JFrame {
@@ -63,18 +59,11 @@ public class Research_Tab extends JFrame {
 	
 	private int getInt(String text)
 	{
-		if(text.equals(""))
-		{
-			return -1;
-		}
-		else
-		{
-			int number;
-			try {number=Integer.parseInt(text);}
-			catch(NumberFormatException e)
-			{number = -1;}
-			return number;
-		}
+		int number;
+		try {number=Integer.parseInt(text);}
+		catch(NumberFormatException e)
+		{number = -1;}
+		return number;
 	}
 	public Research_Tab() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -85,28 +74,28 @@ public class Research_Tab extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("tipo");
-		lblNewLabel.setBounds(15, 22, 70, 14);
+		lblNewLabel.setBounds(34, 22, 46, 14);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblSezione = new JLabel("sezione");
-		lblSezione.setBounds(198, 22, 90, 14);
+		lblSezione.setBounds(252, 22, 46, 14);
 		contentPane.add(lblSezione);
 		
 		JLabel lblRiga = new JLabel("fila");
-		lblRiga.setBounds(15, 56, 70, 14);
+		lblRiga.setBounds(34, 55, 46, 14);
 		contentPane.add(lblRiga);
 		
 		JLabel lblPosizioneNellaRiga = new JLabel("posizione nella riga");
-		lblPosizioneNellaRiga.setBounds(198, 56, 90, 14);
+		lblPosizioneNellaRiga.setBounds(194, 55, 105, 14);
 		contentPane.add(lblPosizioneNellaRiga);
 		
 		rigaTextField = new JTextField();
-		rigaTextField.setBounds(85, 53, 86, 20);
+		rigaTextField.setBounds(80, 52, 86, 20);
 		contentPane.add(rigaTextField);
 		rigaTextField.setColumns(10);
 		
 		tipoTextField = new JTextField();
-		tipoTextField.setBounds(85, 19, 86, 20);
+		tipoTextField.setBounds(80, 19, 86, 20);
 		contentPane.add(tipoTextField);
 		tipoTextField.setColumns(10);
 		
@@ -116,17 +105,16 @@ public class Research_Tab extends JFrame {
 		sezioneTextField.setColumns(10);
 		
 		posizioneTextField = new JTextField();
-		posizioneTextField.setBounds(294, 53, 86, 20);
+		posizioneTextField.setBounds(294, 52, 86, 20);
 		contentPane.add(posizioneTextField);
 		posizioneTextField.setColumns(10);
 		
 		JLabel errorlbl = new JLabel("Errore");
-		errorlbl.setBounds(15, 104, 409, 14);
+		errorlbl.setBounds(20, 105, 371, 14);
 		contentPane.add(errorlbl);
 		errorlbl.setVisible(false);
 
 		JButton btnNewButton = new JButton("Ricerca coltivazione");
-		btnNewButton.setBounds(181, 79, 127, 14);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String tipo, pos,sez,row;
@@ -169,10 +157,11 @@ public class Research_Tab extends JFrame {
 				}
 			}
 		});
+		btnNewButton.setBounds(152, 80, 146, 14);
 		contentPane.add(btnNewButton);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(15, 129, 409, 131);
+		scrollPane.setBounds(10, 130, 414, 109);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
@@ -186,7 +175,6 @@ public class Research_Tab extends JFrame {
 		));
 		
 		JButton mostra = new JButton("Mostra dettagli");
-		mostra.setBounds(181, 237, 105, 23);
 		mostra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int row=table.getSelectedRow();
@@ -203,6 +191,7 @@ public class Research_Tab extends JFrame {
 
 			}
 		});
+		mostra.setBounds(152, 238, 130, 23);
 		contentPane.add(mostra);
 		
 

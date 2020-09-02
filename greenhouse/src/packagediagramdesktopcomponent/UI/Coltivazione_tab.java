@@ -12,8 +12,9 @@ import org.orm.PersistentException;
 import packagediagramdesktopcomponent.Business_Logic.*;
 import javax.swing.SwingConstants;
 import java.awt.Font;
-import java.awt.Color;
-import java.awt.SystemColor;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Coltivazione_tab extends JFrame {
 
@@ -91,32 +92,43 @@ public class Coltivazione_tab extends JFrame {
 		contentPane.add(dettagli);
 		
 		
-		JLabel errorLabel = new JLabel("<html>Oops! Si è verificato un errore<br>si prega di chiudere la finestra<br>");
-		errorLabel.setBackground(SystemColor.window);
+		JLabel errorLabel = new JLabel("<html>Oops! Si è verificato un errore<br>si prega chiudere la finestra<br>");
 		errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		errorLabel.setFont(new Font("Tahoma", Font.BOLD, 26));
 		errorLabel.setBounds(46, 62, 345, 125);
 		contentPane.add(errorLabel);
+		
+		JButton modificaAmbientebutton = new JButton("Modifica Parametri Ambientali");
+		modificaAmbientebutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ModificaAmbienteTab mod = new ModificaAmbienteTab(colt.getID_coltivazione());
+					mod.setVisible(true);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		modificaAmbientebutton.setHorizontalAlignment(SwingConstants.RIGHT);
+		modificaAmbientebutton.setBounds(123, 242, 187, 21);
+		contentPane.add(modificaAmbientebutton);
 		errorLabel.setVisible(false);
 		
 		DettagliBusiness dett= ControllerFacade.getDettagliColtivazione(colt.getID_coltivazione());
 		if (dett == null) 
 		{
-			//TODO : getdettaglicoltivazione può ritornare un nullo se la query non è andata a buon fine	
-			contentPane.removeAll();
-			contentPane.add(errorLabel);
 			errorLabel.setVisible(true);
 		}
 		else
 		{
-		lblTipo.setText("Tipo: "+colt.getTipo());
-		lblSezione.setText("Sezione: "+colt.getSezione());
-		lblRiga.setText("Fila: "+colt.getFila());
-		lblPosizioneNellaRiga.setText("Posizione: "+colt.getPosizione());
-		lblDescrizione.setText("Descrizione: "+dett.getDescrizione());
-		lblTemp.setText("Temperatura: "+dett.getTemperatura_target());
-		lblUmidita.setText("Umidità: "+dett.getUmidita_target());
-		lblluce.setText("Irradianza: "+dett.getIrradianza_target());
+			lblTipo.setText("Tipo: "+colt.getTipo());
+			lblSezione.setText("Sezione: "+colt.getSezione());
+			lblRiga.setText("Fila: "+colt.getFila());
+			lblPosizioneNellaRiga.setText("Posizione: "+colt.getPosizione());
+			lblDescrizione.setText("Descrizione: "+dett.getDescrizione());
+			lblTemp.setText("Temperatura: "+dett.getTemperatura_target());
+			lblUmidita.setText("Umidità: "+dett.getUmidita_target());
+			lblluce.setText("Irradianza: "+dett.getIrradianza_target());
 		}
 	}
 } 

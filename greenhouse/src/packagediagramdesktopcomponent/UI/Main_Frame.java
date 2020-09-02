@@ -9,8 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
 
 public class Main_Frame extends JFrame {
 
@@ -54,9 +52,10 @@ public class Main_Frame extends JFrame {
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		getContentPane().setLayout(null);
+		setLayout(null);
 		
 		JButton searchButton = new JButton("Cerca una coltivazione");
 		searchButton.addActionListener(new ActionListener() {
@@ -64,9 +63,8 @@ public class Main_Frame extends JFrame {
 				ricercaColtivazione();
 			}
 		});
-		contentPane.setLayout(new BorderLayout(0, 0));
 		searchButton.setBounds(34, 27, 163, 23);
-		getContentPane().add(searchButton);
+		add(searchButton);
 
 		
 	}
