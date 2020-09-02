@@ -82,8 +82,6 @@ public class ModificaAmbienteTab extends JFrame {
 	}
 	public ModificaAmbienteTab(int IDColtivazione) {
 	    //Display the window.
-	    frame.pack();
-	    frame.setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
