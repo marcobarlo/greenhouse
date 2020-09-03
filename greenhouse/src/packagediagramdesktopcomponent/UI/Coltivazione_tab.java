@@ -48,56 +48,57 @@ public class Coltivazione_tab extends JFrame {
 	 */
 	public Coltivazione_tab(ColtivazioneBusiness colt) throws PersistentException {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 561, 363);
+		setBounds(100, 100, 681, 437);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		contentPane.setLayout(null);
-
+		this.setResizable(false);
+		
 		JLabel lblTipo = new JLabel("Tipo: ");
-		lblTipo.setBounds(34, 62, 105, 14);
+		lblTipo.setBounds(34, 103, 329, 14);
 		contentPane.add(lblTipo);
 
 		JLabel lblSezione = new JLabel("Sezione: ");
-		lblSezione.setBounds(34, 109, 70, 14);
+		lblSezione.setBounds(34, 193, 380, 14);
 		contentPane.add(lblSezione);
 
 		JLabel lblRiga = new JLabel("Riga: ");
-		lblRiga.setBounds(34, 36, 119, 14);
+		lblRiga.setBounds(34, 63, 329, 14);
 		contentPane.add(lblRiga);
 
 		JLabel lblPosizioneNellaRiga = new JLabel("Posizione: ");
-		lblPosizioneNellaRiga.setBounds(34, 87, 105, 14);
+		lblPosizioneNellaRiga.setBounds(34, 148, 309, 14);
 		contentPane.add(lblPosizioneNellaRiga);
 
 		JLabel lblDescrizione = new JLabel("Descrizione: ");
-		lblDescrizione.setBounds(34, 134, 319, 14);
+		lblDescrizione.setBounds(32, 228, 576, 33);
 		contentPane.add(lblDescrizione);
 
 		JLabel lblTemp = new JLabel("Temperatura: ");
-		lblTemp.setBounds(272, 177, 119, 14);
+		lblTemp.setBounds(462, 283, 163, 14);
 		contentPane.add(lblTemp);
 
 		JLabel lblUmidita = new JLabel("Umidità: ");
-		lblUmidita.setBounds(34, 177, 92, 14);
+		lblUmidita.setBounds(34, 283, 172, 14);
 		contentPane.add(lblUmidita);
 
 		JLabel lblluce = new JLabel("Irradianza: ");
-		lblluce.setBounds(155, 177, 88, 14);
+		lblluce.setBounds(272, 283, 142, 14);
 		contentPane.add(lblluce);
 		
 		JLabel dettagli = new JLabel("Dettagli Coltivazione");
 		dettagli.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		dettagli.setHorizontalAlignment(SwingConstants.TRAILING);
-		dettagli.setBounds(221, 11, 187, 25);
+		dettagli.setBounds(248, 25, 187, 25);
 		contentPane.add(dettagli);
 		
 		
 		JLabel errorLabel = new JLabel("<html>Oops! Si è verificato un errore<br>si prega chiudere la finestra<br>");
 		errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		errorLabel.setFont(new Font("Tahoma", Font.BOLD, 26));
-		errorLabel.setBounds(46, 62, 345, 125);
+		errorLabel.setBounds(183, 121, 345, 125);
 		contentPane.add(errorLabel);
 		
 		JButton modificaAmbientebutton = new JButton("Modifica Parametri Ambientali");
@@ -115,7 +116,7 @@ public class Coltivazione_tab extends JFrame {
 			}
 		});
 		modificaAmbientebutton.setHorizontalAlignment(SwingConstants.RIGHT);
-		modificaAmbientebutton.setBounds(221, 292, 187, 21);
+		modificaAmbientebutton.setBounds(248, 343, 187, 32);
 		contentPane.add(modificaAmbientebutton);
 		errorLabel.setVisible(false);
 		
@@ -130,7 +131,7 @@ public class Coltivazione_tab extends JFrame {
 			lblSezione.setText("Sezione: "+colt.getSezione());
 			lblRiga.setText("Fila: "+colt.getFila());
 			lblPosizioneNellaRiga.setText("Posizione: "+colt.getPosizione());
-			lblDescrizione.setText("Descrizione: "+dett.getDescrizione());
+			lblDescrizione.setText("<html>Descrizione: "+dett.getDescrizione());
 			lblTemp.setText("Temperatura: "+dett.getTemperatura_target());
 			lblUmidita.setText("Umidità: "+dett.getUmidita_target());
 			lblluce.setText("Irradianza: "+dett.getIrradianza_target());

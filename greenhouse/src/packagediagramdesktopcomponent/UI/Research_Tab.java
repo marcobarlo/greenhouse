@@ -100,7 +100,7 @@ public class Research_Tab extends JFrame {
 	
 	public Research_Tab() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 500, 400);
+		setBounds(100, 100, 559, 454);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -112,7 +112,7 @@ public class Research_Tab extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblSezione = new JLabel("sezione");
-		lblSezione.setBounds(294, 22, 46, 14);
+		lblSezione.setBounds(321, 22, 46, 14);
 		contentPane.add(lblSezione);
 		
 		JLabel lblRiga = new JLabel("fila");
@@ -120,7 +120,7 @@ public class Research_Tab extends JFrame {
 		contentPane.add(lblRiga);
 		
 		JLabel lblPosizioneNellaRiga = new JLabel("posizione nella riga");
-		lblPosizioneNellaRiga.setBounds(235, 55, 105, 14);
+		lblPosizioneNellaRiga.setBounds(257, 55, 131, 14);
 		contentPane.add(lblPosizioneNellaRiga);
 		
 		rigaTextField = new JTextField();
@@ -134,17 +134,17 @@ public class Research_Tab extends JFrame {
 		tipoTextField.setColumns(10);
 		
 		sezioneTextField = new JTextField();
-		sezioneTextField.setBounds(350, 19, 86, 20);
+		sezioneTextField.setBounds(388, 19, 86, 20);
 		contentPane.add(sezioneTextField);
 		sezioneTextField.setColumns(10);
 		
 		posizioneTextField = new JTextField();
-		posizioneTextField.setBounds(350, 52, 86, 20);
+		posizioneTextField.setBounds(388, 52, 86, 20);
 		contentPane.add(posizioneTextField);
 		posizioneTextField.setColumns(10);
 		
 		JLabel lblError = new JLabel("Errore");
-		lblError.setBounds(20, 105, 371, 14);
+		lblError.setBounds(20, 124, 501, 14);
 		contentPane.add(lblError);
 		lblError.setVisible(false);
 
@@ -199,11 +199,11 @@ public class Research_Tab extends JFrame {
 				catch(NumberFormatException e){}
 			}
 		});
-		btnNewButton.setBounds(152, 80, 175, 30);
+		btnNewButton.setBounds(178, 80, 175, 30);
 		contentPane.add(btnNewButton);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 130, 464, 163);
+		scrollPane.setBounds(10, 149, 526, 214);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
@@ -220,25 +220,35 @@ public class Research_Tab extends JFrame {
 		JButton mostra = new JButton("Mostra dettagli");
 		mostra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int row=table.getSelectedRow();
-				if(row != -1)
+				lblError.setVisible(false);
+				int n_rows=table.getSelectedRows().length;
+				if(n_rows>1)
 				{
-					try {
-						Coltivazione_tab frame2 = new Coltivazione_tab(colts.get(row));
-						frame2.setVisible(true);
-					} catch (Exception e) {
-						e.printStackTrace();
+					lblError.setVisible(true);
+					lblError.setText("Devi selezionare una sola coltivazione per ottenerne i dettagli!!");
+				}
+				else
+				{
+					int row=table.getSelectedRow();
+					if(row != -1)
+					{
+						try {
+							Coltivazione_tab frame2 = new Coltivazione_tab(colts.get(row));
+							frame2.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
 				}
-
 			}
 		});
-		mostra.setBounds(34, 304, 175, 23);
+		mostra.setBounds(36, 374, 175, 23);
 		contentPane.add(mostra);
 		
 		JButton modificaParamAmb = new JButton("Modifica Parametri Ambientali");
 		modificaParamAmb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				lblError.setVisible(false);
 				int rows[] = table.getSelectedRows();
 				List<Integer> ids = new ArrayList<Integer>();
 				if(rows.length>0) 
@@ -254,7 +264,7 @@ public class Research_Tab extends JFrame {
 				}
 			}
 		});
-		modificaParamAmb.setBounds(261, 304, 175, 23);
+		modificaParamAmb.setBounds(336, 374, 175, 23);
 		contentPane.add(modificaParamAmb);
 				
 		mostra.setVisible(false);
