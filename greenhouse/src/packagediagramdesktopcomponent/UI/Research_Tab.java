@@ -105,6 +105,7 @@ public class Research_Tab extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		this.setResizable(false);
 		
 		JLabel lblNewLabel = new JLabel("tipo");
 		lblNewLabel.setBounds(34, 22, 46, 14);
