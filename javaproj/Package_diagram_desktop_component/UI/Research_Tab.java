@@ -1,4 +1,4 @@
-package nulla_piu_assoluto;
+package Package_diagram_desktop_component.UI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

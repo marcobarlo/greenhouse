@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Ambiente {
 
-	List<Area_Coltivata> descrizione_coltivazione;
+	Area_Coltivata area_coltivata;
 	private int temperatura_target;
 	private int irradianza_target;
 	private int umidità_aria_target;
