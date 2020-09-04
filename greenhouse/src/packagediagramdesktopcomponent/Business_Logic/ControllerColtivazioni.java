@@ -20,7 +20,11 @@ public class ControllerColtivazioni {
 	{
 		Set<ColtivazioneBusiness> coltbus = new HashSet<ColtivazioneBusiness>();
 		Serra s = Serra.getInstance();
-		if (sezione != -1)
+		//new
+		Set<Coltivazione> colts;
+		colts =	s.ricercaColtivazione(tipo,sezione,posizione, fila);
+		//old
+		/*if (sezione != -1)
 		{
 			Sezione sez = s.getSezioneByID(sezione);
 			if(sez != null)
@@ -32,7 +36,15 @@ public class ControllerColtivazioni {
 		{
 			for(Sezione sez:s.sezioni)
 				ricercaHelper(tipo, posizione, fila, coltbus, sez);
+		}*/
+		for(Coltivazione c : colts) 
+		{
+			AreaColtivata a = c.getAreaColtivata();
+			ColtivazioneBusiness cb = new ColtivazioneBusiness(c.getID(),a.getSezione().getID(),
+					a.getFila(),a.getPosizione(),c.getTipo(),c.getStato(),c.getData_prossima_operazione());
+			coltbus.add(cb);
 		}
+		
 		return coltbus;
 			
 		
@@ -56,39 +68,6 @@ public class ControllerColtivazioni {
 			//e.printStackTrace();
 			return null;
 		}	
-	}
-	private static void ricercaHelper(String tipo, int posizione, int fila, Set<ColtivazioneBusiness> coltbus,
-			Sezione sez) 
-	{
-		//get aree coltivate
-		Set<AreaColtivata> aree_colt = sez.getAreeColtivate(posizione, fila);
-		//per ogni area coltivata prendi la coltivazione
-		
-		for(AreaColtivata a : aree_colt) 
-		{
-			Coltivazione c = a.getColtivazione();
-			//un'area coltivata non necessariamente ha una coltivazione posta
-			if (c != null)
-			{
-				//se l'utente ha ricercato per tipo filtro anche per tale campo, altrimenti aggiungo la coltivazione a prescindere
-				if (tipo != null) 
-				{
-					String t = c.getTipo();
-					if (t.equals(tipo)) 
-					{
-						//crea l'oggetto Coltivazione_Business
-						ColtivazioneBusiness cb = new ColtivazioneBusiness(c.getID(),sez.getID(),a.getFila(),a.getPosizione(),c.getTipo(),c.getStato(),c.getData_prossima_operazione());
-						coltbus.add(cb);
-					}
-				}
-				else
-				{
-					ColtivazioneBusiness cb = new ColtivazioneBusiness(c.getID(),sez.getID(),a.getFila(),a.getPosizione(),c.getTipo(),c.getStato(),c.getData_prossima_operazione());
-					coltbus.add(cb);
-				}
-				
-			}
-		}
 	}
 
 }
