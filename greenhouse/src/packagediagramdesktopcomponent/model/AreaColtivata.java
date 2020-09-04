@@ -546,26 +546,38 @@ public class AreaColtivata {
 
 	public void ricercaColtivazione(String tipo,Set<Coltivazione> colts) 
 	{	
-		Coltivazione c = this.getColtivazione();
 		//un'area coltivata non necessariamente ha una coltivazione posta
-		if (c != null)
+		if (this.coltivazione != null)
 		{
 			//se l'utente ha ricercato per tipo filtro anche per tale campo lo verifico, altrimenti aggiungo la coltivazione a prescindere
 			if (tipo != null) 
 			{
-				String t = c.getTipo();
+				String t = coltivazione.getTipo();
 				if (t.equals(tipo)) 
 				{
 					//aggiungo la coltivazione al Set
-					colts.add(c);
+					colts.add(this.coltivazione);
 				}
 			}
 			else
 			{
-				colts.add(c);
+				colts.add(this.coltivazione);
 			}
 			
 		}
 	}
-	
+	public int getSezioneID()
+	{
+		return sezione.getID();
+	}
+
+	public float getTemperaturaTarget() {
+		return ambiente.getTemperaturaTarget();
+	}
+	public float getIrradianzaTarget() {
+		return ambiente.getIrradianzaTarget();
+	}
+	public float getUmiditaTarget() {
+		return ambiente.getUmiditaSuoloTarget();
+	}
 }

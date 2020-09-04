@@ -365,8 +365,8 @@ public class Coltivazione {
 	
 	public boolean deleteAndDissociate()throws PersistentException {
 		try {
-			if(getDescrizione() != null) {
-				getDescrizione().coltivazioni.remove(this);
+			if(getDescrizioneColtivazione() != null) {
+				getDescrizioneColtivazione().coltivazioni.remove(this);
 			}
 			
 			if(getArea() != null) {
@@ -383,8 +383,8 @@ public class Coltivazione {
 	
 	public boolean deleteAndDissociate(org.orm.PersistentSession session)throws PersistentException {
 		try {
-			if(getDescrizione() != null) {
-				getDescrizione().coltivazioni.remove(this);
+			if(getDescrizioneColtivazione() != null) {
+				getDescrizioneColtivazione().coltivazioni.remove(this);
 			}
 			
 			if(getArea() != null) {
@@ -499,8 +499,12 @@ public class Coltivazione {
 		}
 	}
 	
-	public packagediagramdesktopcomponent.model.DescrizioneColtivazione getDescrizione() {
+	public packagediagramdesktopcomponent.model.DescrizioneColtivazione getDescrizioneColtivazione() {
 		return descrizione;
+	}
+	public String getDescrizione()
+	{
+		return descrizione.getDescrizione();
 	}
 	
 	/**
@@ -539,5 +543,31 @@ public class Coltivazione {
 	public String toString() {
 		return String.valueOf(getID());
 	}
+	
+	public int getFila()
+	{
+		return area.getFila();
+	}
+	public int getPosizione()
+	{
+		return area.getPosizione();
+	}
+	public int getSezione()
+	{
+		return area.getSezioneID();
+	}
+	public float getTemperaturaTarget()
+	{
+		return area.getTemperaturaTarget();
+	}
+	public float getIrradianzaTarget()
+	{
+		return area.getIrradianzaTarget();
+	}
+	public float getUmiditaTarget()
+	{
+		return area.getUmiditaTarget();
+	}
+	
 	
 }

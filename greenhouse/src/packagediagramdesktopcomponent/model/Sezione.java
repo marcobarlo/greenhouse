@@ -507,7 +507,7 @@ public class Sezione {
 		return String.valueOf(getID());
 	}
 
-	public void ricercaColtivazione(String tipo, int posizione, int fila, Set<Coltivazione> colts) 
+	public void ricercaColtivazione(String tipo, int posizione, int fila, Set<Coltivazione> colts ) 
 	{
 		//get aree coltivate
 		Set<AreaColtivata> aree_colt = this.getAreeColtivate(posizione, fila);

@@ -25,14 +25,14 @@ public class provadb {
 				if(c != null)
 				{
 					System.out.println("Coltivazione con id: "+c.getID());
-					DescrizioneColtivazione d = c.getDescrizione();
+					DescrizioneColtivazione d = c.getDescrizioneColtivazione();
 					System.out.println(d.getTipo());
 				}
 			}
 		}
 
 		Coltivazione colt = Coltivazione.getColtivazioneByORMID(1);
-		DescrizioneColtivazione descr = colt.getDescrizione();
+		DescrizioneColtivazione descr = colt.getDescrizioneColtivazione();
 		if(descr == null) {
 			System.out.println("a saj a mammt?");
 		}

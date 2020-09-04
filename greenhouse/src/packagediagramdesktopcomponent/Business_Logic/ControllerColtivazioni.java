@@ -23,32 +23,16 @@ public class ControllerColtivazioni {
 		//new
 		Set<Coltivazione> colts;
 		colts =	s.ricercaColtivazione(tipo,sezione,posizione, fila);
-		//old
-		/*if (sezione != -1)
-		{
-			Sezione sez = s.getSezioneByID(sezione);
-			if(sez != null)
-			{
-				ricercaHelper(tipo, posizione, fila, coltbus, sez);			
-			}
-		}
-		else 
-		{
-			for(Sezione sez:s.sezioni)
-				ricercaHelper(tipo, posizione, fila, coltbus, sez);
-		}*/
+	
 		for(Coltivazione c : colts) 
 		{
-			AreaColtivata a = c.getAreaColtivata();
-			ColtivazioneBusiness cb = new ColtivazioneBusiness(c.getID(),a.getSezione().getID(),
-					a.getFila(),a.getPosizione(),c.getTipo(),c.getStato(),c.getData_prossima_operazione());
+			ColtivazioneBusiness cb = new ColtivazioneBusiness(c.getID(),c.getSezione(),
+					c.getFila(),c.getPosizione(),c.getTipo(),c.getStato(),c.getData_prossima_operazione());
 			coltbus.add(cb);
 		}
 		
 		return coltbus;
 			
-		
-		//throw new UnsupportedOperationException();
 	}
 	
 	public static DettagliBusiness getDettagliColtivazione(int id)
@@ -56,16 +40,9 @@ public class ControllerColtivazioni {
 		Coltivazione colt;
 		try {
 			colt = Coltivazione.getColtivazioneByORMID(id);
-			DescrizioneColtivazione descr = colt.getDescrizione();
-			AreaColtivata ar = colt.getArea();
-			Ambiente amb = ar.getAmbiente();
-			DettagliBusiness b = new DettagliBusiness(descr.getDescrizione(),amb.getTemperaturaTarget(),amb.getUmiditaSuoloTarget(),amb.getIrradianzaTarget());
-			//if(colt.getTipo().equals("pomodori"))
+			DettagliBusiness b = new DettagliBusiness(colt.getDescrizione(),colt.getTemperaturaTarget(),colt.getUmiditaTarget(),colt.getIrradianzaTarget());
 			return b;
-			//else return null;
 		} catch (PersistentException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
 			return null;
 		}	
 	}
