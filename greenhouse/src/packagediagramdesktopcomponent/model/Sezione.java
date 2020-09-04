@@ -14,6 +14,9 @@
 package packagediagramdesktopcomponent.model;
 
 import org.orm.*;
+
+import packagediagramdesktopcomponent.Business_Logic.ColtivazioneBusiness;
+
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.LockMode;
@@ -502,6 +505,17 @@ public class Sezione {
 	
 	public String toString() {
 		return String.valueOf(getID());
+	}
+
+	public void ricercaColtivazione(String tipo, int posizione, int fila, Set<Coltivazione> colts) 
+	{
+		//get aree coltivate
+		Set<AreaColtivata> aree_colt = this.getAreeColtivate(posizione, fila);
+		//per ogni area coltivata prendi la coltivazione se rispetta i criteri
+		for(AreaColtivata a : aree_colt) 
+		{
+			a.ricercaColtivazione(tipo,colts);
+		}
 	}
 	
 }

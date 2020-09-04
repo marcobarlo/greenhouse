@@ -4,6 +4,8 @@ import java.util.*;
 
 import org.orm.PersistentException;
 
+import packagediagramdesktopcomponent.Business_Logic.ColtivazioneBusiness;
+
 public class Serra {
 
 	public List<Sezione> sezioni;
@@ -50,5 +52,24 @@ public class Serra {
 			}
 		}
 		return null;
+	}
+
+	public Set<Coltivazione> ricercaColtivazione(String tipo, int sezione, int posizione, int fila) 
+	{
+		Set<Coltivazione> colts = new HashSet<Coltivazione>();
+		if (sezione != -1)
+		{
+			Sezione sez = this.getSezioneByID(sezione);
+			if(sez != null)
+			{
+				sez.ricercaColtivazione(tipo,posizione,fila,colts);		
+			}
+		}
+		else 
+		{
+			for(Sezione sez:this.sezioni)
+				sez.ricercaColtivazione(tipo,posizione,fila,colts);
+		}
+		return colts;
 	}
 }

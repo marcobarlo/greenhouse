@@ -14,9 +14,16 @@
 package packagediagramdesktopcomponent.model;
 
 import org.orm.*;
+
+import packagediagramdesktopcomponent.Business_Logic.ColtivazioneBusiness;
+
 import org.hibernate.Query;
 import org.hibernate.LockMode;
+
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AreaColtivata {
 	public AreaColtivata() {
@@ -535,6 +542,30 @@ public class AreaColtivata {
 	
 	public String toString() {
 		return String.valueOf(getID());
+	}
+
+	public void ricercaColtivazione(String tipo,Set<Coltivazione> colts) 
+	{	
+		Coltivazione c = this.getColtivazione();
+		//un'area coltivata non necessariamente ha una coltivazione posta
+		if (c != null)
+		{
+			//se l'utente ha ricercato per tipo filtro anche per tale campo lo verifico, altrimenti aggiungo la coltivazione a prescindere
+			if (tipo != null) 
+			{
+				String t = c.getTipo();
+				if (t.equals(tipo)) 
+				{
+					//aggiungo la coltivazione al Set
+					colts.add(c);
+				}
+			}
+			else
+			{
+				colts.add(c);
+			}
+			
+		}
 	}
 	
 }
