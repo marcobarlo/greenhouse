@@ -25,7 +25,7 @@ public class Main_Frame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Main_Frame frame = new Main_Frame();
+					Main_Frame frame = new Main_Frame(new Thread());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,7 +47,7 @@ public class Main_Frame extends JFrame {
 			e.printStackTrace();
 		}
 	}
-	public Main_Frame() {
+	public Main_Frame(Thread t) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -65,7 +65,17 @@ public class Main_Frame extends JFrame {
 		});
 		searchButton.setBounds(34, 27, 163, 23);
 		add(searchButton);
-
+		
+		
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent e) 
+		    {
+		        e.getWindow().dispose();
+		        t.interrupt();
+		        System.out.println("Shutting down...");
+		    }
+		});
 		
 	}
 

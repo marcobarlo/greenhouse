@@ -569,5 +569,9 @@ public class Coltivazione {
 		return area.getUmiditaTarget();
 	}
 	
+	public int getIDAmbiente() 
+	{
+		return this.area.getIDAmbiente();
+	}
 	
 }

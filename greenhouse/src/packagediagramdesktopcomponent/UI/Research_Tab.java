@@ -185,8 +185,8 @@ public class Research_Tab extends JFrame {
 						{
 							if(tipo.equals(""))
 								tipo=null;
-							Set<ColtivazioneBusiness> set=ControllerFacade.ricercaColtivazione(tipo, sezione,posizione,fila);
-							colts= new ArrayList<ColtivazioneBusiness>(set);
+							colts=(ArrayList<ColtivazioneBusiness>) ControllerFacade.ricercaColtivazione(tipo, sezione,posizione,fila);
+							//System.out.println(colts.size());
 							for(ColtivazioneBusiness c: colts)
 							{
 								model.insertRow(model.getRowCount(), new Object[] {String.valueOf(c.getID_coltivazione()),String.valueOf(c.getSezione()), String.valueOf(c.getFila()),

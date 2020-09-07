@@ -9,7 +9,7 @@ import packagediagramdesktopcomponent.Business_Logic.ColtivazioneBusiness;
 public class Serra {
 
 	public List<Sezione> sezioni;
-	Elenco_coltivazioni elenco_coltivazioni;
+	Elenco_descrizioniColtivazioni elenco_coltivazioni;
 	private static Serra instance = null;
 
 	private Serra() {
@@ -39,7 +39,7 @@ public class Serra {
 			return sezioni.get(sezione);
 	}
 
-	public Elenco_coltivazioni getElencoColtivazioni() {
+	public Elenco_descrizioniColtivazioni getElencoColtivazioni() {
 		return elenco_coltivazioni;
 	}
 
@@ -54,21 +54,21 @@ public class Serra {
 		return null;
 	}
 
-	public Set<Coltivazione> ricercaColtivazione(String tipo, int sezione, int posizione, int fila) 
+	public List<Integer> ricercaColtivazione(String tipo, int sezione, int posizione, int fila) 
 	{
-		Set<Coltivazione> colts = new HashSet<Coltivazione>();
+		List<Integer> colts = new ArrayList<Integer>();
 		if (sezione != -1)
 		{
 			Sezione sez = this.getSezioneByID(sezione);
 			if(sez != null)
 			{
-				sez.ricercaColtivazione(tipo,posizione,fila,colts);		
+				colts= sez.ricercaColtivazione(tipo,posizione,fila);		
 			}
 		}
 		else 
 		{
 			for(Sezione sez:this.sezioni)
-				sez.ricercaColtivazione(tipo,posizione,fila,colts);
+				colts.addAll(sez.ricercaColtivazione(tipo,posizione,fila));
 		}
 		return colts;
 	}

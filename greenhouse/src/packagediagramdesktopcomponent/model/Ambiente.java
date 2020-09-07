@@ -366,6 +366,8 @@ public class Ambiente {
 	
 	private float umiditaSuoloTarget;
 	
+	private AmbienteAttuale ambienteAttuale;
+	
 	private void setID(int value) {
 		this.ID = value;
 	}
@@ -379,12 +381,9 @@ public class Ambiente {
 	}
 	
 	public boolean modificaAmbiente(Float temperatura, Float umidita, Float irradianza) {
-		if(temperatura != null)
-			this.setTemperaturaTarget(temperatura);
-		if(umidita != null)
-			this.setUmiditaSuoloTarget(umidita);
-		if(irradianza != null)
-			this.setIrradianzaTarget(irradianza);
+		this.setTemperaturaTarget(temperatura);
+		this.setUmiditaSuoloTarget(umidita);
+		this.setIrradianzaTarget(irradianza);
 		try {
 			PersistentTransaction sess = GreenhousePersistentManager.instance().getSession().beginTransaction();
 			this.save();
@@ -424,4 +423,17 @@ public class Ambiente {
 		return String.valueOf(getID());
 	}
 	
+	public AmbienteAttuale getAmbienteAttuale() {
+		return ambienteAttuale;
+	}
+
+	public void setAmbienteAttuale(AmbienteAttuale ambienteAttuale) {
+		this.ambienteAttuale = ambienteAttuale;
+	}
+
+	
+	public void createAmbienteAttuale()
+	{
+		ambienteAttuale = new AmbienteAttuale();
+	}
 }

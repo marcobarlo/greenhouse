@@ -21,6 +21,7 @@ import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.LockMode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -507,15 +508,17 @@ public class Sezione {
 		return String.valueOf(getID());
 	}
 
-	public void ricercaColtivazione(String tipo, int posizione, int fila, Set<Coltivazione> colts ) 
+	public List<Integer> ricercaColtivazione(String tipo, int posizione, int fila) 
 	{
 		//get aree coltivate
+		List<Integer> l= new ArrayList<Integer>();
 		Set<AreaColtivata> aree_colt = this.getAreeColtivate(posizione, fila);
 		//per ogni area coltivata prendi la coltivazione se rispetta i criteri
 		for(AreaColtivata a : aree_colt) 
 		{
-			a.ricercaColtivazione(tipo,colts);
+			l.addAll(a.ricercaColtivazione(tipo));
 		}
+		return l;
 	}
 	
 }

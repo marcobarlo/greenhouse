@@ -1,5 +1,6 @@
 package packagediagramdesktopcomponent.Business_Logic;
 
+import java.util.List;
 import java.util.Set;
 
 import org.orm.PersistentException;
@@ -13,7 +14,7 @@ public class ControllerFacade {
 	 * @param posizione
 	 * @param fila
 	 */
-	public static Set<ColtivazioneBusiness> ricercaColtivazione(String nome, int sezione, int posizione, int fila) {
+	public static List<ColtivazioneBusiness> ricercaColtivazione(String nome, int sezione, int posizione, int fila) {
 		return ControllerColtivazioni.ricercaColtivazione(nome, sezione, posizione, fila);
 }
 
