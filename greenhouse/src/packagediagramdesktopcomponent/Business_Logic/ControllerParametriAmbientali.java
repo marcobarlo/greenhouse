@@ -4,6 +4,7 @@ import packagediagramdesktopcomponent.Connection.*;
 
 import org.orm.PersistentException;
 
+import packagediagramdesktopcomponent.model.Ambiente;
 import packagediagramdesktopcomponent.model.Coltivazione;
 
 public class ControllerParametriAmbientali {
@@ -40,6 +41,18 @@ public class ControllerParametriAmbientali {
 		} catch (PersistentException e) {
 			return false;
 		}
+	}
+
+	public static void modificaAmbienteAttuale(int id, float temperatura, float umidita, float irradianza) {
+		Ambiente amb;
+		try {
+			amb = Ambiente.getAmbienteByORMID(id);
+			if(amb !=null)
+				amb.modificaAmbienteAttuale(temperatura, umidita, irradianza);
+		} catch (PersistentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 	}
 
 }

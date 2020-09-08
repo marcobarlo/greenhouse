@@ -390,7 +390,6 @@ public class Ambiente {
 		} catch (PersistentException e) {
 			return false;
 		}
-		// TODO : invia i parametri ambientali al controllore, ritorna true se è andato tutto a buon fine, false altrimenti
 		return true;
 	}
 	
@@ -421,18 +420,15 @@ public class Ambiente {
 	public String toString() {
 		return String.valueOf(getID());
 	}
-	
-	public AmbienteAttuale getAmbienteAttuale() {
-		return ambienteAttuale;
-	}
 
-	public void setAmbienteAttuale(AmbienteAttuale ambienteAttuale) {
-		this.ambienteAttuale = ambienteAttuale;
-	}
-
-	
-	public void createAmbienteAttuale()
-	{
-		ambienteAttuale = new AmbienteAttuale();
+	public void modificaAmbienteAttuale(float temperatura, float umidita, float irradianza) {
+		if(ambienteAttuale == null)
+		{
+			ambienteAttuale = new AmbienteAttuale(temperatura, umidita, irradianza);
+		}
+		else
+		{
+			ambienteAttuale.setParametriAttuali(temperatura, umidita, irradianza);
+		}
 	}
 }

@@ -9,6 +9,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
+
 import java.io.File;
 
 
@@ -17,6 +18,14 @@ public class Main {
 	public static void main(String[] args) 
 	{
 		//startup the connection with broker
+		/*try {
+			Process process = new ProcessBuilder("D:\\Programmi\\mosquitto\\mosquitto.exe", "-v").start();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}*/
+		
+		
 		Connection conn = Connection.getInstance();
 		conn.startup();
    
@@ -42,7 +51,6 @@ public class Main {
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(fXmlFile);
 			doc.getDocumentElement().normalize();
-			//System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 		
 			NodeList nList = doc.getElementsByTagName("device");
 			return nList;
@@ -61,6 +69,7 @@ public class Main {
 			{
 				Element eElement = (Element) nNode;
 				int id=0;
+				int sez=0;
 				try {id= Integer.parseInt(eElement.getElementsByTagName("ID").item(0).getTextContent().replaceAll(" ", ""));}
 				catch(NumberFormatException e)
 				{e.printStackTrace(); System.out.println("File di configurazione errato!!!!");}
@@ -71,7 +80,7 @@ public class Main {
 				mac=mac.replaceAll(":", "");
 				mac=mac.replaceAll("-", "");	
 				System.out.println("Main : ID : " + id + "- mac :"+ mac);
-				conn.sendStartup(id, mac);
+				conn.sendStartup(id, mac, sez);
 			}
 		}
 	}

@@ -6,6 +6,8 @@ import java.util.concurrent.Semaphore;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 
+import packagediagramdesktopcomponent.Business_Logic.ControllerFacade;
+
 
 public class Connection implements Runnable{
 
@@ -26,10 +28,17 @@ public class Connection implements Runnable{
 	        
 	        @Override
 	        public void messageArrived(String topic, MqttMessage message) throws Exception {
-	            MqttMessage received=message;
-	            //System.out.println(received);
-	            if(topic.equals("gh/dati"));
-	            
+	            if(topic.equals("gh/data")) 
+	            {
+	            	//comunica al controller l'aggiornamento dell'ambiente attuale
+	            	byte[] payload = message.getPayload();
+	            	ByteBuffer b = ByteBuffer.wrap(payload);
+	            	int id = b.getInt();
+	            	float temperatura = b.getFloat();
+	            	float umidita = b.getFloat();
+	            	float irradianza = b.getFloat();
+	            	ControllerFacade.modificaAmbienteAttuale(id,temperatura,umidita,irradianza);
+	            }  
 	        }
 	        
 	        @Override
@@ -38,9 +47,18 @@ public class Connection implements Runnable{
 	        
 	        @Override
 	        public void connectionLost(Throwable cause) {
+				System.out.println(cause.getMessage());
 	            cause.printStackTrace();
 	        }
 	    };
+	    
+	    
+	    try {
+			client.subscribe("gh/data");
+		} catch (MqttException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 		client.setCallback(callback);
 		available.release();
 		boolean exit=false;
@@ -68,9 +86,8 @@ public class Connection implements Runnable{
 	public void startup()
 	{
 		//setup mqtt client
-        String broker 	= "tcp://mqtt.eclipse.org:1883";
-        String clientId = "Mainframe";
-        //MemoryPersistence persistence = new MemoryPersistence();
+        String broker = "tcp://localhost:1883";
+		String clientId = "Mainframe";
         MqttDefaultFilePersistence dataStore = new MqttDefaultFilePersistence(System.getProperty("java.io.tmpdir") + "/" + clientId);
         try {
             client = new MqttClient(broker, clientId, dataStore);
@@ -96,11 +113,12 @@ public class Connection implements Runnable{
 	{
         String topic= "gh/setup";
         int qos= 1;
-        System.out.println("Publishing message: "+id+" - "+mac+ " ...");
-        ByteBuffer b = ByteBuffer.allocate(4+12);
-        b=b.putInt(id).put(mac.getBytes()).putInt(sez);
+        //System.out.println("Publishing message: "+id+" - "+mac+ " ...");
+        ByteBuffer buf = ByteBuffer.allocate(4+12+4);
+        buf=buf.putInt(id).put(mac.getBytes()).putInt(sez);
         MqttMessage message = new MqttMessage();
         message.setQos(qos);
+        message.setPayload(buf.array());
         try {client.publish(topic, message);} 
         catch (MqttPersistenceException e) 
         {return false;} 
@@ -114,10 +132,11 @@ public class Connection implements Runnable{
 	{
         String topic= "gh/sezione/cmd/richiedi";
         int qos= 1;
-        System.out.println("Publishing message: "+id);
+        //System.out.println("Publishing message: "+id);
         byte[] bytes = ByteBuffer.allocate(4).putInt(id).array();
         MqttMessage message = new MqttMessage(bytes);
         message.setQos(qos);
+        message.setPayload(bytes);
         try {client.publish(topic, message);} 
         catch (MqttPersistenceException e) 
         {return false;} 
@@ -131,11 +150,12 @@ public class Connection implements Runnable{
 	{
         String topic= "gh/sezione/cmd/modifica";
         int qos= 1;
-        System.out.println("Publishing message: "+id + " "+temperatura+" "+ umidita+" "+irradianza);
-        ByteBuffer b = ByteBuffer.allocate(4+4+4+4);
-        b=b.putInt(id).putFloat(temperatura).putFloat(umidita).putFloat(irradianza);
-        MqttMessage message = new MqttMessage(b.array());
+        //System.out.println("Publishing message: "+id + " "+temperatura+" "+ umidita+" "+irradianza);
+        ByteBuffer buf = ByteBuffer.allocate(4+4+4+4);
+        buf=buf.putInt(id).putFloat(temperatura).putFloat(umidita).putFloat(irradianza);
+        MqttMessage message = new MqttMessage(buf.array());
         message.setQos(qos);
+        message.setPayload(buf.array());
         try {client.publish(topic, message);} 
         catch (MqttPersistenceException e) 
         {return false;} 

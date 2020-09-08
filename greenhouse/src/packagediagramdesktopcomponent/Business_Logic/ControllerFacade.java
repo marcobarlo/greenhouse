@@ -36,4 +36,9 @@ public class ControllerFacade {
 			return ControllerColtivazioni.getDettagliColtivazione(idColtivazione);
 	}
 
+	public static void modificaAmbienteAttuale(int id, float temperatura, float umidita, float irradianza) {
+		ControllerParametriAmbientali.modificaAmbienteAttuale(id, temperatura, umidita, irradianza);
+		
+	}
+
 }
