@@ -64,6 +64,9 @@ public class Main {
 				try {id= Integer.parseInt(eElement.getElementsByTagName("ID").item(0).getTextContent().replaceAll(" ", ""));}
 				catch(NumberFormatException e)
 				{e.printStackTrace(); System.out.println("File di configurazione errato!!!!");}
+				try {sez= Integer.parseInt(eElement.getElementsByTagName("sezione").item(0).getTextContent().replaceAll(" ", ""));}
+				catch(NumberFormatException e)
+				{e.printStackTrace(); System.out.println("File di configurazione errato!!!!");}
 				String mac =eElement.getElementsByTagName("mac").item(0).getTextContent();
 				mac=mac.replaceAll(":", "");
 				mac=mac.replaceAll("-", "");	

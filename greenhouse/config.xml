@@ -3,15 +3,18 @@
     <device>
     	<ID>1</ID>
         <mac>00-08-74-4C-7F-1D</mac>
+        <sezione>1</sezione>
     </device>
 
     <device>
         <ID>2</ID>
         <mac>00-08-74-4C-7F-1D</mac>
+        <sezione>1</sezione>
     </device>
 
     <device>
         <ID>3</ID>
         <mac>00-08-74-4C-7F-1D</mac>
+        <sezione>1</sezione>
     </device>
 </config>

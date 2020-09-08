@@ -27,7 +27,9 @@ public class Connection implements Runnable{
 	        @Override
 	        public void messageArrived(String topic, MqttMessage message) throws Exception {
 	            MqttMessage received=message;
-	            System.out.println(received);
+	            //System.out.println(received);
+	            if(topic.equals("gh/dati"));
+	            
 	        }
 	        
 	        @Override
@@ -90,13 +92,13 @@ public class Connection implements Runnable{
 		available.release();
 	}
 
-	public boolean sendStartup(int id, String mac) 
+	public boolean sendStartup(int id, String mac, int sez) 
 	{
         String topic= "gh/setup";
         int qos= 1;
         System.out.println("Publishing message: "+id+" - "+mac+ " ...");
         ByteBuffer b = ByteBuffer.allocate(4+12);
-        b=b.putInt(id).put(mac.getBytes());
+        b=b.putInt(id).put(mac.getBytes()).putInt(sez);
         MqttMessage message = new MqttMessage();
         message.setQos(qos);
         try {client.publish(topic, message);} 

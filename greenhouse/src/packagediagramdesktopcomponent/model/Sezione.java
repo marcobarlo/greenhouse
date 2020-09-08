@@ -511,7 +511,11 @@ public class Sezione {
 		//per ogni area coltivata prendi la coltivazione se rispetta i criteri
 		for(AreaColtivata a : aree_colt) 
 		{
-			l.addAll(a.ricercaColtivazione(tipo));
+			Integer id = a.ricercaColtivazione(tipo);
+			if(id!=null)
+			{
+				l.add(id);
+			}
 		}
 		return l;
 	}
