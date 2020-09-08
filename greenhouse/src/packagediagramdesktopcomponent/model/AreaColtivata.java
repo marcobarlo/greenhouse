@@ -545,10 +545,9 @@ public class AreaColtivata {
 		return String.valueOf(getID());
 	}
 
-	public List<Integer> ricercaColtivazione(String tipo) 
+	public Integer ricercaColtivazione(String tipo) 
 	{	
 		//un'area coltivata non necessariamente ha una coltivazione posta
-		List<Integer> l = new ArrayList<Integer>();
 		if (this.coltivazione != null)
 		{
 			//se l'utente ha ricercato per tipo filtro anche per tale campo lo verifico, altrimenti aggiungo la coltivazione a prescindere
@@ -558,16 +557,16 @@ public class AreaColtivata {
 				if (t.equals(tipo)) 
 				{
 					//aggiungo la coltivazione al Set
-					l.add(this.coltivazione.getID());
+					return this.coltivazione.getID();
 				}
 			}
 			else
 			{
-				l.add(this.coltivazione.getID());
+				return this.coltivazione.getID();
 			}
 			
 		}
-		return l;
+		return null;
 	}
 	public int getSezioneID()
 	{
