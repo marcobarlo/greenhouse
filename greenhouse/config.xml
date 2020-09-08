@@ -2,16 +2,16 @@
 <config>
     <device>
     	<ID>1</ID>
-        <mac>"00-08-74-4C-7F-1D"</mac>
+        <mac>00-08-74-4C-7F-1D</mac>
     </device>
 
     <device>
         <ID>2</ID>
-        <mac>"00-08-74-4C-7F-1D"</mac>
+        <mac>00-08-74-4C-7F-1D</mac>
     </device>
 
     <device>
         <ID>3</ID>
-        <mac>"00-08-74-4C-7F-1D"</mac>
+        <mac>00-08-74-4C-7F-1D</mac>
     </device>
 </config>

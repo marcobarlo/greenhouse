@@ -13,9 +13,7 @@ public class Connection implements Runnable{
 	private MqttClient client;
 	private static Semaphore available = new Semaphore(0, true);
 	private static Thread t;
-	private Connection() 
-	{
-	}
+	private Connection(){}
 	
 	public void run()
 	{
@@ -46,7 +44,7 @@ public class Connection implements Runnable{
 		boolean exit=false;
 		while(!exit)
 		{
-			try {Thread.sleep(1);}
+			try {Thread.sleep(100);}
 			catch (InterruptedException ex) 
 			{
 				  try {client.disconnect();} 
