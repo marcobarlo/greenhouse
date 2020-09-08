@@ -1,8 +1,6 @@
 package packagediagramdesktopcomponent.Business_Logic;
 
 import java.util.List;
-import java.util.Set;
-
 import org.orm.PersistentException;
 
 public class ControllerFacade {

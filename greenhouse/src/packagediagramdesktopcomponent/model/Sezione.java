@@ -15,14 +15,9 @@ package packagediagramdesktopcomponent.model;
 
 import org.orm.*;
 
-import packagediagramdesktopcomponent.Business_Logic.ColtivazioneBusiness;
-
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.LockMode;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -442,7 +437,7 @@ public class Sezione {
 	
 	public final packagediagramdesktopcomponent.model.AreaColtivataSetCollection aree = new packagediagramdesktopcomponent.model.AreaColtivataSetCollection(this, _ormAdapter, packagediagramdesktopcomponent.model.ORMConstants.KEY_SEZIONE_AREE, packagediagramdesktopcomponent.model.ORMConstants.KEY_AREACOLTIVATA_SEZIONE, packagediagramdesktopcomponent.model.ORMConstants.KEY_MUL_ONE_TO_MANY);
 	
-	public Set <packagediagramdesktopcomponent.model.AreaColtivata> getAreeColtivate(int posizione, int fila) {
+	private Set <packagediagramdesktopcomponent.model.AreaColtivata> getAreeColtivate(int posizione, int fila) {
 		//TODO: Implement Method
 		Set<AreaColtivata> aree_filtrate = new HashSet<AreaColtivata>();
 		//Area_Coltivata[] aree_filtrate;

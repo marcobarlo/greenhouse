@@ -4,8 +4,6 @@ import java.util.*;
 
 import org.orm.PersistentException;
 
-import packagediagramdesktopcomponent.Business_Logic.ColtivazioneBusiness;
-
 public class Serra {
 
 	public List<Sezione> sezioni;

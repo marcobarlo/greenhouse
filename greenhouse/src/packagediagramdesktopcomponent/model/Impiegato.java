@@ -15,7 +15,6 @@ package packagediagramdesktopcomponent.model;
 
 import org.orm.*;
 import org.hibernate.Query;
-import org.hibernate.LockMode;
 import java.util.List;
 
 public class Impiegato {

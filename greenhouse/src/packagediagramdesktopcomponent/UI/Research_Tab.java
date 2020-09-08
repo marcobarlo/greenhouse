@@ -1,8 +1,6 @@
 package packagediagramdesktopcomponent.UI;
 
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -19,7 +17,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.awt.event.ActionEvent;
 
 import packagediagramdesktopcomponent.Business_Logic.*;
@@ -41,7 +38,7 @@ public class Research_Tab extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -52,7 +49,7 @@ public class Research_Tab extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.

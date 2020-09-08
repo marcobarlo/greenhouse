@@ -73,7 +73,7 @@ public class Main_Frame extends JFrame {
 		    {
 		        e.getWindow().dispose();
 		        t.interrupt();
-		        System.out.println("Shutting down...");
+		        System.out.println("Shutting down Mainframe...");
 		    }
 		});
 		
