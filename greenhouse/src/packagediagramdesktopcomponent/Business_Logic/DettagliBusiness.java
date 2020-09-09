@@ -5,18 +5,20 @@ public class DettagliBusiness {
 	private float temperatura_target;
 	private float umidita_target;
 	private float irradianza_target;
-
+	private int idAmbiente;
+	
 	public DettagliBusiness()
 	{
 		
 	}
 	
-	public DettagliBusiness(String desc, float t, float u, float i)
+	public DettagliBusiness(String desc, float t, float u, float i, int id)
 	{
 		this.descrizione = desc;
 		this.temperatura_target = t;
 		this.umidita_target = u;
 		this.irradianza_target = i;
+		this.idAmbiente = id;
 	}
 
 	public String getDescrizione() {
@@ -49,6 +51,10 @@ public class DettagliBusiness {
 
 	public void setIrradianza_target(float irradianza_target) {
 		this.irradianza_target = irradianza_target;
+	}
+
+	public int getIdAmbiente() {
+		return idAmbiente;
 	}
 
 }

@@ -115,7 +115,7 @@ public class Connection implements Runnable{
         String topic= "GH/SetUp";
         int qos= 1;
         //System.out.println("Publishing message: "+id+" - "+mac+ " ...");
-        ByteBuffer buf = ByteBuffer.allocate(4+12+4);
+        ByteBuffer buf = ByteBuffer.allocate(4+12+4+24);
         buf=buf.put(c.getMac().getBytes()).putInt(c.getId()).putInt(c.getSezione()).putFloat(c.getTempTarget()).putFloat(c.getUmiTarget()).putFloat(
         		c.getIrrTarget()).putFloat(c.getsogliaTemp()).putFloat(c.getsogliaUmi()).putFloat(c.getsogliaIrr());
         MqttMessage message = new MqttMessage();

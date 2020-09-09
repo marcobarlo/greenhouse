@@ -28,7 +28,10 @@ public class Coltivazione_tab extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
+	private JLabel lblIrrAttuale;
+	private JLabel lblUmiAttuale;
+	private JLabel lblTempAttuale;
+	private DettagliBusiness dett;
 	/**
 	 * Create the frame.
 	 * @throws PersistentException 
@@ -106,20 +109,20 @@ public class Coltivazione_tab extends JFrame {
 		modificaAmbientebutton.setBounds(248, 351, 187, 32);
 		contentPane.add(modificaAmbientebutton);
 		
-		JLabel lblUmiAttuale = new JLabel("Umidit\u00E0 attuale: In attesa...");
+		lblUmiAttuale = new JLabel("Umidit\u00E0 attuale: In attesa...");
 		lblUmiAttuale.setBounds(34, 326, 172, 14);
 		contentPane.add(lblUmiAttuale);
 		
-		JLabel lblIrrAttuale = new JLabel("Irradianza Attuale: In attesa...");
+		lblIrrAttuale = new JLabel("Irradianza Attuale: In attesa...");
 		lblIrrAttuale.setBounds(272, 326, 163, 14);
 		contentPane.add(lblIrrAttuale);
 		
-		JLabel lblTempAttuale = new JLabel("Temperatura Attuale: In attesa...");
+		lblTempAttuale = new JLabel("Temperatura Attuale: In attesa...");
 		lblTempAttuale.setBounds(462, 326, 163, 14);
 		contentPane.add(lblTempAttuale);
 		errorLabel.setVisible(false);
 		
-		DettagliBusiness dett= ControllerFacade.getDettagliColtivazione(colt.getID_coltivazione());
+		dett= ControllerFacade.getDettagliColtivazione(colt.getID_coltivazione());
 		if (dett == null) 
 		{
 			errorLabel.setVisible(true);
@@ -138,11 +141,27 @@ public class Coltivazione_tab extends JFrame {
 		
 		EventBus.getDefault().register(this);
 		
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent e) 
+		    {
+				EventBus.getDefault().unregister(this);
+				ControllerFacade.sendClosedMex(dett.getIdAmbiente(), colt.getSezione());
+				System.out.println("Mi deregistro");
+		        e.getWindow().dispose();
+		    }
+		});
+		
 	}
 	
 	@Subscribe(threadMode = ThreadMode.BACKGROUND)
 	public void onEvent(MexAggiornaParametri event)
 	{
-			
+		if(event.getId()== dett.getIdAmbiente())
+		{
+			this.lblTempAttuale.setText("Temperatura attuale: "+event.getTemp());
+			this.lblUmiAttuale.setText("Umidità attuale: "+event.getUmi());
+			this.lblIrrAttuale.setText("Irradianza attuale: "+event.getIrr());
+		}
 	}
 } 

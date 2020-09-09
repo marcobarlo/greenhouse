@@ -46,4 +46,8 @@ public class ControllerFacade {
 		return ControllerParametriAmbientali.getParametriTarget(idAmbiente);
 	}
 
+	public static void sendClosedMex(int idAmbiente, int sez)
+	{
+		ControllerParametriAmbientali.sendClosedMex(idAmbiente,sez);
+	}
 }

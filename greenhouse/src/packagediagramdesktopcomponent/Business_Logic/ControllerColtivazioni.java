@@ -50,7 +50,7 @@ public class ControllerColtivazioni {
 			Connection conn = Connection.getInstance();
 			conn.richiediParametriAmbientali(amb,sez);
 			
-			DettagliBusiness b = new DettagliBusiness(colt.getDescrizione(),colt.getTemperaturaTarget(),colt.getUmiditaTarget(),colt.getIrradianzaTarget());
+			DettagliBusiness b = new DettagliBusiness(colt.getDescrizione(),colt.getTemperaturaTarget(),colt.getUmiditaTarget(),colt.getIrradianzaTarget(),amb);
 			return b;
 		} catch (PersistentException e) {
 			return null;

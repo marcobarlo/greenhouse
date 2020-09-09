@@ -63,7 +63,7 @@ public class ControllerParametriAmbientali {
 			Ambiente a= Ambiente.getAmbienteByORMID(idAmbiente);
 			if(a != null)
 			{
-				b=new DettagliBusiness(null, a.getTemperaturaTarget(),a.getUmiditaSuoloTarget(), a.getIrradianzaTarget());
+				b=new DettagliBusiness(null, a.getTemperaturaTarget(),a.getUmiditaSuoloTarget(), a.getIrradianzaTarget(),a.getID());
 				return b;
 			}else
 				return null;
@@ -71,6 +71,13 @@ public class ControllerParametriAmbientali {
 			e.printStackTrace();	
 			return null;
 		}
+	}
+	
+	public static void sendClosedMex(int idAmbiente, int sez)
+	{
+		Connection conn= Connection.getInstance();
+		if(!conn.sendStop(idAmbiente, sez))
+			System.out.println("Errore nell'invio del messaggio di stop!!");
 	}
 
 }
