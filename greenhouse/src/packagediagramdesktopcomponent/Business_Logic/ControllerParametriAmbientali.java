@@ -31,8 +31,9 @@ public class ControllerParametriAmbientali {
 					irradianza = dbus.getIrradianza_target();
 			}
 			c = Coltivazione.getColtivazioneByORMID(id);
+			int sez= c.getSezione();
 			Connection conn = Connection.getInstance();
-			if(conn.modificaAmbiente(c.getIDAmbiente(), temperatura, umidita, irradianza)) 
+			if(conn.modificaAmbiente(c.getIDAmbiente(), temperatura, umidita, irradianza,sez)) 
 			{
 				return c.modificaAmbiente(temperatura, umidita, irradianza);
 			}
@@ -53,6 +54,23 @@ public class ControllerParametriAmbientali {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
+	}
+
+	public static DettagliBusiness getParametriTarget(int idAmbiente)
+	{
+		DettagliBusiness b;
+		try {
+			Ambiente a= Ambiente.getAmbienteByORMID(idAmbiente);
+			if(a != null)
+			{
+				b=new DettagliBusiness(null, a.getTemperaturaTarget(),a.getUmiditaSuoloTarget(), a.getIrradianzaTarget());
+				return b;
+			}else
+				return null;
+		} catch (PersistentException e) {
+			e.printStackTrace();	
+			return null;
+		}
 	}
 
 }

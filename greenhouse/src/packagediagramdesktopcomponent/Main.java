@@ -5,6 +5,7 @@ import packagediagramdesktopcomponent.UI.Main_Frame;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
@@ -17,7 +18,6 @@ public class Main {
 
 	public static void main(String[] args) 
 	{
-		//startup the connection with broker
 		/*try {
 			Process process = new ProcessBuilder("D:\\Programmi\\mosquitto\\mosquitto.exe", "-v").start();
 		} catch (IOException e1) {
@@ -25,7 +25,7 @@ public class Main {
 			e1.printStackTrace();
 		}*/
 		
-		
+		//startup the connection with broker
 		Connection conn = Connection.getInstance();
 		conn.startup();
    
@@ -41,8 +41,8 @@ public class Main {
 			frame.setVisible(true);
 		} catch (Exception e)
 		{e.printStackTrace();}
-
 	}
+	
 	private static NodeList readConfig()
 	{
 		try {
@@ -68,20 +68,32 @@ public class Main {
 			if (nNode.getNodeType() == Node.ELEMENT_NODE) 
 			{
 				Element eElement = (Element) nNode;
-				int id=0;
-				int sez=0;
-				try {id= Integer.parseInt(eElement.getElementsByTagName("ID").item(0).getTextContent().replaceAll(" ", ""));}
-				catch(NumberFormatException e)
-				{e.printStackTrace(); System.out.println("File di configurazione errato!!!!");}
-				try {sez= Integer.parseInt(eElement.getElementsByTagName("sezione").item(0).getTextContent().replaceAll(" ", ""));}
-				catch(NumberFormatException e)
-				{e.printStackTrace(); System.out.println("File di configurazione errato!!!!");}
+				int id=0,sez=0;
+				float sTemp=0, sUmi=0, sIrr =0;
+				
+				id=  parseInt(eElement, "ID");
+				sez= parseInt(eElement, "sezione");
+				sTemp = parseFloat(eElement, "sogliaTemp");
+				sUmi  = parseFloat(eElement, "sogliaUmi");
+				sIrr  = parseFloat(eElement, "sogliaIrr");
+				
 				String mac =eElement.getElementsByTagName("mac").item(0).getTextContent();
-				mac=mac.replaceAll(":", "");
-				mac=mac.replaceAll("-", "");	
-				System.out.println("Main : ID : " + id + "- mac :"+ mac);
-				conn.sendStartup(id, mac, sez);
+				mac=mac.replaceAll(":", "").replaceAll("-", "");
+				
+				//System.out.println("Main : ID : " + id + "- mac :"+ mac);
+				Configurazione c = new Configurazione(id, mac, sez,  sTemp,  sUmi,  sIrr);
+				conn.sendSetUp(c);
 			}
 		}
+	}
+	private static Float parseFloat(Element eElement, String name) {
+		try {return Float.parseFloat(eElement.getElementsByTagName(name).item(0).getTextContent().replaceAll(" ", ""));}
+		catch(NumberFormatException e)
+		{e.printStackTrace(); System.out.println("File di configurazione errato!!!!"); return null;}
+	}
+	private static Integer parseInt(Element eElement, String name) {
+		try {return Integer.parseInt(eElement.getElementsByTagName(name).item(0).getTextContent().replaceAll(" ", ""));}
+		catch(NumberFormatException e)
+		{e.printStackTrace(); System.out.println("File di configurazione errato!!!!"); return null;}
 	}
 }

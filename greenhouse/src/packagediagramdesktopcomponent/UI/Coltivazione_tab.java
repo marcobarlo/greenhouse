@@ -5,9 +5,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.orm.PersistentException;
 
 import packagediagramdesktopcomponent.Business_Logic.*;
+import packagediagramdesktopcomponent.Connection.MexAggiornaParametri;
+
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JButton;
@@ -23,22 +28,6 @@ public class Coltivazione_tab extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Coltivazione_tab frame = new Coltivazione_tab(new ColtivazioneBusiness());
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
 
 	/**
 	 * Create the frame.
@@ -114,8 +103,20 @@ public class Coltivazione_tab extends JFrame {
 			}
 		});
 		modificaAmbientebutton.setHorizontalAlignment(SwingConstants.RIGHT);
-		modificaAmbientebutton.setBounds(248, 343, 187, 32);
+		modificaAmbientebutton.setBounds(248, 351, 187, 32);
 		contentPane.add(modificaAmbientebutton);
+		
+		JLabel lblUmiAttuale = new JLabel("Umidit\u00E0 attuale: In attesa...");
+		lblUmiAttuale.setBounds(34, 326, 172, 14);
+		contentPane.add(lblUmiAttuale);
+		
+		JLabel lblIrrAttuale = new JLabel("Irradianza Attuale: In attesa...");
+		lblIrrAttuale.setBounds(272, 326, 163, 14);
+		contentPane.add(lblIrrAttuale);
+		
+		JLabel lblTempAttuale = new JLabel("Temperatura Attuale: In attesa...");
+		lblTempAttuale.setBounds(462, 326, 163, 14);
+		contentPane.add(lblTempAttuale);
 		errorLabel.setVisible(false);
 		
 		DettagliBusiness dett= ControllerFacade.getDettagliColtivazione(colt.getID_coltivazione());
@@ -134,5 +135,14 @@ public class Coltivazione_tab extends JFrame {
 			lblUmidita.setText("Umidità: "+dett.getUmidita_target());
 			lblluce.setText("Irradianza: "+dett.getIrradianza_target());
 		}
+		
+		EventBus.getDefault().register(this);
+		
+	}
+	
+	@Subscribe(threadMode = ThreadMode.BACKGROUND)
+	public void onEvent(MexAggiornaParametri event)
+	{
+			
 	}
 } 

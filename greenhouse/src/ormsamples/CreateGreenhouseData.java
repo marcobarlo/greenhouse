@@ -32,7 +32,8 @@ public class CreateGreenhouseData {
 			// TODO Initialize the properties of the persistent object here, the following properties must be initialized before saving : coltivazioni
 //			lpackageDiagramDesktopComponentModelDescrizioneColtivazione.save();
 			
-			Sezione sez1 = Sezione.createSezione();
+			//Sezione sez1 = Sezione.createSezione();
+			Sezione sez1 = Sezione.getSezioneByORMID(1);
 			// TODO Initialize the properties of the persistent object here, the following properties must be initialized before saving : aree, 
 			AreaColtivata a1 = AreaColtivata.createAreaColtivata();
 			a1.setPosizione(1);
@@ -66,14 +67,16 @@ public class CreateGreenhouseData {
 			c2.setArea(a2);
 			//c2.setData_prossima_operazione(new Date());
 		*/
-			DescrizioneColtivazione d1 = DescrizioneColtivazione.createDescrizioneColtivazione();
+			/*DescrizioneColtivazione d1 = DescrizioneColtivazione.createDescrizioneColtivazione();
 			d1.setDescrizione("ci sono dei bei pomodori succosi, qua si fa una grande passata");
 			d1.setTipo("pomodori");
-			
-			DescrizioneColtivazione d2 = DescrizioneColtivazione.createDescrizioneColtivazione();
+			*/
+			DescrizioneColtivazione d1 = DescrizioneColtivazione.getDescrizioneColtivazioneByORMID(1);
+			/*DescrizioneColtivazione d2 = DescrizioneColtivazione.createDescrizioneColtivazione();
 			d2.setDescrizione("che fico, ho piantato dei fichi");
 			d2.setTipo("fichi");
-			
+			*/
+			DescrizioneColtivazione d2 = DescrizioneColtivazione.getDescrizioneColtivazioneByORMID(2);
 			//c1.setDescrizione(d1);
 			//c2.setDescrizione(d2);
 			
@@ -89,18 +92,18 @@ public class CreateGreenhouseData {
 			
 			
 			
-			sez1.aree.add(a1);
-			sez1.aree.add(a2);
+			//sez1.aree.add(a1);
+			//sez1.aree.add(a2);
 			
 			
-			sez1.save();
+			//sez1.save();
 			i1.save();
 			i2.save();
 			
 		//	c1.save();
-			d1.save();
+		//	d1.save();
 
-			d2.save();
+		//	d2.save();
 		//	c2.save();
 
 			a1.save();

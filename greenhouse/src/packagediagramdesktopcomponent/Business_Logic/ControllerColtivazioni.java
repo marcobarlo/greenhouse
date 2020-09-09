@@ -45,9 +45,10 @@ public class ControllerColtivazioni {
 		Coltivazione colt;
 		try {
 			colt = Coltivazione.getColtivazioneByORMID(id);
+			int sez= colt.getSezione();
 			int amb = colt.getIDAmbiente();
-			Connection c = Connection.getInstance();
-			c.richiediParametriAmbientali(amb);
+			Connection conn = Connection.getInstance();
+			conn.richiediParametriAmbientali(amb,sez);
 			
 			DettagliBusiness b = new DettagliBusiness(colt.getDescrizione(),colt.getTemperaturaTarget(),colt.getUmiditaTarget(),colt.getIrradianzaTarget());
 			return b;

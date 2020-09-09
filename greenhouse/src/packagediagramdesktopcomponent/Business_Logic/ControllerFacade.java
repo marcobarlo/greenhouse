@@ -40,5 +40,10 @@ public class ControllerFacade {
 		ControllerParametriAmbientali.modificaAmbienteAttuale(id, temperatura, umidita, irradianza);
 		
 	}
+	
+	public static DettagliBusiness getParametriTarget(int idAmbiente)
+	{
+		return ControllerParametriAmbientali.getParametriTarget(idAmbiente);
+	}
 
 }

@@ -1,5 +1,9 @@
 package packagediagramdesktopcomponent.model;
 
+import org.greenrobot.eventbus.EventBus;
+
+import packagediagramdesktopcomponent.Connection.MexAggiornaParametri;
+
 public class AmbienteAttuale {
 	@SuppressWarnings("unused")
 	private float umiditaAttuale;
@@ -7,7 +11,7 @@ public class AmbienteAttuale {
 	private float temperaturaAttuale;
 	@SuppressWarnings("unused")
 	private float irradianzaAttuale;
-	
+	private Ambiente ambiente;
 /*	public float getUmiditaAttuale() {
 		return umiditaAttuale;
 	}
@@ -30,8 +34,9 @@ public class AmbienteAttuale {
 	public AmbienteAttuale()
 	{	
 	}
-	public AmbienteAttuale(float temperatura, float umidita, float irradianza)
+	public AmbienteAttuale(Ambiente a, float temperatura, float umidita, float irradianza)
 	{
+		ambiente=a;
 		temperaturaAttuale = temperatura;
 		umiditaAttuale = umidita;
 		irradianzaAttuale = irradianza;
@@ -41,5 +46,7 @@ public class AmbienteAttuale {
 		temperaturaAttuale = temperatura;
 		umiditaAttuale = umidita;
 		irradianzaAttuale = irradianza;
+		
+		EventBus.getDefault().post(new MexAggiornaParametri(ambiente.getID(),temperatura,umidita,irradianza));
 	}
 }

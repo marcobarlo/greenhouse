@@ -424,7 +424,7 @@ public class Ambiente {
 	public void modificaAmbienteAttuale(float temperatura, float umidita, float irradianza) {
 		if(ambienteAttuale == null)
 		{
-			ambienteAttuale = new AmbienteAttuale(temperatura, umidita, irradianza);
+			ambienteAttuale = new AmbienteAttuale(this,temperatura, umidita, irradianza);
 		}
 		else
 		{

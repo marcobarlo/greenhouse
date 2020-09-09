@@ -6,6 +6,7 @@ import java.util.concurrent.Semaphore;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 
+import packagediagramdesktopcomponent.Configurazione;
 import packagediagramdesktopcomponent.Business_Logic.ControllerFacade;
 
 
@@ -28,7 +29,7 @@ public class Connection implements Runnable{
 	        
 	        @Override
 	        public void messageArrived(String topic, MqttMessage message) throws Exception {
-	            if(topic.equals("gh/data")) 
+	            if(topic.equals("GH/Dati")) 
 	            {
 	            	//comunica al controller l'aggiornamento dell'ambiente attuale
 	            	byte[] payload = message.getPayload();
@@ -54,7 +55,7 @@ public class Connection implements Runnable{
 	    
 	    
 	    try {
-			client.subscribe("gh/data");
+			client.subscribe("gh/Dati");
 		} catch (MqttException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
@@ -109,13 +110,14 @@ public class Connection implements Runnable{
 		available.release();
 	}
 
-	public boolean sendStartup(int id, String mac, int sez) 
+	public boolean sendSetUp(Configurazione c) 
 	{
-        String topic= "gh/setup";
+        String topic= "GH/SetUp";
         int qos= 1;
         //System.out.println("Publishing message: "+id+" - "+mac+ " ...");
         ByteBuffer buf = ByteBuffer.allocate(4+12+4);
-        buf=buf.putInt(id).put(mac.getBytes()).putInt(sez);
+        buf=buf.put(c.getMac().getBytes()).putInt(c.getId()).putInt(c.getSezione()).putFloat(c.getTempTarget()).putFloat(c.getUmiTarget()).putFloat(
+        		c.getIrrTarget()).putFloat(c.getsogliaTemp()).putFloat(c.getsogliaUmi()).putFloat(c.getsogliaIrr());
         MqttMessage message = new MqttMessage();
         message.setQos(qos);
         message.setPayload(buf.array());
@@ -128,9 +130,9 @@ public class Connection implements Runnable{
 		return true;
 	}
 	
-	public boolean richiediParametriAmbientali(int id) 
+	public boolean richiediParametriAmbientali(int id, int sez) 
 	{
-        String topic= "gh/sezione/cmd/richiedi";
+        String topic= "GH/"+sez+"/cmd/STROBS";
         int qos= 1;
         //System.out.println("Publishing message: "+id);
         byte[] bytes = ByteBuffer.allocate(4).putInt(id).array();
@@ -146,9 +148,9 @@ public class Connection implements Runnable{
 		return true;
 	}
 	
-	public boolean modificaAmbiente(int id, float temperatura, float umidita, float irradianza)
+	public boolean modificaAmbiente(int id, float temperatura, float umidita, float irradianza, int sez)
 	{
-        String topic= "gh/sezione/cmd/modifica";
+        String topic= "GH/"+sez+"/cmd/Mod";
         int qos= 1;
         //System.out.println("Publishing message: "+id + " "+temperatura+" "+ umidita+" "+irradianza);
         ByteBuffer buf = ByteBuffer.allocate(4+4+4+4);
@@ -164,6 +166,26 @@ public class Connection implements Runnable{
         System.out.println("Message published");
 		return true;
 	}
+	
+	public boolean sendStop(int id, int sez)
+	{
+        String topic= "GH/"+sez+"/cmd/STPOBS";
+        int qos= 1;
+        //System.out.println("Publishing message: "+id + " "+temperatura+" "+ umidita+" "+irradianza);
+        ByteBuffer buf = ByteBuffer.allocate(4);
+        buf=buf.putInt(id);
+        MqttMessage message = new MqttMessage(buf.array());
+        message.setQos(qos);
+        message.setPayload(buf.array());
+        try {client.publish(topic, message);} 
+        catch (MqttPersistenceException e) 
+        {return false;} 
+        catch (MqttException e) 
+        {return false;}
+        System.out.println("Message published");
+		return true;
+	}
+	
 	
 	public static Connection getInstance() 
 	{
