@@ -1,6 +1,8 @@
 #ifndef _PROGETTOPSS_H
 #define _PROGETTOPSS_H
 
+//#include "Controllore.h"
+
 #include <DHT.h>
 #include <Ethernet.h>
 #include <Arduino.h>
@@ -16,24 +18,33 @@
 #define YL_69_PIN A1
 #define YL_69_VCC 6
 
+class Controllore;
+class Comunicazione;
+class Ambiente;
+class Sensore;
+class Attuatore;
 
 
 void callback(char* topic, byte* payload, unsigned int length);
-
-class Controllore;
-class Comunicazione;
 
 class Ambiente{
   private:
     float UmiditaTarget;
     float IrradianzaTarget;
     float TemperaturaTarget;
+    float SogliaU;
+    float SogliaI;
+    float SogliaT;
   public:
     Ambiente();
-    void ModificaAmbiente(float U, float I, float T);//Implementata
+    void ModificaAmbiente(float T, float U, float I);//Implementata
 //    void  SetUmiditaTarget(float);
 //    void  SetIrradianzaTarget(float);
 //    void  SetTemperaturaTarget(float);
+    void SetSoglie(float T, float U, float I);
+    float GetSogliaU();
+    float GetSogliaI();
+    float GetSogliaT();
     float GetUmiditaTarget();
     float GetIrradianzaTarget();
     float GetTemperaturaTarget();
@@ -43,8 +54,8 @@ class Ambiente{
  class Sensore{
   public:
     Sensore(){};
-    virtual float GetDato();
-    virtual void SetUp();
+    virtual float GetDato(){};
+    virtual void SetUp(){};
   };
 
 class SensoreUmidita : public Sensore{
@@ -79,8 +90,8 @@ class SensoreTemperatura : public Sensore{
 class Attuatore {
   public:
     Attuatore(){};
-    virtual void SetAttuatore();
-    virtual void SetUp();
+    virtual void SetAttuatore(){};
+    virtual void SetUp(){};
   };
 
 class Serpentina : public Attuatore{
@@ -104,51 +115,8 @@ class StrisciaLed : public Attuatore {
     virtual void SetUp();
   };
 
-class Comunicazione{
-  private:
-    static Comunicazione* Me=NULL;
-    EthernetClient ethClient;
-    PubSubClient mqttClient;
-    Ambiente*  Target;
-    Controllore* Controller;
-    char * Header;
-  public:
-    Comunicazione(){Me=this;};
-    static Comunicazione* GetInstance();
-    void SetUp(Ambiente *, Controllore *);
-    void PublishData(byte * payload, char * CLIENT_ID);
-    void PublishError(byte * payload, char * CLIENT_ID);
-    void _callback(char* topic, byte* payload, unsigned int length);
-    void keepalive();
-  };
 
 
-class Controllore{
-  private:
-    static Controllore* MeStesso=NULL;
-    Comunicazione * Link;
-    Ambiente * ambiente;
-    Sensore sensori [3];
-    Attuatore attuatori [3];
-    bool Error[3];
-    float Soglia;
-    bool Observed;
-    long ID;
-    long Sezione;
-  public:
-    Controllore(){MeStesso=this;Link=Comunicazione :: GetInstance();};
-    static Controllore* GetInstance();
-    void Controllo();
-    void SetUp();
-    void SetID(long);
-    void SetSezione(long);
-    void SetObserved(bool);
-    void SetSoglia(float);
-    long GetID();
-    long GetSezione();
-    float GetSoglia();
-    void ToggleObserved();
-  };
 
 
 
