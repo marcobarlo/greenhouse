@@ -55,7 +55,7 @@ public class Connection implements Runnable{
 	    
 	    
 	    try {
-			client.subscribe("gh/Dati");
+			client.subscribe("GH/Dati");
 		} catch (MqttException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();

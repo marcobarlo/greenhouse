@@ -46,7 +46,7 @@ public class AmbienteAttuale {
 		temperaturaAttuale = temperatura;
 		umiditaAttuale = umidita;
 		irradianzaAttuale = irradianza;
-		
+		//System.out.println("invio aggiornamento per ID "+ambiente.getID());
 		EventBus.getDefault().post(new MexAggiornaParametri(ambiente.getID(),temperatura,umidita,irradianza));
 	}
 }
