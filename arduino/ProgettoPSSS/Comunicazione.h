@@ -29,10 +29,12 @@ class Comunicazione{
     PubSubClient mqttClient;
     Ambiente*  Target;
     Controllore* Controller;
-    char * CLIENT_ID;
-    char * Header;
+    //vedere se trasformare da allocazione dinamica a instanziazione statica di buffer
+    char CLIENT_ID[10];//va visto dinamicamente se queste dimensioni vanno bene ed eventualmente metterle come define
+    char Header[30];
+     Comunicazione(){Me=this;};
   public:
-    Comunicazione(){Me=this;};
+//    Comunicazione(){Me=this;};
     static Comunicazione* GetInstance();
     void SetUp(Ambiente *);
     void PublishTest();
@@ -40,6 +42,7 @@ class Comunicazione{
     void PublishError(byte * payload);
     void _callback(char* topic, byte* payload, unsigned int length);
     void keepalive();
+    ~Comunicazione(){};
   };
 
 

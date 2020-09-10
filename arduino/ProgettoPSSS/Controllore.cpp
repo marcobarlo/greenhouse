@@ -3,8 +3,8 @@
 Controllore * Controllore :: MeStesso=NULL;
 
 Controllore :: Controllore() {
-  MeStesso = this;
-  Link = Comunicazione :: GetInstance();
+//  MeStesso = this;
+//  Link = Comunicazione :: GetInstance();
 };
 
 void  Controllore :: SetID(long id) {
@@ -38,9 +38,47 @@ long  Controllore :: GetSezione() {
 //  return Soglia;
 //};
 
+void  Controllore :: SetUp2(Ambiente * amb){
+  ambiente=amb;
+  Serial.println("Start Setup Controllore");
+  Serial.println(freeMemory(), DEC);  // print how much RAM is available.
+  SensoreTemperatura Temp;
+  sensori[0]=Temp;
+  SensoreUmidita Um;
+  sensori[1]=Um;
+  SensoreIrradianza Irr;
+  sensori[2]=Irr;
+  for (int i=0;i<3;i++){
+    sensori[i].SetUp();
+    }
+  Serpentina Serp;
+  attuatori[0]=Serp;
+  Innaffiatoio Inn;
+  attuatori[1]=Inn;
+  StrisciaLed Str;
+  attuatori[2]=Str;
+  for (int i=0;i<3;i++){
+    attuatori[i].SetUp();
+    } 
+//Codice Sbagliato Timer 1 può contare solo fino a 10 secondi
+//  cli();
+//  TCCR1A = 0;// set entire TCCR1A register to 0
+//  TCCR1B = 0;// same for TCCR1B
+//  TCNT1  = 0;//initialize counter value to 0
+//  TCCR1B |= (1 << WGM12);
+//  TCCR1B |= (1 << CS11);
+//  TIMSK1 |= (1 << OCIE1A);
+//  OCR1A = 33333;
+//
+//  sei();
+//      Serial.println(freeMemory(), DEC);  // print how much RAM is available.
+  Serial.println("End Setup Controllore");
+  };
+
 void  Controllore :: SetUp() {
   Serial.println("Start Setup Controllore");
   Serial.println(freeMemory(), DEC);  // print how much RAM is available.
+  Serial.println("Ho letto la memoria");
   SensoreTemperatura Temp;
   sensori[0]=Temp;
   SensoreUmidita Um;
@@ -76,10 +114,13 @@ void  Controllore :: SetUp() {
 }
 
 static Controllore* Controllore :: GetInstance() {
+  //convertire in allocazione dinamica??
+    Serial.println("Sono nel Get Instance del controllore");
   if (Controllore::MeStesso == NULL) {
-    Controllore Contr;
-    Controllore::MeStesso = &Contr;
+        Serial.println("Alloco la prima volta");
+    Controllore::MeStesso = new Controllore();
   }
+  Serial.println("Faccio il return della istance del controllore");
   return Controllore::MeStesso;
 };
 

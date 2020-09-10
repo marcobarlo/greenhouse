@@ -6,9 +6,11 @@
 
 #define CONTROL_DELAY 60000
 
-
-Comunicazione Com;
-Controllore Contr;
+//
+//Comunicazione Com;
+//Controllore Contr;
+Controllore* Contr;
+Comunicazione * Com;
 Ambiente Amb;
 long previousMillis;
 
@@ -26,8 +28,10 @@ void setup() {
   Serial.begin(9600);
   while (!Serial) {};
   Serial.println("Start Setup delle componenti");
-  Contr.SetUp();
-  Com.SetUp(&Amb);
+  Contr=Controllore::GetInstance();
+  Contr->SetUp2(&Amb);
+  Com=Comunicazione::GetInstance();
+  Com->SetUp(&Amb);
   Serial.println("Fine Setup delle componenti");
 }
 
@@ -38,6 +42,6 @@ void loop() {
     Serial.println("CI SONO");
     previousMillis = millis();
   }
-  Com.keepalive();
+  Com->keepalive();
   // put your main code here, to run repeatedly:
 }

@@ -1,7 +1,7 @@
 #include "Comunicazione.h"
 
 
-Comunicazione* Comunicazione :: Me;
+Comunicazione* Comunicazione :: Me=NULL;
 
 byte mac[] = {
   0x0A, 0xCF, 0xB3, 0xC4, 0xD8, 0x32
@@ -24,18 +24,23 @@ void callback(char* topic, byte* payload, unsigned int length) {
 };
 
 static Comunicazione* Comunicazione::GetInstance() {
+          Serial.println("Sono nel Get Instance del Comunicazione");
   if (Me == NULL) {
-    Comunicazione Link;
-    Me = &Link;
+        Serial.println("alloco la prima volta");
+    //Rivedere forse da fare con allocazione dinamica
+    Me = new Comunicazione();
   }
+  Serial.println("Ritorna la Instance");
   return Me;
+
 };
 void Comunicazione :: SetUp(Ambiente * amb) {
   Serial.println("SetUp Comunicazione");
   Serial.println(freeMemory(), DEC);  // print how much RAM is available.
   Target = amb;
-  Controllore cntr;
-  Controller = cntr.GetInstance();
+//  Controllore cntr;
+  Controller = Controllore::GetInstance();
+  Serial.println("Prima Ethernet");
   Ethernet.begin(mac, ip);//Testare con solo mac, speriamo funzioni
   Serial.println(Ethernet.localIP());
   mqttClient.setClient(ethClient);
@@ -50,7 +55,7 @@ void Comunicazione :: SetUp(Ambiente * amb) {
 //  }
   array_to_string(mac,lung,char_mac);
 //  char_mac[lung] = NULL;
-  CLIENT_ID = char_mac;
+  strcpy(CLIENT_ID,char_mac);
   Serial.println("MAC");
   Serial.println(char_mac);
   Serial.println("Client ID");
@@ -94,10 +99,10 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
   //String strPayload = String((char*)payload);  // convert to string
   // Serial.println(strPayload);
   Serial.println("Sono nella Callback");
-  char * option;
+  char option [30];
   Serial.println(topic);
     Serial.println(freeMemory(), DEC);  // print how much RAM is available.
-  Serial.print(strcmp("GH/SetUp", topic));
+//  Serial.print(strcmp("GH/SetUp", topic));
   if (strcmp("GH/SetUp", topic)==0) {
     Serial.print("Message arrived [");
     Serial.print(topic);
@@ -231,9 +236,10 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
 //        array_to_string(templ.b,lung,sezione);
         char sezione [10];
         ltoa(Controller->GetSezione(),sezione,10);
-        for(int i=0;i<10;i++){
-          Serial.println(sezione[i]);
-          }
+//        for(int i=0;i<10;i++){
+//          Serial.println(sezione[i]);
+//          }
+        Serial.println("Dopo ltoa");
         Serial.println(sezione);
 //        Header[0]="\0";
 //        char* Topic;
@@ -244,22 +250,25 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
 //        strcat(Topic, "+");
         //Un pò di porcate rivedere
         char Topic[30];
-        char Buffer[30];
-        strcpy(Buffer,"GH/");
-        strcat(Buffer,sezione);
-        strcat(Buffer, "/cmd/");
-        strcpy(Topic, Buffer);
+//        char Buffer[30];
+        strcpy(Header,"GH/");
+        strcat(Header,sezione);
+        strcat(Header, "/cmd/");
+        strcpy(Topic, Header);
         strcat(Topic, "+");
-        Header=Buffer;
-//        Serial.println(Header);
+        //vedere da puntatore a buffer che copio manualmente?
+//        Header=Buffer;
+        Serial.println(Header);
       mqttClient.subscribe(Topic);
-//        Serial.println(Topic);
+        Serial.println(Topic);
       mqttClient.unsubscribe("GH/SetUp");
     }
   }
   strcpy(option, Header);
   strcat(option, "Mod");
+  Serial.print(strcmp(option, topic));
   if (strcmp(option, topic)==0) {
+        Serial.println("Sono in mod");
     byte ID_B [4];
     //Cambiare da modifica ambiente a 3 set ed un solo dato??
     //    byte Um_B[4];
@@ -273,6 +282,11 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
     ID_B[1] = (Temp >> 8)  & 0xFF;
     ID_B[2] = (Temp >> 16) & 0xFF;
     ID_B[3] = (Temp >> 24) & 0xFF;
+//    Serial.println(ID_B[0]);
+//    Serial.println(ID_B[1]);
+//    Serial.println(ID_B[2]);
+//    Serial.println(ID_B[3]);
+
     //      Temp=Controller->GetSezione();
     //      Sezione_B[0]=Temp & 0xFF;
     //      Sezione_B[1]=(Temp >> 8)  & 0xFF;
@@ -280,35 +294,56 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
     //      Sezione_B[3]=(Temp >> 24) & 0xFF;
     bool corretto = true;
     int j = 0;
-    while (corretto && j < 12) {
-      if (ID_B[j] != payload[j]) {
+    union TEMPL{
+      byte b [4];
+      long l;
+      }templ;
+      Serial.println("Prendo il payload");
+    for(int i=0;i<4;i++){
+        templ.b[i] = payload[i];
+        Serial.println(templ.b[i]);
+      }
+      Serial.println(templ.l);
+    while (corretto && j < 4) {
+      if (ID_B[3-j] != payload[j]) {
         corretto = false;
       }
+      Serial.println(ID_B[3-j]);
+      Serial.println(payload[j]);
       j = j + 1;
     }
     if (corretto) {
+      Serial.print("Trovato ID");
       union TEMP {
         float f;
         byte b[4];
       } temp;
+      Serial.println("Temperatura");
       for (int i = 4; i < 8; i++) {
         //        Um_B[i - 4] = payload[i];
-        temp.b[i - 4] = payload[i]; //Qui invece deve inviare come big endian
+        temp.b[3-i +4] = payload[i]; //Qui invece deve inviare come big endian
         //        Um=(Um<<8) | payload[i];
       }
       Tem = temp.f;
-      for (int i = 4; i < 8; i++) {
+      Serial.println("Umidita");
+      for (int i = 8; i < 12; i++) {
         //        Irr_B[i - 4] = payload[i];
-        temp.b[i - 4] = payload[i]; //Qui invece deve inviare come big endian
+        temp.b[3-i +8] = payload[i]; //Qui invece deve inviare come big endian
+        Serial.println(payload[i]);
         //        Irr=(Irr<<8) | payload[i];
       }
       Um = temp.f;
-      for (int i = 4; i < 8; i++) {
+      Serial.println("Irradianza");
+      for (int i = 12; i < 16; i++) {
         //        Tem_B[i - 4] = payload[i];
-        temp.b[i - 4] = payload[i]; //Qui invece deve inviare come big endian
+        temp.b[3-i +12] = payload[i]; //Qui invece deve inviare come big endian
         //        Tem=(Tem<<8) | payload[i];
       }
       Irr = temp.f;
+      Serial.println("Temperatura Umidita Irradianze");
+      Serial.println(Tem);
+      Serial.println(Um);
+      Serial.println(Irr);
       Target->ModificaAmbiente(Tem, Um, Irr);
     }
   }
