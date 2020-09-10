@@ -24,20 +24,19 @@ public class Main {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}*/
-		
+
 		//startup the connection with broker
 		Connection conn = Connection.getInstance();
 		conn.startup();
-   
+		
 		//read config file
 		NodeList nList = readConfig();
 		//send config packets
 		sendConfig(nList, conn);
 		
 		//start UI
-		Thread t=conn.getThread();
 		try{
-			Main_Frame frame = new Main_Frame(t);
+			Main_Frame frame = new Main_Frame();
 			frame.setVisible(true);
 		} catch (Exception e)
 		{e.printStackTrace();}
@@ -95,5 +94,9 @@ public class Main {
 		try {return Integer.parseInt(eElement.getElementsByTagName(name).item(0).getTextContent().replaceAll(" ", ""));}
 		catch(NumberFormatException e)
 		{e.printStackTrace(); System.out.println("File di configurazione errato!!!!"); return null;}
+	}
+	public static void shutdown()
+	{
+		Connection.getInstance().shutdown();
 	}
 }

@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import packagediagramdesktopcomponent.Main;
 
 public class Main_Frame extends JFrame {
 
@@ -25,7 +26,7 @@ public class Main_Frame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Main_Frame frame = new Main_Frame(new Thread());
+					Main_Frame frame = new Main_Frame();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,7 +48,7 @@ public class Main_Frame extends JFrame {
 			e.printStackTrace();
 		}
 	}
-	public Main_Frame(Thread t) {
+	public Main_Frame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -66,14 +67,13 @@ public class Main_Frame extends JFrame {
 		searchButton.setBounds(34, 27, 163, 23);
 		add(searchButton);
 		
-		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent e) 
 		    {
 		        e.getWindow().dispose();
-		        t.interrupt();
 		        System.out.println("Shutting down Mainframe...");
+		        Main.shutdown();
 		    }
 		});
 		
