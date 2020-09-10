@@ -62,8 +62,6 @@ public class prova {
              System.out.println("excep "+me);
              me.printStackTrace();
          }
- 
-		boolean exit=false;
 		try {
 			client.subscribe("GH/SetUp");
 		} catch (MqttException e) {
@@ -73,7 +71,7 @@ public class prova {
         float i = (float) 0.5;
         float j = (float) 2.98;
         float k = (float) 5.62;
-		while(!exit)
+		for(int m=0; m<10;m++)
 		{
 			lol(i,j,k);
 			i++;
@@ -92,9 +90,14 @@ public class prova {
 		                System.out.println("excep "+me);
 		                me.printStackTrace();
 				  }
-				  exit=true;
 		          System.out.println("Shutting down mqtt client ...");
 			}
+		}
+		try {
+			client.disconnect();
+		} catch (MqttException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
     }
 	public static boolean lol(float i, float j, float k) 
