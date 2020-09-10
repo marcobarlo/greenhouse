@@ -73,10 +73,11 @@ public class prova {
         float k = (float) 5.62;
 		for(int m=0; m<10;m++)
 		{
-			lol(i,j,k);
+			/*lol(i,j,k);
 			i++;
 			j++;
-			k++;
+			k++;*/
+			lolAllarme(m);
 			try {Thread.sleep(5000);}
 			catch (InterruptedException ex) 
 			{
@@ -118,5 +119,21 @@ public class prova {
         {return false;}
         //System.out.println("Message published!");
 		return true;
+	}
+	public static void lolAllarme(int i)
+	{       
+		String topic= "GH/Errore";
+	    int qos= 1;
+	    ByteBuffer buf = ByteBuffer.allocate(8);
+	    buf=buf.putInt(34+i).putInt(i);
+	    MqttMessage message = new MqttMessage();
+	    message.setQos(qos);
+	    message.setPayload(buf.array());
+	    try {client.publish(topic, message);} 
+	    catch (MqttPersistenceException e) 
+	    {} 
+	    catch (MqttException e) 
+	    {}
+
 	}
 }
