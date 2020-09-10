@@ -2,6 +2,7 @@ package packagediagramdesktopcomponent.Business_Logic;
 
 import packagediagramdesktopcomponent.Connection.*;
 
+import org.greenrobot.eventbus.EventBus;
 import org.orm.PersistentException;
 
 import packagediagramdesktopcomponent.model.Ambiente;
@@ -80,4 +81,8 @@ public class ControllerParametriAmbientali {
 			System.out.println("Errore nell'invio del messaggio di stop!!");
 	}
 
+	public static void sendAllarme(int idAmbiente, String mex)
+	{
+		EventBus.getDefault().post(new MexAllarme(idAmbiente,mex));
+	}
 }

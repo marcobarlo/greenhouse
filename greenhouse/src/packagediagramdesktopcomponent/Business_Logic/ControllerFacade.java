@@ -50,4 +50,9 @@ public class ControllerFacade {
 	{
 		ControllerParametriAmbientali.sendClosedMex(idAmbiente,sez);
 	}
+	
+	public static void sendAllarme(int idAmbiente, String mex)
+	{
+		ControllerParametriAmbientali.sendAllarme(idAmbiente,mex);
+	}
 }
