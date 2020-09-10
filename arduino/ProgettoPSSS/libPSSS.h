@@ -18,6 +18,8 @@
 #define YL_69_PIN A1
 #define YL_69_VCC 6
 
+void array_to_string(byte array[], unsigned int len, char buffer[]);
+
 class Controllore;
 class Comunicazione;
 class Ambiente;
@@ -36,7 +38,7 @@ class Ambiente{
     float SogliaI;
     float SogliaT;
   public:
-    Ambiente();
+    Ambiente(){};
     void ModificaAmbiente(float T, float U, float I);//Implementata
 //    void  SetUmiditaTarget(float);
 //    void  SetIrradianzaTarget(float);

@@ -1,5 +1,6 @@
 #include "Comunicazione.h"
 
+
 Comunicazione* Comunicazione :: Me;
 
 byte mac[] = {
@@ -14,7 +15,7 @@ byte gateway[] = {10, 0, 0, 1};  // gateway address
 
 byte subnet[] = {255, 255, 255, 0};  //subnet mask
 
-
+int i=0;
 
 void callback(char* topic, byte* payload, unsigned int length) {
   Comunicazione * link;
@@ -29,21 +30,36 @@ static Comunicazione* Comunicazione::GetInstance() {
   }
   return Me;
 };
-void Comunicazione :: SetUp(Ambiente * amb, Controllore * cntr) {
+void Comunicazione :: SetUp(Ambiente * amb) {
+  Serial.println("SetUp Comunicazione");
+  Serial.println(freeMemory(), DEC);  // print how much RAM is available.
   Target = amb;
-  Controller = cntr;
+  Controllore cntr;
+  Controller = cntr.GetInstance();
   Ethernet.begin(mac, ip);//Testare con solo mac, speriamo funzioni
+  Serial.println(Ethernet.localIP());
   mqttClient.setClient(ethClient);
   mqttClient.setServer( mqtt_server, 1883); // or local broker
   mqttClient.setCallback(callback);
-  char * char_mac;
-  for (int i = 0; i < sizeof(mac); i++) {
-    strcat(char_mac, (char)mac[i]);
-  }
+  int lung = sizeof(mac)/sizeof(mac[0]);
+  char char_mac[lung+1];
+//  for (int i = 0; i < sizeof(mac); i++) {
+////    strcat(char_mac, (char)mac[i]);
+//  Serial.print((char)mac[i]);
+//  char_mac[i] = (char)mac[i];
+//  }
+  array_to_string(mac,lung,char_mac);
+//  char_mac[lung] = NULL;
   CLIENT_ID = char_mac;
+  Serial.println("MAC");
+  Serial.println(char_mac);
+  Serial.println("Client ID");
+  Serial.println(CLIENT_ID);
   //  mqttClient.setCallback([this] (char* topic, byte* payload, unsigned int length) { this->callback(topic, payload, length); });
   mqttClient.connect(CLIENT_ID);
   mqttClient.subscribe("GH/SetUp");
+  mqttClient.publish("test/topic", "10, 0, 0, 3");
+  Serial.println("Fine SetUp Comunicazione");
 };
 
 void Comunicazione :: keepalive() {
@@ -65,7 +81,7 @@ void Comunicazione :: PublishError(byte * payload) {
   //      strcpy(Topic, Header);
   //      strcat(Topic, "Error");
   if (mqttClient.connect(CLIENT_ID)) {
-    mqttClient.publish("GH/Error", payload);
+    mqttClient.publish("GH/Errore", payload);
   }
 };
 
@@ -77,8 +93,12 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
   // payload[length]='\0';// terminate string with 0
   //String strPayload = String((char*)payload);  // convert to string
   // Serial.println(strPayload);
+  Serial.println("Sono nella Callback");
   char * option;
-  if (strcmp("GH/SetUp", topic)) {
+  Serial.println(topic);
+    Serial.println(freeMemory(), DEC);  // print how much RAM is available.
+  Serial.print(strcmp("GH/SetUp", topic));
+  if (strcmp("GH/SetUp", topic)==0) {
     Serial.print("Message arrived [");
     Serial.print(topic);
     Serial.print("] ");//MQTT_BROKER
@@ -90,13 +110,22 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
     //Mantenere il tutto salvato come invece di passare a Long??
     bool corretto = true;
     int j = 0;
-    while (corretto && j < 12) {
+    while (corretto && j < 6) {
+      Serial.println("Mac");
+      Serial.println(mac[j]);
+      Serial.println("Payload");
+      Serial.println(payload[j]);
       if (mac[j] != payload[j]) {
         corretto = false;
       }
+      Serial.println("Corretto e j");
+      Serial.println(corretto);
+      Serial.println(j);
       j = j + 1;
     }
     if (corretto) {
+      Serial.println("Trovato il mac!!!");
+      Serial.println(freeMemory(), DEC);  // print how much RAM is available.
       byte ID_B[4];
       byte Sezione_B[4];
       byte Temperatura_B[4];
@@ -111,65 +140,126 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
       float SogliaT;
       float SogliaU;
       float SogliaI;
-      for (int i = 12; i++; i < 16) {
-        ID_B[i - 12] = payload[i];
+      union templong{
+        byte b [4] ;
+        long l;
+        }templ;
+      for (int i = 6;i < 10; i++) {
+//        ID_B[i - 6] = payload[i];
+        templ.b[3-i + 6] = payload[i];
       }
-      for (int i = 16; i++; i < 20) {
-        Sezione_B[i - 16] = payload[i];
+      Controller->SetID(templ.l);
+      Serial.println("ID:");
+      Serial.println(templ.l,DEC);
+      for (int i = 10;i < 14 ; i++) {
+//        Sezione_B[i - 10] = payload[i];
+        templ.b[3-i + 10] = payload[i];
+
       }
-      Controller->SetID((long)ID_B);
-      Controller->SetSezione((long)Sezione_B);
-      union TEMP {
+      Serial.println(freeMemory(), DEC);  // print how much RAM is available.
+
+//      for (int i=0;i<4;i++){
+//        Serial.println(templ.b[i]);
+//        };
+      
+      Serial.println("Sezione:");
+      Serial.println(templ.l);
+      Controller->SetSezione(templ.l);
+      
+      union TEMPF {
         float f;
         byte b[4];
-      } temp;
+      } tempf;
 
-      for (int i = 16; i++; i < 20) {
-        temp.b[i - 16] = payload[i];
+      for (int i = 14; i < 18; i++) {
+        tempf.b[3-i+14] = payload[i];
+        Serial.println(payload[i]);
+        Serial.println(tempf.b[3-i+14]);
       }
-      Temperatura = temp.f;
-      for (int i = 20; i++; i < 24) {
-        temp.b[i - 20] = payload[i];
+      Serial.println("Temperatura:");
+      Serial.println(templ.l);
+      Temperatura = tempf.f;
+      for (int i = 18; i < 22; i++) {
+        tempf.b[3-i+ 18] = payload[i];
       }
-      Umidita = temp.f;
-      for (int i = 24; i++; i < 28) {
-        temp.b[i - 24] = payload[i];
+      Umidita = tempf.f;
+      for (int i = 22; i < 26; i++) {
+        tempf.b[3-i+22] = payload[i];
       }
-      Irradianza = temp.f;
+      Irradianza = tempf.f;
       Target->ModificaAmbiente(Temperatura, Umidita, Irradianza);
+      Serial.println("Temperatura:");
+      Serial.println(Temperatura);
+      Serial.println("Umidita:");
+      Serial.println(Umidita);
+      Serial.println("Irradianza:");
+      Serial.println(Irradianza);
       
-      for (int i = 16; i++; i < 20) {
-        temp.b[i - 16] = payload[i];
+      for (int i = 26; i < 30; i++) {
+        tempf.b[3-i+26] = payload[i];
       }
-      SogliaT = temp.f;
-      for (int i = 20; i++; i < 24) {
-        temp.b[i - 20] = payload[i];
+      SogliaT = tempf.f;
+      for (int i = 30; i < 34; i++) {
+        tempf.b[3-i+30] = payload[i];
       }
-      SogliaU = temp.f;
-      for (int i = 24; i++; i < 28) {
-        temp.b[i - 24] = payload[i];
+      SogliaU = tempf.f;
+      for (int i = 34; i < 38; i++) {
+        tempf.b[3-i+34] = payload[i];
       }
-      SogliaI = temp.f;
+      SogliaI = tempf.f;
       Target->SetSoglie(SogliaT, SogliaU, SogliaI);
-      
+      Serial.println("SogliaT:");
+      Serial.println(SogliaT);
+      Serial.println("SogliaU");
+      Serial.println(SogliaU);
+      Serial.println("SogliaI");
+      Serial.println(SogliaI);
+      Serial.println("SEZIONE TEST FROM GET SEZIONE");
+      Serial.println(Controller->GetSezione());
       //          this->ID=String((char *)ID_B);
       //          this->Sezione=String((char *)Sezione_B);
       //          String HeadofTopic="GH/";
-      char* Topic;
-      strcat(Header, "GH/");
-      strcat(Header, (char)(Controller->GetSezione()));
-      strcat(Header, "/cmd/");
-      strcpy(Topic, Header);
-      strcat(Topic, "+");
-      mqttClient.subscribe((const char *)Topic);
-      Serial.println(Topic);
+            //Probabilmente devo aggiungere la Null termination Da rifare sto pezzo
+        
+//        templ.l=Controller->GetSezione();
+//        int lung = sizeof(templ.b)/sizeof(templ.b[0]);
+//        for (int i=0;i<lung;i++){
+//          Serial.println(templ.b[i]);
+//          }
+//        Serial.println(lung);
+//        char sezione[lung+1];
+//        array_to_string(templ.b,lung,sezione);
+        char sezione [10];
+        ltoa(Controller->GetSezione(),sezione,10);
+        for(int i=0;i<10;i++){
+          Serial.println(sezione[i]);
+          }
+        Serial.println(sezione);
+//        Header[0]="\0";
+//        char* Topic;
+//        strcat(Header, "GH/");
+//        strcat(Header, sezione);
+//        strcat(Header, "/cmd/");
+//        strcpy(Topic, Header);
+//        strcat(Topic, "+");
+        //Un pò di porcate rivedere
+        char Topic[30];
+        char Buffer[30];
+        strcpy(Buffer,"GH/");
+        strcat(Buffer,sezione);
+        strcat(Buffer, "/cmd/");
+        strcpy(Topic, Buffer);
+        strcat(Topic, "+");
+        Header=Buffer;
+//        Serial.println(Header);
+      mqttClient.subscribe(Topic);
+//        Serial.println(Topic);
       mqttClient.unsubscribe("GH/SetUp");
-      sei();
     }
   }
   strcpy(option, Header);
   strcat(option, "Mod");
-  if (strcmp(option, topic)) {
+  if (strcmp(option, topic)==0) {
     byte ID_B [4];
     //Cambiare da modifica ambiente a 3 set ed un solo dato??
     //    byte Um_B[4];
@@ -245,7 +335,7 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
   //  }
   strcpy(option, Header);
   strcat(option, "STROBS");
-  if (strcmp(option, topic)) {
+  if (strcmp(option, topic)==0) {
     byte ID_B [4];
     long Temp = Controller->GetID();
     ID_B[0] = Temp & 0xFF;
@@ -266,7 +356,8 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
   }
   strcpy(option, Header);
   strcat(option, "STPOBS");
-  if (strcmp(option, topic)) {
+  if (strcmp(option, topic)==0) {
+    //Primo byte conterrà i meno significativi
     byte ID_B [4];
     long Temp = Controller->GetID();
     ID_B[0] = Temp & 0xFF;
@@ -305,3 +396,8 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
   //    mqttClient.publish("test/topic", "Non dovrebbe essere possibile");
   //  }
 }
+
+void Comunicazione::PublishTest(){
+    mqttClient.publish("test/topic",String(i).c_str() );
+    i=i+1;
+  };

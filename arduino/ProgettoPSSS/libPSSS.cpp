@@ -3,6 +3,17 @@
 #include <string.h>
 
 
+void array_to_string(byte array[], unsigned int len, char buffer[])
+{
+    for (unsigned int i = 0; i < len; i++)
+    {
+        byte nib1 = (array[i] >> 4) & 0x0F;
+        byte nib2 = (array[i] >> 0) & 0x0F;
+        buffer[i*2+0] = nib1  < 0xA ? '0' + nib1  : 'A' + nib1  - 0xA;
+        buffer[i*2+1] = nib2  < 0xA ? '0' + nib2  : 'A' + nib2  - 0xA;
+    }
+    buffer[len*2] = '\0';
+}
 
 float Ambiente  :: GetUmiditaTarget() {
   return UmiditaTarget;
@@ -17,6 +28,7 @@ float Ambiente  :: GetTemperaturaTarget() {
 };
 
 void  Ambiente :: ModificaAmbiente(float T, float U, float I) {
+  Serial.println("Modifica Ambiente");
   UmiditaTarget = U;
   IrradianzaTarget = I;
   TemperaturaTarget = T;
@@ -34,21 +46,23 @@ float Ambiente :: GetSogliaT() {
   return SogliaT;
 };
 
-void Ambiente :: SetSoglie(float T, float U, float I){
-  SogliaT=T;
-  SogliaU=U;
-  SogliaI=I;
-  };
+void Ambiente :: SetSoglie(float T, float U, float I) {
+  SogliaT = T;
+  SogliaU = U;
+  SogliaI = I;
+};
 
 
 
 
 void SensoreUmidita :: SetUp() {
+  Serial.println(" Setup SensoreUmidita");
   pinMode(YL_69_VCC, OUTPUT);
   digitalWrite(YL_69_VCC, LOW);
 };
 
 float SensoreUmidita :: GetDato() {
+  Serial.println(" GetDato SensoreUmidita");
   digitalWrite(YL_69_VCC, HIGH);
   delay(500);
   int value = analogRead(YL_69_PIN);
@@ -63,12 +77,14 @@ SensoreTemperatura::SensoreTemperatura(): dht(DHTPIN, DHTTYPE) {
 };
 
 void SensoreTemperatura  :: SetUp() {
+  Serial.println(" Setup SensoreTemperatura");
   Temperatura = -1;
   dht.begin();
 };
 
 float SensoreTemperatura  :: GetDato() {
-
+  
+  Serial.println(" Setup SensoreTemperatura");
   float chk = dht.readTemperature(DHTPIN);
   return chk;
 };
@@ -76,11 +92,13 @@ float SensoreTemperatura  :: GetDato() {
 SensoreIrradianza::SensoreIrradianza() {};
 
 void SensoreIrradianza  :: SetUp() {
+  Serial.println(" Setup SensoreIrradianza");
   Irradianza = -1;
   //Da mettere la roba che sta nel setup del file per fare la caratterizzazioe del fotoresistore
 };
 
 float SensoreIrradianza  :: GetDato() {
+  Serial.println(" Setup SensoreIrradianza");
   //TODO DA FARE CARATTERIZZARE PER BENE I VALORI ATTUALI CREDO DIANO PROBLEMI, I LUX SEMBRANO INCREDIBILMENTE ALTI
   float level = analogRead(LUXINPUT);
   //calculate analog voltage

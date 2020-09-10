@@ -2,8 +2,11 @@
 #define _CONTROLLORE_H
 
 #include <Arduino.h>
+#include <SPI.h>
 #include "libPSSS.h"
 #include "Comunicazione.h"
+#include "MemoryFree.h"
+
 
 #define DHTPIN 2
 #define DHTTYPE DHT11   // DHT 11
