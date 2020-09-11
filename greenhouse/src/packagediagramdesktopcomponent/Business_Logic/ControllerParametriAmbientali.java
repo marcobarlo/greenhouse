@@ -3,12 +3,10 @@ package packagediagramdesktopcomponent.Business_Logic;
 import packagediagramdesktopcomponent.Connection.*;
 
 import org.greenrobot.eventbus.EventBus;
-import org.hibernate.criterion.Restrictions;
 import org.orm.PersistentException;
 
 import packagediagramdesktopcomponent.model.Ambiente;
 import packagediagramdesktopcomponent.model.Coltivazione;
-import packagediagramdesktopcomponent.model.ColtivazioneCriteria;
 
 public class ControllerParametriAmbientali {
 

@@ -55,4 +55,9 @@ public class ControllerFacade {
 	{
 		ControllerParametriAmbientali.sendAllarme(idAmbiente,mex);
 	}
+	public static String login(String mail, String pass)
+	{
+		return ControllerUtenti.login(mail,pass);
+	}
+	
 }
