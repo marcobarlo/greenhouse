@@ -2,7 +2,7 @@
 
 Controllore * Controllore :: MeStesso=NULL;
 
-Controllore :: Controllore() {
+Controllore :: Controllore(){
 //  MeStesso = this;
 //  Link = Comunicazione :: GetInstance();
 };
@@ -42,21 +42,23 @@ void  Controllore :: SetUp2(Ambiente * amb){
   ambiente=amb;
   Serial.println("Start Setup Controllore");
   Serial.println(freeMemory(), DEC);  // print how much RAM is available.
-  SensoreTemperatura Temp;
-  sensori[0]=Temp;
-  SensoreUmidita Um;
-  sensori[1]=Um;
-  SensoreIrradianza Irr;
-  sensori[2]=Irr;
+//  Questo pezzotto è sbagliato va trasformato in un polimorifsmo vero e proprio con allocazione dinaimica
+//o la cosa che sta scritta nel link di barr group
+//  SensoreTemperatura Temp;
+//  sensori[0]=Temp;
+//  SensoreUmidita Um;
+//  sensori[1]=Um;
+//  SensoreIrradianza Irr;
+//  sensori[2]=Irr;
   for (int i=0;i<3;i++){
     sensori[i].SetUp();
     }
-  Serpentina Serp;
-  attuatori[0]=Serp;
-  Innaffiatoio Inn;
-  attuatori[1]=Inn;
-  StrisciaLed Str;
-  attuatori[2]=Str;
+//  Serpentina Serp;
+//  attuatori[0]=Serp;
+//  Innaffiatoio Inn;
+//  attuatori[1]=Inn;
+//  StrisciaLed Str;
+//  attuatori[2]=Str;
   for (int i=0;i<3;i++){
     attuatori[i].SetUp();
     } 
