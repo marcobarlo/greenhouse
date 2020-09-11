@@ -26,20 +26,10 @@
       <Index>false</Index>
       <UserTypes/>
     </Column>
-    <Column name="AmbienteAttribute">
+    <Column name="ColtivazioneID">
       <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>false</ForeignKey>
-      <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>false</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
-    <Column name="ColtivazioneAttribute">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>false</ForeignKey>
+      <ForeignKey>true</ForeignKey>
+      <ReferencedColumn>packagediagramdesktopcomponent.Model.Coltivazione.ID</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
       <Nullable>true</Nullable>
@@ -48,9 +38,10 @@
       <Index>false</Index>
       <UserTypes/>
     </Column>
-    <Column name="SezioneAttribute">
+    <Column name="SezioneID">
       <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>false</ForeignKey>
+      <ForeignKey>true</ForeignKey>
+      <ReferencedColumn>packagediagramdesktopcomponent.Model.Sezione.ID</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
       <Nullable>false</Nullable>
@@ -85,7 +76,7 @@
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>false</ForeignKey>
       <Type>4</Type>
-      <Length>10</Length>
+      <Length>0</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
@@ -98,86 +89,6 @@
       <Type>27</Type>
       <Length>255</Length>
       <Nullable>true</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
-    <Column name="Area_ColtivataAttribute">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>false</ForeignKey>
-      <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>false</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
-    <Column name="AmbienteAttribute2">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>false</ForeignKey>
-      <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>false</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
-    <Column name="Area_ColtivataAttribute2">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>false</ForeignKey>
-      <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>true</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
-    <Column name="ColtivazioneAttribute2">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>false</ForeignKey>
-      <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>true</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
-    <Column name="SezioneID">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>packageDiagramDesktopComponent.Model.Sezione.ID</ReferencedColumn>
-      <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>false</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
-    <Column name="ColtivazioneID">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>packageDiagramDesktopComponent.Model.Coltivazione.ID</ReferencedColumn>
-      <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>true</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
-    <Column name="AmbienteID">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>packageDiagramDesktopComponent.Model.Ambiente.ID</ReferencedColumn>
-      <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -196,9 +107,22 @@
       <Index>false</Index>
       <UserTypes/>
     </Column>
-    <Column name="Descrizione_ColtivazioneAttribute">
+    <Column name="AmbienteID">
       <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>false</ForeignKey>
+      <ForeignKey>true</ForeignKey>
+      <ReferencedColumn>packagediagramdesktopcomponent.Model.Ambiente.ID</ReferencedColumn>
+      <Type>9</Type>
+      <Length>10</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>native</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+    <Column name="DescrizioneColtivazioneID">
+      <PrimaryKey>false</PrimaryKey>
+      <ForeignKey>true</ForeignKey>
+      <ReferencedColumn>packagediagramdesktopcomponent.Model.DescrizioneColtivazione.ID</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
       <Nullable>false</Nullable>
@@ -229,8 +153,10 @@
       <Index>false</Index>
       <UserTypes/>
     </Column>
-    <Column name="Area_ColtivataAttribute">
-      <PrimaryKey>false</PrimaryKey>
+  </Entity>
+  <Entity name="DescrizioneColtivazione" Unlogged="false" PKClustered="0">
+    <Column name="ID">
+      <PrimaryKey>true</PrimaryKey>
       <ForeignKey>false</ForeignKey>
       <Type>9</Type>
       <Length>10</Length>
@@ -240,8 +166,32 @@
       <Index>false</Index>
       <UserTypes/>
     </Column>
-    <Column name="ColtivazioneAttribute">
+    <Column name="Tipo">
       <PrimaryKey>false</PrimaryKey>
+      <ForeignKey>false</ForeignKey>
+      <Type>27</Type>
+      <Length>255</Length>
+      <Nullable>true</Nullable>
+      <IDGenerator>native</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+    <Column name="Descrizione">
+      <PrimaryKey>false</PrimaryKey>
+      <ForeignKey>false</ForeignKey>
+      <Type>27</Type>
+      <Length>255</Length>
+      <Nullable>true</Nullable>
+      <IDGenerator>native</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+  </Entity>
+  <Entity name="Impiegato" Unlogged="false" PKClustered="0">
+    <Column name="ID">
+      <PrimaryKey>true</PrimaryKey>
       <ForeignKey>false</ForeignKey>
       <Type>9</Type>
       <Length>10</Length>
@@ -251,13 +201,12 @@
       <Index>false</Index>
       <UserTypes/>
     </Column>
-    <Column name="DescrizioneColtivazioneID">
+    <Column name="Email">
       <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>packageDiagramDesktopComponent.Model.DescrizioneColtivazione.ID</ReferencedColumn>
-      <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>false</Nullable>
+      <ForeignKey>false</ForeignKey>
+      <Type>27</Type>
+      <Length>255</Length>
+      <Nullable>true</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -309,22 +258,33 @@
       <Index>false</Index>
       <UserTypes/>
     </Column>
-    <Column name="Area_ColtivataAttribute">
+    <Column name="SogliaTemp">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>false</ForeignKey>
-      <Type>9</Type>
-      <Length>10</Length>
+      <Type>4</Type>
+      <Length>0</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
       <UserTypes/>
     </Column>
-    <Column name="AmbienteAttribute">
+    <Column name="SogliaIrr">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>false</ForeignKey>
-      <Type>9</Type>
-      <Length>10</Length>
+      <Type>4</Type>
+      <Length>0</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>native</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+    <Column name="SogliaUmi">
+      <PrimaryKey>false</PrimaryKey>
+      <ForeignKey>false</ForeignKey>
+      <Type>4</Type>
+      <Length>0</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
@@ -332,70 +292,11 @@
       <UserTypes/>
     </Column>
   </Entity>
-  <Entity name="Impiegato" Unlogged="false" PKClustered="0">
-    <Column name="ID">
-      <PrimaryKey>true</PrimaryKey>
-      <ForeignKey>false</ForeignKey>
-      <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>false</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
-    <Column name="Email">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>false</ForeignKey>
-      <Type>27</Type>
-      <Length>255</Length>
-      <Nullable>true</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
-  </Entity>
-  <Entity name="DescrizioneColtivazione" Unlogged="false" PKClustered="0">
-    <Column name="ID">
-      <PrimaryKey>true</PrimaryKey>
-      <ForeignKey>false</ForeignKey>
-      <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>false</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
-    <Column name="Tipo">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>false</ForeignKey>
-      <Type>27</Type>
-      <Length>255</Length>
-      <Nullable>true</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
-    <Column name="Descrizione">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>false</ForeignKey>
-      <Type>27</Type>
-      <Length>255</Length>
-      <Nullable>true</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
-  </Entity>
-  <Entity name="Coltivazione_Impiegato2" Unlogged="false" PKClustered="0">
+  <Entity name="Coltivazione_Impiegato" Unlogged="false" PKClustered="0">
     <Column name="ColtivazioneID">
       <PrimaryKey>true</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>packageDiagramDesktopComponent.Model.Coltivazione.ID</ReferencedColumn>
+      <ReferencedColumn>packagediagramdesktopcomponent.Model.Coltivazione.ID</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
       <Nullable>false</Nullable>
@@ -407,7 +308,7 @@
     <Column name="ImpiegatoID">
       <PrimaryKey>true</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>packageDiagramDesktopComponent.Model.Impiegato.ID</ReferencedColumn>
+      <ReferencedColumn>packagediagramdesktopcomponent.Model.Impiegato.ID</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
       <Nullable>false</Nullable>
@@ -427,26 +328,6 @@
       <Column>ID</Column>
     </RefColumns>
   </ForeignKey>
-  <ForeignKey name="Si trova  in">
-    <ReferenceTable>AreaColtivata</ReferenceTable>
-    <ReferencedTable>Coltivazione</ReferencedTable>
-    <Columns>
-      <Column>ColtivazioneID</Column>
-    </Columns>
-    <RefColumns>
-      <Column>ID</Column>
-    </RefColumns>
-  </ForeignKey>
-  <ForeignKey name="FKAreaColtiv987667">
-    <ReferenceTable>AreaColtivata</ReferenceTable>
-    <ReferencedTable>Ambiente</ReferencedTable>
-    <Columns>
-      <Column>AmbienteID</Column>
-    </Columns>
-    <RefColumns>
-      <Column>ID</Column>
-    </RefColumns>
-  </ForeignKey>
   <ForeignKey name="FKColtivazio308562">
     <ReferenceTable>Coltivazione</ReferenceTable>
     <ReferencedTable>DescrizioneColtivazione</ReferencedTable>
@@ -457,8 +338,8 @@
       <Column>ID</Column>
     </RefColumns>
   </ForeignKey>
-  <ForeignKey name="FKColtivazio994685">
-    <ReferenceTable>Coltivazione_Impiegato2</ReferenceTable>
+  <ForeignKey name="FKColtivazio887115">
+    <ReferenceTable>Coltivazione_Impiegato</ReferenceTable>
     <ReferencedTable>Coltivazione</ReferencedTable>
     <Columns>
       <Column>ColtivazioneID</Column>
@@ -467,11 +348,31 @@
       <Column>ID</Column>
     </RefColumns>
   </ForeignKey>
-  <ForeignKey name="FKColtivazio804622">
-    <ReferenceTable>Coltivazione_Impiegato2</ReferenceTable>
+  <ForeignKey name="FKColtivazio285166">
+    <ReferenceTable>Coltivazione_Impiegato</ReferenceTable>
     <ReferencedTable>Impiegato</ReferencedTable>
     <Columns>
       <Column>ImpiegatoID</Column>
+    </Columns>
+    <RefColumns>
+      <Column>ID</Column>
+    </RefColumns>
+  </ForeignKey>
+  <ForeignKey name="FKColtivazio660064">
+    <ReferenceTable>Coltivazione</ReferenceTable>
+    <ReferencedTable>Ambiente</ReferencedTable>
+    <Columns>
+      <Column>AmbienteID</Column>
+    </Columns>
+    <RefColumns>
+      <Column>ID</Column>
+    </RefColumns>
+  </ForeignKey>
+  <ForeignKey name="Si trova  in">
+    <ReferenceTable>AreaColtivata</ReferenceTable>
+    <ReferencedTable>Coltivazione</ReferencedTable>
+    <Columns>
+      <Column>ColtivazioneID</Column>
     </Columns>
     <RefColumns>
       <Column>ID</Column>

@@ -10,12 +10,14 @@ License Type: Evaluation
 			<generator class="native">
 			</generator>
 		</id>
-		<property name="stato" column="Stato" type="string" length="255" not-null="false" lazy="false"/>
-		<property name="data_prossima_operazione" column="Data_prossima_operazione" type="date" not-null="false" lazy="false"/>
+		<many-to-one name="ambiente" column="AmbienteID" class="packagediagramdesktopcomponent.model.Ambiente" cascade="save-update,lock" unique="true" not-null="true" lazy="proxy" access="field">
+		</many-to-one>
 		<many-to-one name="descrizione" cascade="lock" column="DescrizioneColtivazioneID" class="packagediagramdesktopcomponent.model.DescrizioneColtivazione" not-null="true" lazy="proxy" access="field">
 		</many-to-one>
+		<property name="stato" column="Stato" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="data_prossima_operazione" column="Data_prossima_operazione" type="date" not-null="false" lazy="false"/>
 		<one-to-one name="area" class="packagediagramdesktopcomponent.model.AreaColtivata" cascade="save-update,lock" property-ref="coltivazione" lazy="proxy" access="field"/>
-		<set name="ORM_Impiegato" table="Coltivazione_Impiegato2" lazy="true" cascade="save-update,lock">
+		<set name="ORM_Impiegati" table="Coltivazione_Impiegato" lazy="true" cascade="save-update,lock">
 			<key column="ColtivazioneID" not-null="true"/>
 			<many-to-many column="ImpiegatoID" class="packagediagramdesktopcomponent.model.Impiegato">
 			</many-to-many>
