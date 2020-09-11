@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
@@ -183,7 +184,7 @@ public class Research_Tab extends JFrame {
 							if(tipo.equals(""))
 								tipo=null;
 							colts=(ArrayList<ColtivazioneBusiness>) ControllerFacade.ricercaColtivazione(tipo, sezione,posizione,fila);
-							//System.out.println(colts.size());
+							Collections.sort(colts, new ColtivazioneBusiness());
 							for(ColtivazioneBusiness c: colts)
 							{
 								model.insertRow(model.getRowCount(), new Object[] {String.valueOf(c.getID_coltivazione()),String.valueOf(c.getSezione()), String.valueOf(c.getFila()),

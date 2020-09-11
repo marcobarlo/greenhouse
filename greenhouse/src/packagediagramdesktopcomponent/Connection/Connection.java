@@ -1,7 +1,6 @@
 package packagediagramdesktopcomponent.Connection;
 
 import java.nio.ByteBuffer;
-
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 
@@ -25,6 +24,7 @@ public class Connection{
         try {
             client = new MqttClient(broker, clientId, dataStore);
             MqttConnectOptions connOpts = new MqttConnectOptions();
+            connOpts.setAutomaticReconnect(true);
             connOpts.setCleanSession(true);
             System.out.println("Connecting to broker: "+broker + " ...");
             client.connect(connOpts);
@@ -47,6 +47,7 @@ public class Connection{
     	        public void connectionLost(Throwable cause) {
     				System.out.println(cause.getMessage());
     	            cause.printStackTrace();
+    	            System.exit(1);
     	        }
     	    };
     	    
@@ -62,6 +63,7 @@ public class Connection{
             System.out.println("cause "+me.getCause());
             System.out.println("excep "+me);
             me.printStackTrace();
+            System.exit(1);
         }
 	}
 
@@ -93,6 +95,8 @@ public class Connection{
         MqttMessage message = new MqttMessage(bytes);
         message.setQos(qos);
         message.setPayload(bytes);
+       // CountDownLatch processingFinishedLatch = new CountDownLatch(10);
+       // processingFinishedLatch.
         try {client.publish(topic, message);} 
         catch (MqttPersistenceException e) 
         {return false;} 
@@ -156,6 +160,7 @@ public class Connection{
             System.out.println("cause "+me.getCause());
             System.out.println("excep "+me);
             me.printStackTrace();
+            System.exit(1);
 		}
 	}
 	private void callback_error(MqttMessage message) {

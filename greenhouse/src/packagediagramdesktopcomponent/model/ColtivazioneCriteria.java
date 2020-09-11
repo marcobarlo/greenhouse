@@ -20,24 +20,28 @@ import org.orm.criteria.*;
 
 public class ColtivazioneCriteria extends AbstractORMCriteria {
 	public final IntegerExpression ID;
-	public final StringExpression stato;
-	public final DateExpression data_prossima_operazione;
+	public final IntegerExpression ambienteId;
+	public final AssociationExpression ambiente;
 	public final IntegerExpression descrizioneId;
 	public final AssociationExpression descrizione;
+	public final StringExpression stato;
+	public final DateExpression data_prossima_operazione;
 	public final IntegerExpression areaId;
 	public final AssociationExpression area;
-	public final CollectionExpression impiegato;
+	public final CollectionExpression impiegati;
 	
 	public ColtivazioneCriteria(Criteria criteria) {
 		super(criteria);
 		ID = new IntegerExpression("ID", this);
-		stato = new StringExpression("stato", this);
-		data_prossima_operazione = new DateExpression("data_prossima_operazione", this);
+		ambienteId = new IntegerExpression("ambiente.attribute", this);
+		ambiente = new AssociationExpression("ambiente", this);
 		descrizioneId = new IntegerExpression("descrizione.ID", this);
 		descrizione = new AssociationExpression("descrizione", this);
+		stato = new StringExpression("stato", this);
+		data_prossima_operazione = new DateExpression("data_prossima_operazione", this);
 		areaId = new IntegerExpression("area.ID", this);
 		area = new AssociationExpression("area", this);
-		impiegato = new CollectionExpression("ORM_Impiegato", this);
+		impiegati = new CollectionExpression("ORM_Impiegati", this);
 	}
 	
 	public ColtivazioneCriteria(PersistentSession session) {
@@ -48,6 +52,10 @@ public class ColtivazioneCriteria extends AbstractORMCriteria {
 		this(packagediagramdesktopcomponent.model.GreenhousePersistentManager.instance().getSession());
 	}
 	
+	public AmbienteCriteria createAmbienteCriteria() {
+		return new AmbienteCriteria(createCriteria("ambiente"));
+	}
+	
 	public DescrizioneColtivazioneCriteria createDescrizioneCriteria() {
 		return new DescrizioneColtivazioneCriteria(createCriteria("descrizione"));
 	}
@@ -56,8 +64,8 @@ public class ColtivazioneCriteria extends AbstractORMCriteria {
 		return new AreaColtivataCriteria(createCriteria("area"));
 	}
 	
-	public packagediagramdesktopcomponent.model.ImpiegatoCriteria createImpiegatoCriteria() {
-		return new packagediagramdesktopcomponent.model.ImpiegatoCriteria(createCriteria("ORM_Impiegato"));
+	public packagediagramdesktopcomponent.model.ImpiegatoCriteria createImpiegatiCriteria() {
+		return new packagediagramdesktopcomponent.model.ImpiegatoCriteria(createCriteria("ORM_Impiegati"));
 	}
 	
 	public Coltivazione uniqueColtivazione() {

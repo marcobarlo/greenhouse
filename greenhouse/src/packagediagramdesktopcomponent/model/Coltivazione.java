@@ -15,16 +15,12 @@ package packagediagramdesktopcomponent.model;
 
 import org.orm.*;
 import org.hibernate.Query;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.LockMode;
 import java.util.List;
 
 public class Coltivazione {
 	public Coltivazione() {
-	}
-	
-	public Coltivazione(int id) 
-	{
-		
 	}
 	
 	public static Coltivazione loadColtivazioneByORMID(int ID) throws PersistentException {
@@ -405,8 +401,8 @@ public class Coltivazione {
 	}
 	
 	private java.util.Set this_getSet (int key) {
-		if (key == packagediagramdesktopcomponent.model.ORMConstants.KEY_COLTIVAZIONE_IMPIEGATO) {
-			return ORM_impiegato;
+		if (key == packagediagramdesktopcomponent.model.ORMConstants.KEY_COLTIVAZIONE_IMPIEGATI) {
+			return ORM_impiegati;
 		}
 		
 		return null;
@@ -415,6 +411,10 @@ public class Coltivazione {
 	private void this_setOwner(Object owner, int key) {
 		if (key == packagediagramdesktopcomponent.model.ORMConstants.KEY_COLTIVAZIONE_AREA) {
 			this.area = (packagediagramdesktopcomponent.model.AreaColtivata) owner;
+		}
+		
+		else if (key == packagediagramdesktopcomponent.model.ORMConstants.KEY_COLTIVAZIONE_AMBIENTE) {
+			this.ambiente = (packagediagramdesktopcomponent.model.Ambiente) owner;
 		}
 		
 		else if (key == packagediagramdesktopcomponent.model.ORMConstants.KEY_COLTIVAZIONE_DESCRIZIONE) {
@@ -435,15 +435,17 @@ public class Coltivazione {
 	
 	private int ID;
 	
+	private packagediagramdesktopcomponent.model.Ambiente ambiente;
+	
+	private packagediagramdesktopcomponent.model.DescrizioneColtivazione descrizione;
+	
 	private String stato;
 	
 	private java.util.Date data_prossima_operazione;
 	
-	private packagediagramdesktopcomponent.model.DescrizioneColtivazione descrizione;
-	
 	private packagediagramdesktopcomponent.model.AreaColtivata area;
 	
-	private java.util.Set ORM_impiegato = new java.util.HashSet();
+	private java.util.Set ORM_impiegati = new java.util.HashSet();
 	
 	private void setID(int value) {
 		this.ID = value;
@@ -490,6 +492,24 @@ public class Coltivazione {
 		return area;
 	}
 	
+	public void setAmbiente(packagediagramdesktopcomponent.model.Ambiente value) {
+		this.ambiente = value;
+	}
+	
+	public packagediagramdesktopcomponent.model.Ambiente getAmbiente() {
+		return ambiente;
+	}
+	
+	private void setORM_Impiegati(java.util.Set value) {
+		this.ORM_impiegati = value;
+	}
+	
+	private java.util.Set getORM_Impiegati() {
+		return ORM_impiegati;
+	}
+	
+	public final packagediagramdesktopcomponent.model.ImpiegatoSetCollection impiegati = new packagediagramdesktopcomponent.model.ImpiegatoSetCollection(this, _ormAdapter, packagediagramdesktopcomponent.model.ORMConstants.KEY_COLTIVAZIONE_IMPIEGATI, packagediagramdesktopcomponent.model.ORMConstants.KEY_MUL_MANY_TO_MANY);
+	
 	public void setDescrizione(packagediagramdesktopcomponent.model.DescrizioneColtivazione value) {
 		if (descrizione != null) {
 			descrizione.coltivazioni.remove(this);
@@ -501,10 +521,6 @@ public class Coltivazione {
 	
 	public packagediagramdesktopcomponent.model.DescrizioneColtivazione getDescrizioneColtivazione() {
 		return descrizione;
-	}
-	public String getDescrizione()
-	{
-		return descrizione.getDescrizione();
 	}
 	
 	/**
@@ -518,60 +534,60 @@ public class Coltivazione {
 		return descrizione;
 	}
 	
-	private void setORM_Impiegato(java.util.Set value) {
-		this.ORM_impiegato = value;
-	}
-	
-	private java.util.Set getORM_Impiegato() {
-		return ORM_impiegato;
-	}
-	
-	public final packagediagramdesktopcomponent.model.ImpiegatoSetCollection impiegato = new packagediagramdesktopcomponent.model.ImpiegatoSetCollection(this, _ormAdapter, packagediagramdesktopcomponent.model.ORMConstants.KEY_COLTIVAZIONE_IMPIEGATO, packagediagramdesktopcomponent.model.ORMConstants.KEY_MUL_MANY_TO_MANY);
-	
-	public AreaColtivata getAreaColtivata() {
-		return area;
+	public packagediagramdesktopcomponent.model.AreaColtivata getAreaColtivata() {
+		return this.area;
 	}
 	
 	public boolean modificaAmbiente(Float temperatura, Float umidita, Float irradianza) {
-		return this.area.modificaAmbiente(temperatura, umidita, irradianza);
+		return this.ambiente.modificaAmbiente(temperatura, umidita, irradianza);
 	}
 	
 	public String getTipo() {
-		return descrizione.getTipo();
+		return this.descrizione.getTipo();
+	}
+	
+	public float getUmiditaTarget() {
+		return this.ambiente.getUmiditaSuoloTarget();
+	}
+	
+	public float getIrradianzaTarget() {
+		return this.ambiente.getIrradianzaTarget();
+	}
+	
+	public float getTemperaturaTarget() {
+		return this.ambiente.getTemperaturaTarget();
+	}
+	
+	public int getIDAmbiente() {
+		return this.ambiente.getID();
+	}
+	
+	public int getSezione() {
+		return this.area.getSezioneID();
 	}
 	
 	public String toString() {
 		return String.valueOf(getID());
 	}
-	
-	public int getFila()
-	{
+
+	public int getFila() {
 		return area.getFila();
 	}
-	public int getPosizione()
-	{
-		return area.getPosizione();
-	}
-	public int getSezione()
-	{
-		return area.getSezioneID();
-	}
-	public float getTemperaturaTarget()
-	{
-		return area.getTemperaturaTarget();
-	}
-	public float getIrradianzaTarget()
-	{
-		return area.getIrradianzaTarget();
-	}
-	public float getUmiditaTarget()
-	{
-		return area.getUmiditaTarget();
+
+	public int getPosizione() {
+		return this.area.getPosizione();
 	}
 	
-	public int getIDAmbiente() 
+	public String getDescrizione()
 	{
-		return this.area.getIDAmbiente();
+		return this.descrizione.getDescrizione();
 	}
 	
+	public static Coltivazione[] getColtivazioneByAmbienteID(int idAmbiente) throws PersistentException
+	{
+		ColtivazioneCriteria crit = new ColtivazioneCriteria();
+		crit.add(Restrictions.eq("ambiente.id", idAmbiente));
+		Coltivazione[] colt= crit.listColtivazione();
+		return colt;
+	}
 }

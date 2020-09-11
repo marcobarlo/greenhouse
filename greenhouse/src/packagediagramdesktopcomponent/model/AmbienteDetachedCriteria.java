@@ -23,6 +23,9 @@ public class AmbienteDetachedCriteria extends AbstractORMDetachedCriteria {
 	public final FloatExpression temperaturaTarget;
 	public final FloatExpression irradianzaTarget;
 	public final FloatExpression umiditaSuoloTarget;
+	public final FloatExpression sogliaTemp;
+	public final FloatExpression sogliaIrr;
+	public final FloatExpression sogliaUmi;
 	
 	public AmbienteDetachedCriteria() {
 		super(packagediagramdesktopcomponent.model.Ambiente.class, packagediagramdesktopcomponent.model.AmbienteCriteria.class);
@@ -30,6 +33,9 @@ public class AmbienteDetachedCriteria extends AbstractORMDetachedCriteria {
 		temperaturaTarget = new FloatExpression("temperaturaTarget", this.getDetachedCriteria());
 		irradianzaTarget = new FloatExpression("irradianzaTarget", this.getDetachedCriteria());
 		umiditaSuoloTarget = new FloatExpression("umiditaSuoloTarget", this.getDetachedCriteria());
+		sogliaTemp = new FloatExpression("sogliaTemp", this.getDetachedCriteria());
+		sogliaIrr = new FloatExpression("sogliaIrr", this.getDetachedCriteria());
+		sogliaUmi = new FloatExpression("sogliaUmi", this.getDetachedCriteria());
 	}
 	
 	public AmbienteDetachedCriteria(DetachedCriteria aDetachedCriteria) {
@@ -38,6 +44,9 @@ public class AmbienteDetachedCriteria extends AbstractORMDetachedCriteria {
 		temperaturaTarget = new FloatExpression("temperaturaTarget", this.getDetachedCriteria());
 		irradianzaTarget = new FloatExpression("irradianzaTarget", this.getDetachedCriteria());
 		umiditaSuoloTarget = new FloatExpression("umiditaSuoloTarget", this.getDetachedCriteria());
+		sogliaTemp = new FloatExpression("sogliaTemp", this.getDetachedCriteria());
+		sogliaIrr = new FloatExpression("sogliaIrr", this.getDetachedCriteria());
+		sogliaUmi = new FloatExpression("sogliaUmi", this.getDetachedCriteria());
 	}
 	
 	public Ambiente uniqueAmbiente(PersistentSession session) {

@@ -14,17 +14,9 @@
 package packagediagramdesktopcomponent.model;
 
 import org.orm.*;
-
-import packagediagramdesktopcomponent.Business_Logic.ColtivazioneBusiness;
-
 import org.hibernate.Query;
 import org.hibernate.LockMode;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class AreaColtivata {
 	public AreaColtivata() {
@@ -368,12 +360,12 @@ public class AreaColtivata {
 	
 	public boolean deleteAndDissociate()throws PersistentException {
 		try {
-			if(getSezione() != null) {
-				getSezione().aree.remove(this);
-			}
-			
 			if(getColtivazione() != null) {
 				getColtivazione().setArea(null);
+			}
+			
+			if(getSezione() != null) {
+				getSezione().aree.remove(this);
 			}
 			
 			return delete();
@@ -386,12 +378,12 @@ public class AreaColtivata {
 	
 	public boolean deleteAndDissociate(org.orm.PersistentSession session)throws PersistentException {
 		try {
-			if(getSezione() != null) {
-				getSezione().aree.remove(this);
-			}
-			
 			if(getColtivazione() != null) {
 				getColtivazione().setArea(null);
+			}
+			
+			if(getSezione() != null) {
+				getSezione().aree.remove(this);
 			}
 			
 			try {
@@ -408,16 +400,12 @@ public class AreaColtivata {
 	}
 	
 	private void this_setOwner(Object owner, int key) {
-		if (key == packagediagramdesktopcomponent.model.ORMConstants.KEY_AREACOLTIVATA_SEZIONE) {
-			this.sezione = (packagediagramdesktopcomponent.model.Sezione) owner;
-		}
-		
-		else if (key == packagediagramdesktopcomponent.model.ORMConstants.KEY_AREACOLTIVATA_COLTIVAZIONE) {
+		if (key == packagediagramdesktopcomponent.model.ORMConstants.KEY_AREACOLTIVATA_COLTIVAZIONE) {
 			this.coltivazione = (packagediagramdesktopcomponent.model.Coltivazione) owner;
 		}
 		
-		else if (key == packagediagramdesktopcomponent.model.ORMConstants.KEY_AREACOLTIVATA_AMBIENTE) {
-			this.ambiente = (packagediagramdesktopcomponent.model.Ambiente) owner;
+		else if (key == packagediagramdesktopcomponent.model.ORMConstants.KEY_AREACOLTIVATA_SEZIONE) {
+			this.sezione = (packagediagramdesktopcomponent.model.Sezione) owner;
 		}
 	}
 	
@@ -430,6 +418,10 @@ public class AreaColtivata {
 	
 	private int ID;
 	
+	private packagediagramdesktopcomponent.model.Coltivazione coltivazione;
+	
+	private packagediagramdesktopcomponent.model.Sezione sezione;
+	
 	private int fila;
 	
 	private int posizione;
@@ -437,12 +429,6 @@ public class AreaColtivata {
 	private float estensione;
 	
 	private String tipo_di_terreno;
-	
-	private packagediagramdesktopcomponent.model.Sezione sezione;
-	
-	private packagediagramdesktopcomponent.model.Coltivazione coltivazione;
-	
-	private packagediagramdesktopcomponent.model.Ambiente ambiente;
 	
 	private void setID(int value) {
 		this.ID = value;
@@ -488,6 +474,23 @@ public class AreaColtivata {
 		return tipo_di_terreno;
 	}
 	
+	public void setColtivazione(packagediagramdesktopcomponent.model.Coltivazione value) {
+		if (this.coltivazione != value) {
+			packagediagramdesktopcomponent.model.Coltivazione lcoltivazione = this.coltivazione;
+			this.coltivazione = value;
+			if (value != null) {
+				coltivazione.setArea(this);
+			}
+			if (lcoltivazione != null && lcoltivazione.getArea() == this) {
+				lcoltivazione.setArea(null);
+			}
+		}
+	}
+	
+	public packagediagramdesktopcomponent.model.Coltivazione getColtivazione() {
+		return coltivazione;
+	}
+	
 	public void setSezione(packagediagramdesktopcomponent.model.Sezione value) {
 		if (sezione != null) {
 			sezione.aree.remove(this);
@@ -512,39 +515,10 @@ public class AreaColtivata {
 		return sezione;
 	}
 	
-	public void setColtivazione(packagediagramdesktopcomponent.model.Coltivazione value) {
-		if (this.coltivazione != value) {
-			packagediagramdesktopcomponent.model.Coltivazione lcoltivazione = this.coltivazione;
-			this.coltivazione = value;
-			if (value != null) {
-				coltivazione.setArea(this);
-			}
-			if (lcoltivazione != null && lcoltivazione.getArea() == this) {
-				lcoltivazione.setArea(null);
-			}
-		}
-	}
-	
-	public packagediagramdesktopcomponent.model.Coltivazione getColtivazione() {
-		return coltivazione;
-	}
-	
-	public void setAmbiente(packagediagramdesktopcomponent.model.Ambiente value) {
-		this.ambiente = value;
-	}
-	
-	public packagediagramdesktopcomponent.model.Ambiente getAmbiente() {
-		return ambiente;
-	}
-	
-	public boolean modificaAmbiente(Float temperatura, Float umidita, Float irradianza) {
-		return this.ambiente.modificaAmbiente(temperatura, umidita, irradianza);
-	}
-	
 	public String toString() {
 		return String.valueOf(getID());
 	}
-
+	
 	public Integer ricercaColtivazione(String tipo) 
 	{	
 		//un'area coltivata non necessariamente ha una coltivazione posta
@@ -572,18 +546,5 @@ public class AreaColtivata {
 	{
 		return sezione.getID();
 	}
-
-	public float getTemperaturaTarget() {
-		return ambiente.getTemperaturaTarget();
-	}
-	public float getIrradianzaTarget() {
-		return ambiente.getIrradianzaTarget();
-	}
-	public float getUmiditaTarget() {
-		return ambiente.getUmiditaSuoloTarget();
-	}
-
-	public int getIDAmbiente() {
-		return this.ambiente.getID();
-	}
+	
 }

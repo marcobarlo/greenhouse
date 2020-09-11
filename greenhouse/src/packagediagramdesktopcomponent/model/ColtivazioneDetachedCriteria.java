@@ -20,48 +20,58 @@ import org.orm.criteria.*;
 
 public class ColtivazioneDetachedCriteria extends AbstractORMDetachedCriteria {
 	public final IntegerExpression ID;
-	public final StringExpression stato;
-	public final DateExpression data_prossima_operazione;
+	public final IntegerExpression ambienteId;
+	public final AssociationExpression ambiente;
 	public final IntegerExpression descrizioneId;
 	public final AssociationExpression descrizione;
+	public final StringExpression stato;
+	public final DateExpression data_prossima_operazione;
 	public final IntegerExpression areaId;
 	public final AssociationExpression area;
-	public final CollectionExpression impiegato;
+	public final CollectionExpression impiegati;
 	
 	public ColtivazioneDetachedCriteria() {
 		super(packagediagramdesktopcomponent.model.Coltivazione.class, packagediagramdesktopcomponent.model.ColtivazioneCriteria.class);
 		ID = new IntegerExpression("ID", this.getDetachedCriteria());
-		stato = new StringExpression("stato", this.getDetachedCriteria());
-		data_prossima_operazione = new DateExpression("data_prossima_operazione", this.getDetachedCriteria());
+		ambienteId = new IntegerExpression("ambiente.attribute", this.getDetachedCriteria());
+		ambiente = new AssociationExpression("ambiente", this.getDetachedCriteria());
 		descrizioneId = new IntegerExpression("descrizione.ID", this.getDetachedCriteria());
 		descrizione = new AssociationExpression("descrizione", this.getDetachedCriteria());
+		stato = new StringExpression("stato", this.getDetachedCriteria());
+		data_prossima_operazione = new DateExpression("data_prossima_operazione", this.getDetachedCriteria());
 		areaId = new IntegerExpression("area.ID", this.getDetachedCriteria());
 		area = new AssociationExpression("area", this.getDetachedCriteria());
-		impiegato = new CollectionExpression("ORM_Impiegato", this.getDetachedCriteria());
+		impiegati = new CollectionExpression("ORM_Impiegati", this.getDetachedCriteria());
 	}
 	
 	public ColtivazioneDetachedCriteria(DetachedCriteria aDetachedCriteria) {
 		super(aDetachedCriteria, packagediagramdesktopcomponent.model.ColtivazioneCriteria.class);
 		ID = new IntegerExpression("ID", this.getDetachedCriteria());
-		stato = new StringExpression("stato", this.getDetachedCriteria());
-		data_prossima_operazione = new DateExpression("data_prossima_operazione", this.getDetachedCriteria());
+		ambienteId = new IntegerExpression("ambiente.attribute", this.getDetachedCriteria());
+		ambiente = new AssociationExpression("ambiente", this.getDetachedCriteria());
 		descrizioneId = new IntegerExpression("descrizione.ID", this.getDetachedCriteria());
 		descrizione = new AssociationExpression("descrizione", this.getDetachedCriteria());
+		stato = new StringExpression("stato", this.getDetachedCriteria());
+		data_prossima_operazione = new DateExpression("data_prossima_operazione", this.getDetachedCriteria());
 		areaId = new IntegerExpression("area.ID", this.getDetachedCriteria());
 		area = new AssociationExpression("area", this.getDetachedCriteria());
-		impiegato = new CollectionExpression("ORM_Impiegato", this.getDetachedCriteria());
+		impiegati = new CollectionExpression("ORM_Impiegati", this.getDetachedCriteria());
 	}
 	
-	public packagediagramdesktopcomponent.model.DescrizioneColtivazioneDetachedCriteria createDescrizioneCriteria() {
-		return new packagediagramdesktopcomponent.model.DescrizioneColtivazioneDetachedCriteria(createCriteria("descrizione"));
+	public AmbienteDetachedCriteria createAmbienteCriteria() {
+		return new AmbienteDetachedCriteria(createCriteria("ambiente"));
 	}
 	
-	public packagediagramdesktopcomponent.model.AreaColtivataDetachedCriteria createAreaCriteria() {
-		return new packagediagramdesktopcomponent.model.AreaColtivataDetachedCriteria(createCriteria("area"));
+	public DescrizioneColtivazioneDetachedCriteria createDescrizioneCriteria() {
+		return new DescrizioneColtivazioneDetachedCriteria(createCriteria("descrizione"));
 	}
 	
-	public packagediagramdesktopcomponent.model.ImpiegatoDetachedCriteria createImpiegatoCriteria() {
-		return new packagediagramdesktopcomponent.model.ImpiegatoDetachedCriteria(createCriteria("ORM_Impiegato"));
+	public AreaColtivataDetachedCriteria createAreaCriteria() {
+		return new AreaColtivataDetachedCriteria(createCriteria("area"));
+	}
+	
+	public packagediagramdesktopcomponent.model.ImpiegatoDetachedCriteria createImpiegatiCriteria() {
+		return new packagediagramdesktopcomponent.model.ImpiegatoDetachedCriteria(createCriteria("ORM_Impiegati"));
 	}
 	
 	public Coltivazione uniqueColtivazione(PersistentSession session) {

@@ -41,9 +41,9 @@ public class ControllerFacade {
 		
 	}
 	
-	public static DettagliBusiness getParametriTarget(int idAmbiente)
+	public static DettagliBusiness getParametriAmbiente(int idAmbiente)
 	{
-		return ControllerParametriAmbientali.getParametriTarget(idAmbiente);
+		return ControllerParametriAmbientali.getParametriAmbiente(idAmbiente);
 	}
 
 	public static void sendClosedMex(int idAmbiente, int sez)

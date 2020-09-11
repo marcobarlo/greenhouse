@@ -14,21 +14,44 @@ public class Configurazione {
 	private float umiTarget;
 	private float irrTarget;
 
-	Configurazione(int id, String mac,int sez, float sTemp, float sUmi, float sIrr)
+	Configurazione(int id, String mac,int sez)
 	{
 		this.id=id;
 		this.mac= mac;
 		this.sezione= sez;
-		this.sogliaTemp = sTemp;
-		this.sogliaUmi = sUmi;
-		this.sogliaIrr = sIrr;
-		DettagliBusiness dett =ControllerFacade.getParametriTarget(id);
+		DettagliBusiness dett =ControllerFacade.getParametriAmbiente(id);
 		if(dett != null)
 		{
 			this.tempTarget = dett.getTemperatura_target();
 			this.umiTarget = dett.getUmidita_target();
 			this.irrTarget = dett.getUmidita_target();
+			this.sogliaIrr = dett.getSogliaIrr();
+			this.sogliaTemp= dett.getSogliaTemp();
+			this.sogliaUmi = dett.getSogliaUmi();
 		}
+	}
+	public float getSogliaTemp() {
+		return sogliaTemp;
+	}
+
+	public void setSogliaTemp(float sogliaTemp) {
+		this.sogliaTemp = sogliaTemp;
+	}
+
+	public float getSogliaUmi() {
+		return sogliaUmi;
+	}
+
+	public void setSogliaUmi(float sogliaUmi) {
+		this.sogliaUmi = sogliaUmi;
+	}
+
+	public float getSogliaIrr() {
+		return sogliaIrr;
+	}
+
+	public void setSogliaIrr(float sogliaIrr) {
+		this.sogliaIrr = sogliaIrr;
 	}
 	
 	public int getId() {

@@ -2,7 +2,7 @@ package packagediagramdesktopcomponent.Business_Logic;
 
 import java.util.*;
 
-public class ColtivazioneBusiness {
+public class ColtivazioneBusiness implements Comparator<ColtivazioneBusiness> {
 	private int ID_coltivazione;
 	private int sezione;
 	private int fila;
@@ -15,6 +15,11 @@ public class ColtivazioneBusiness {
 	public ColtivazioneBusiness() 
 	{
 		
+	}
+	
+	public int compare(ColtivazioneBusiness a, ColtivazioneBusiness b)
+	{
+		return a.ID_coltivazione - b.ID_coltivazione;
 	}
 	
 	public ColtivazioneBusiness(int ID_colt, int sezione, int fila, int posizione, String tipo, String stato, Date data) 

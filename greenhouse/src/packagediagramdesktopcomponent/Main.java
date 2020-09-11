@@ -68,27 +68,18 @@ public class Main {
 			{
 				Element eElement = (Element) nNode;
 				int id=0,sez=0;
-				float sTemp=0, sUmi=0, sIrr =0;
 				
 				id=  parseInt(eElement, "ID");
 				sez= parseInt(eElement, "sezione");
-				sTemp = parseFloat(eElement, "sogliaTemp");
-				sUmi  = parseFloat(eElement, "sogliaUmi");
-				sIrr  = parseFloat(eElement, "sogliaIrr");
 				
 				String mac =eElement.getElementsByTagName("mac").item(0).getTextContent();
 				mac=mac.replaceAll(":", "").replaceAll("-", "");
 				
 				//System.out.println("Main : ID : " + id + "- mac :"+ mac);
-				Configurazione c = new Configurazione(id, mac, sez,  sTemp,  sUmi,  sIrr);
+				Configurazione c = new Configurazione(id, mac, sez);
 				conn.sendSetUp(c);
 			}
 		}
-	}
-	private static Float parseFloat(Element eElement, String name) {
-		try {return Float.parseFloat(eElement.getElementsByTagName(name).item(0).getTextContent().replaceAll(" ", ""));}
-		catch(NumberFormatException e)
-		{e.printStackTrace(); System.out.println("File di configurazione errato!!!!"); return null;}
 	}
 	private static Integer parseInt(Element eElement, String name) {
 		try {return Integer.parseInt(eElement.getElementsByTagName(name).item(0).getTextContent().replaceAll(" ", ""));}

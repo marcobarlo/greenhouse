@@ -37,7 +37,7 @@ public class CreateGreenhouseData {
 			if(i<5)
 				sez1 = Sezione.createSezione();
 			else
-				sez1 = Sezione.getSezioneByORMID(i%5);
+				sez1 = Sezione.getSezioneByORMID(i%5+1);
 			// TODO Initialize the properties of the persistent object here, the following properties must be initialized before saving : aree, 
 			AreaColtivata a1 = AreaColtivata.createAreaColtivata();
 			a1.setPosizione(i);
@@ -57,8 +57,14 @@ public class CreateGreenhouseData {
 			amb1.setIrradianzaTarget((float) 7.8*i/5);
 			amb1.setTemperaturaTarget((float) 23.3*i/5);
 			amb1.setUmiditaSuoloTarget(78*i/5);
+			amb1.setSogliaTemp((float)1.5*i/4);
+			amb1.setSogliaUmi((float)4.1*i/4);
+			amb1.setSogliaIrr((float)1503.2*i/4);
 			
 			Ambiente amb2 = Ambiente.createAmbiente();
+			amb2.setSogliaTemp((float)1.5);
+			amb2.setSogliaUmi((float)4.1);
+			amb2.setSogliaIrr((float)1503.2);
 			amb2.setIrradianzaTarget((float) 9.5*i/5);
 			amb2.setTemperaturaTarget((float) 30.1*i/5);
 			amb2.setUmiditaSuoloTarget(60*i/5);
@@ -79,8 +85,7 @@ public class CreateGreenhouseData {
 				d2 = DescrizioneColtivazione.getDescrizioneColtivazioneByORMID(2);
 			}
 			
-			a1.setAmbiente(amb1);
-			a2.setAmbiente(amb2);
+
 			
 			Impiegato i1 = Impiegato.createImpiegato();
 			i1.setEmail("hehehe@lol.sguoz");
@@ -124,6 +129,9 @@ public class CreateGreenhouseData {
 				c1.setDescrizione(d1);
 				c2.setDescrizione(d2);
 
+				c1.setAmbiente(amb1);
+				c2.setAmbiente(amb2);
+				
 				c1.save();
 				c2.save();
 

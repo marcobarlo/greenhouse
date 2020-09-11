@@ -9,18 +9,18 @@ public class DeleteGreenhouseData {
 	public void deleteTestData() throws PersistentException {
 		PersistentTransaction t = packagediagramdesktopcomponent.model.GreenhousePersistentManager.instance().getSession().beginTransaction();
 		try {
-			packagediagramdesktopcomponent.model.Sezione lpackageDiagramDesktopComponentModelSezione = packagediagramdesktopcomponent.model.Sezione.loadSezioneByQuery(null, null);
-			lpackageDiagramDesktopComponentModelSezione.delete();
-			packagediagramdesktopcomponent.model.AreaColtivata lpackageDiagramDesktopComponentModelAreaColtivata = packagediagramdesktopcomponent.model.AreaColtivata.loadAreaColtivataByQuery(null, null);
-			lpackageDiagramDesktopComponentModelAreaColtivata.delete();
-			packagediagramdesktopcomponent.model.Coltivazione lpackageDiagramDesktopComponentModelColtivazione = packagediagramdesktopcomponent.model.Coltivazione.loadColtivazioneByQuery(null, null);
-			lpackageDiagramDesktopComponentModelColtivazione.delete();
-			packagediagramdesktopcomponent.model.Ambiente lpackageDiagramDesktopComponentModelAmbiente = packagediagramdesktopcomponent.model.Ambiente.loadAmbienteByQuery(null, null);
-			lpackageDiagramDesktopComponentModelAmbiente.delete();
-			packagediagramdesktopcomponent.model.Impiegato lpackageDiagramDesktopComponentModelImpiegato = packagediagramdesktopcomponent.model.Impiegato.loadImpiegatoByQuery(null, null);
-			lpackageDiagramDesktopComponentModelImpiegato.delete();
-			packagediagramdesktopcomponent.model.DescrizioneColtivazione lpackageDiagramDesktopComponentModelDescrizioneColtivazione = packagediagramdesktopcomponent.model.DescrizioneColtivazione.loadDescrizioneColtivazioneByQuery(null, null);
-			lpackageDiagramDesktopComponentModelDescrizioneColtivazione.delete();
+			packagediagramdesktopcomponent.model.Sezione lpackagediagramdesktopcomponentModelSezione = packagediagramdesktopcomponent.model.Sezione.loadSezioneByQuery(null, null);
+			lpackagediagramdesktopcomponentModelSezione.delete();
+			packagediagramdesktopcomponent.model.AreaColtivata lpackagediagramdesktopcomponentModelAreaColtivata = packagediagramdesktopcomponent.model.AreaColtivata.loadAreaColtivataByQuery(null, null);
+			lpackagediagramdesktopcomponentModelAreaColtivata.delete();
+			packagediagramdesktopcomponent.model.Coltivazione lpackagediagramdesktopcomponentModelColtivazione = packagediagramdesktopcomponent.model.Coltivazione.loadColtivazioneByQuery(null, null);
+			lpackagediagramdesktopcomponentModelColtivazione.delete();
+			packagediagramdesktopcomponent.model.DescrizioneColtivazione lpackagediagramdesktopcomponentModelDescrizioneColtivazione = packagediagramdesktopcomponent.model.DescrizioneColtivazione.loadDescrizioneColtivazioneByQuery(null, null);
+			lpackagediagramdesktopcomponentModelDescrizioneColtivazione.delete();
+			packagediagramdesktopcomponent.model.Impiegato lpackagediagramdesktopcomponentModelImpiegato = packagediagramdesktopcomponent.model.Impiegato.loadImpiegatoByQuery(null, null);
+			lpackagediagramdesktopcomponentModelImpiegato.delete();
+			packagediagramdesktopcomponent.model.Ambiente lpackagediagramdesktopcomponentModelAmbiente = packagediagramdesktopcomponent.model.Ambiente.loadAmbienteByQuery(null, null);
+			lpackagediagramdesktopcomponentModelAmbiente.delete();
 			t.commit();
 		}
 		catch (Exception e) {

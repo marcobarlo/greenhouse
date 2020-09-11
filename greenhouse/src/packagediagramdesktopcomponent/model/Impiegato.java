@@ -15,6 +15,7 @@ package packagediagramdesktopcomponent.model;
 
 import org.orm.*;
 import org.hibernate.Query;
+import org.hibernate.LockMode;
 import java.util.List;
 
 public class Impiegato {
@@ -379,11 +380,6 @@ public class Impiegato {
 	
 	public String getEmail() {
 		return email;
-	}
-	
-	public void getColtivazioni() {
-		//TODO: Implement Method
-		throw new UnsupportedOperationException();
 	}
 	
 	public String toString() {

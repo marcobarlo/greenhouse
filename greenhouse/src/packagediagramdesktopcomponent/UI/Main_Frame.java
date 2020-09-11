@@ -91,8 +91,10 @@ public class Main_Frame extends JFrame {
 	@Subscribe(threadMode = ThreadMode.BACKGROUND)
 	public void onEvent(MexAllarme event)
 	{
-		JOptionPane optionPane = new JOptionPane(event.getMex() + "-----Ambiente : "+ event.getIdAmbiente(), JOptionPane.WARNING_MESSAGE);
-		JDialog dialog = optionPane.createDialog(null, event.getMex() + "-----Ambiente : "+ event.getIdAmbiente());
+		JOptionPane optionPane = new JOptionPane(event.getMex() + "\nAmbiente : "+ event.getIdAmbiente()+
+				" \nSezione: "+event.getIdSez()+ " \nColtivazione: "+event.getIdColt()+" -"+event.getTipo(), JOptionPane.WARNING_MESSAGE);
+		JDialog dialog = optionPane.createDialog(null, event.getMex() + "\nAmbiente : "+ event.getIdAmbiente()+
+				" \nSezione: "+event.getIdSez()+ " \nColtivazione: "+event.getIdColt()+" -"+event.getTipo());
 		dialog.setModal(false);
 		dialog.setTitle("Attenzione! Malfunzionamento!");
 		dialog.setVisible(true);

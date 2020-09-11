@@ -15,6 +15,7 @@ package packagediagramdesktopcomponent.model;
 
 import org.orm.*;
 import org.hibernate.Query;
+import org.hibernate.LockMode;
 import java.util.List;
 
 public class Ambiente {
@@ -365,6 +366,12 @@ public class Ambiente {
 	
 	private float umiditaSuoloTarget;
 	
+	private float sogliaTemp;
+	
+	private float sogliaIrr;
+	
+	private float sogliaUmi;
+	
 	private AmbienteAttuale ambienteAttuale;
 	
 	private void setID(int value) {
@@ -377,20 +384,6 @@ public class Ambiente {
 	
 	public int getORMID() {
 		return getID();
-	}
-	
-	public boolean modificaAmbiente(Float temperatura, Float umidita, Float irradianza) {
-		this.setTemperaturaTarget(temperatura);
-		this.setUmiditaSuoloTarget(umidita);
-		this.setIrradianzaTarget(irradianza);
-		try {
-			PersistentTransaction sess = GreenhousePersistentManager.instance().getSession().beginTransaction();
-			this.save();
-			sess.commit();
-		} catch (PersistentException e) {
-			return false;
-		}
-		return true;
 	}
 	
 	public void setTemperaturaTarget(float value) {
@@ -417,10 +410,30 @@ public class Ambiente {
 		return umiditaSuoloTarget;
 	}
 	
-	public String toString() {
-		return String.valueOf(getID());
+	public void setSogliaTemp(float value) {
+		this.sogliaTemp = value;
 	}
-
+	
+	public float getSogliaTemp() {
+		return sogliaTemp;
+	}
+	
+	public void setSogliaIrr(float value) {
+		this.sogliaIrr = value;
+	}
+	
+	public float getSogliaIrr() {
+		return sogliaIrr;
+	}
+	
+	public void setSogliaUmi(float value) {
+		this.sogliaUmi = value;
+	}
+	
+	public float getSogliaUmi() {
+		return sogliaUmi;
+	}
+	
 	public void modificaAmbienteAttuale(float temperatura, float umidita, float irradianza) {
 		if(ambienteAttuale == null)
 		{
@@ -431,4 +444,24 @@ public class Ambiente {
 			ambienteAttuale.setParametriAttuali(temperatura, umidita, irradianza);
 		}
 	}
+	
+	public boolean modificaAmbiente(float temperatura, float umidita, float irradianza) {
+		this.setTemperaturaTarget(temperatura);
+		this.setUmiditaSuoloTarget(umidita);
+		this.setIrradianzaTarget(irradianza);
+		try {
+			PersistentTransaction sess = GreenhousePersistentManager.instance().getSession().beginTransaction();
+			this.save();
+			sess.commit();
+		} catch (PersistentException e) {
+			return false;
+		}
+		return true;
+	}
+	
+	
+	public String toString() {
+		return String.valueOf(getID());
+	}
+	
 }

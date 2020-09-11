@@ -3,10 +3,12 @@ package packagediagramdesktopcomponent.Business_Logic;
 import packagediagramdesktopcomponent.Connection.*;
 
 import org.greenrobot.eventbus.EventBus;
+import org.hibernate.criterion.Restrictions;
 import org.orm.PersistentException;
 
 import packagediagramdesktopcomponent.model.Ambiente;
 import packagediagramdesktopcomponent.model.Coltivazione;
+import packagediagramdesktopcomponent.model.ColtivazioneCriteria;
 
 public class ControllerParametriAmbientali {
 
@@ -57,7 +59,7 @@ public class ControllerParametriAmbientali {
 		}	
 	}
 
-	public static DettagliBusiness getParametriTarget(int idAmbiente)
+	public static DettagliBusiness getParametriAmbiente(int idAmbiente)
 	{
 		DettagliBusiness b;
 		try {
@@ -65,6 +67,9 @@ public class ControllerParametriAmbientali {
 			if(a != null)
 			{
 				b=new DettagliBusiness(null, a.getTemperaturaTarget(),a.getUmiditaSuoloTarget(), a.getIrradianzaTarget(),a.getID());
+				b.setSogliaTemp(a.getSogliaTemp());
+				b.setSogliaIrr(a.getSogliaIrr());
+				b.setSogliaUmi(a.getSogliaUmi());
 				return b;
 			}else
 				return null;
@@ -83,6 +88,22 @@ public class ControllerParametriAmbientali {
 
 	public static void sendAllarme(int idAmbiente, String mex)
 	{
-		EventBus.getDefault().post(new MexAllarme(idAmbiente,mex));
+		try {
+			Coltivazione[] colt = Coltivazione.getColtivazioneByAmbienteID(idAmbiente);
+			MexAllarme m = new MexAllarme(idAmbiente,mex);
+			if(colt.length>0)
+			{
+				int idSez =colt[0].getSezione();
+				int idColt =colt[0].getID();
+				String tipo = colt[0].getTipo();
+				m.setTipo(tipo);
+				m.setIdSez(idSez);
+				m.setIdColt(idColt);
+			}
+			EventBus.getDefault().post(m);	
+		} catch (PersistentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

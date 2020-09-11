@@ -106,7 +106,7 @@ public class Coltivazione_tab extends JFrame {
 			}
 		});
 		modificaAmbientebutton.setHorizontalAlignment(SwingConstants.RIGHT);
-		modificaAmbientebutton.setBounds(248, 351, 187, 32);
+		modificaAmbientebutton.setBounds(200, 351, 249, 32);
 		contentPane.add(modificaAmbientebutton);
 		
 		lblUmiAttuale = new JLabel("Umidit\u00E0 attuale: In attesa...");

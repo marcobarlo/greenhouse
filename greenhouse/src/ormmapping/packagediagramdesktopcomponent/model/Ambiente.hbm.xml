@@ -13,5 +13,8 @@ License Type: Evaluation
 		<property name="temperaturaTarget" column="TemperaturaTarget" type="float" not-null="false" lazy="false"/>
 		<property name="irradianzaTarget" column="IrradianzaTarget" type="float" not-null="false" lazy="false"/>
 		<property name="umiditaSuoloTarget" column="UmiditaSuoloTarget" type="float" not-null="false" lazy="false"/>
+		<property name="sogliaTemp" column="SogliaTemp" type="float" not-null="true" lazy="false"/>
+		<property name="sogliaIrr" column="SogliaIrr" type="float" not-null="true" lazy="false"/>
+		<property name="sogliaUmi" column="SogliaUmi" type="float" not-null="true" lazy="false"/>
 	</class>
 </hibernate-mapping>

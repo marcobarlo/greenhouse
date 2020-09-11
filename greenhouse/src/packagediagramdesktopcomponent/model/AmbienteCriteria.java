@@ -23,6 +23,9 @@ public class AmbienteCriteria extends AbstractORMCriteria {
 	public final FloatExpression temperaturaTarget;
 	public final FloatExpression irradianzaTarget;
 	public final FloatExpression umiditaSuoloTarget;
+	public final FloatExpression sogliaTemp;
+	public final FloatExpression sogliaIrr;
+	public final FloatExpression sogliaUmi;
 	
 	public AmbienteCriteria(Criteria criteria) {
 		super(criteria);
@@ -30,6 +33,9 @@ public class AmbienteCriteria extends AbstractORMCriteria {
 		temperaturaTarget = new FloatExpression("temperaturaTarget", this);
 		irradianzaTarget = new FloatExpression("irradianzaTarget", this);
 		umiditaSuoloTarget = new FloatExpression("umiditaSuoloTarget", this);
+		sogliaTemp = new FloatExpression("sogliaTemp", this);
+		sogliaIrr = new FloatExpression("sogliaIrr", this);
+		sogliaUmi = new FloatExpression("sogliaUmi", this);
 	}
 	
 	public AmbienteCriteria(PersistentSession session) {
