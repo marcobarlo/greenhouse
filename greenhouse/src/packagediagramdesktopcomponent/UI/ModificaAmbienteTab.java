@@ -156,7 +156,7 @@ public class ModificaAmbienteTab extends JFrame {
 							}
 							else
 							{
-								String error = new String("Problemi nel salvataggio dei parametri per le coltivazioni ");
+								String error = new String("Problemi nel salvataggio dei parametri per le coltivazioni con ID:");
 								for(int i = 0; i < IDColtivazioni.size(); i++) 
 								{
 									if(retval.get(i)==false)

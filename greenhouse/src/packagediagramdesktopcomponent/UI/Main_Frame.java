@@ -4,8 +4,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.util.List;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -29,16 +28,21 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.Component;
+import javax.swing.Box;
 
 public class Main_Frame extends JFrame {
 
 	/**
 	 * 
 	 */
+	private JLabel lblWelcome;
+	private JLabel lblError;
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtMail;
 	private JTextField txtPass;
+	private JButton btnLogOut;
 
 	/**
 	 * Launch the application.
@@ -80,25 +84,25 @@ public class Main_Frame extends JFrame {
 		setContentPane(contentPane);
 
 		Frame frame = this;
+		contentPane.setLayout(null);
 		
-		getContentPane().setLayout(null);
 		
-		
-		JLabel lblWelcome = new JLabel("New label");
+		lblWelcome = new JLabel("New label");
+		lblWelcome.setBounds(422, 371, 502, 28);
 		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWelcome.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblWelcome.setBounds(422, 371, 502, 28);
 		contentPane.add(lblWelcome);
 		lblWelcome.setVisible(false);
 		
-		JLabel lblError = new JLabel("New label");
+		lblError = new JLabel("New label");
+		lblError.setBounds(422, 328, 502, 82);
 		lblError.setHorizontalAlignment(SwingConstants.CENTER);
 		lblError.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblError.setBounds(422, 328, 502, 82);
 		contentPane.add(lblError);
 		lblError.setVisible(false);
 		
 		JButton searchButton = new JButton("Cerca una coltivazione");
+		searchButton.setBounds(34, 27, 163, 23);
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				lblError.setVisible(false);
@@ -107,19 +111,18 @@ public class Main_Frame extends JFrame {
 			}
 		});
 		contentPane.setLayout(null);
-		searchButton.setBounds(34, 27, 163, 23);
 		getContentPane().add(searchButton);
 		
 		JLabel lblMail = new JLabel("Email:");
+		lblMail.setBounds(433, 191, 109, 28);
 		lblMail.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblMail.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblMail.setBounds(433, 191, 109, 28);
 		contentPane.add(lblMail);
 		
 		JLabel lblPassword = new JLabel("Password:");
+		lblPassword.setBounds(433, 234, 109, 28);
 		lblPassword.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblPassword.setBounds(433, 234, 109, 28);
 		contentPane.add(lblPassword);
 		
 		txtMail = new JTextField();
@@ -132,7 +135,8 @@ public class Main_Frame extends JFrame {
 		contentPane.add(txtPass);
 		txtPass.setColumns(10);
 		
-		JButton btnLogOut = new JButton("Log Out");
+		btnLogOut = new JButton("Log Out");
+		btnLogOut.setBounds(278, 27, 163, 23);
 		btnLogOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				lblError.setVisible(false);
@@ -140,7 +144,6 @@ public class Main_Frame extends JFrame {
 				lblWelcome.setVisible(true);
 				ControllerFacade.logOut();
 				btnLogOut.setVisible(false);
-				//contentPane.dispatchEvent(new WindowEvent(,WindowEvent.WINDOW_CLOSED));
 				Frame[] lf=Frame.getFrames();
 				for(Frame f : lf)
 				{
@@ -149,44 +152,29 @@ public class Main_Frame extends JFrame {
 				}
 			}
 		});
-		btnLogOut.setBounds(277, 27, 163, 23);
 		btnLogOut.setVisible(false);
 		contentPane.add(btnLogOut);
 
 		
 		JButton btnLogin = new JButton("Log in");
+		btnLogin.setBounds(600, 297, 155, 23);
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				lblError.setVisible(false);
-				lblWelcome.setVisible(false);
-				String mail= txtMail.getText();
-				String pass= txtPass.getText();
-				if(mail.equals("") || pass.equals(""))
-				{
-					lblError.setText("Errore! Inserisci i campi mail e password!");
-					lblError.setVisible(true);
-				}
-				else
-				{
-					String role=ControllerFacade.login(mail,pass);
-					if(role!=null)
-					{
-						lblWelcome.setText("Benvenuto "+role+" "+ mail);
-						lblWelcome.setVisible(true);
-						btnLogOut.setVisible(true);
-					}
-					else
-					{
-						lblError.setText("Email o password errati!");
-						lblError.setVisible(true);					
-						btnLogOut.setVisible(false);
-					}
-				}
+				loginHandler(lblWelcome, lblError, btnLogOut);
 			}
 		});
-		btnLogin.setBounds(600, 297, 155, 23);
 		contentPane.add(btnLogin);
+		
+		this.getRootPane().setDefaultButton(btnLogin);
+		
+		Component rigidArea = Box.createRigidArea(new Dimension(20, 20));
+		rigidArea.setBounds(195, 0, 85, 50);
+		contentPane.add(rigidArea);
+		
+		Component horizontalStrut = Box.createHorizontalStrut(20);
+		horizontalStrut.setBounds(0, 30, 36, 20);
+		contentPane.add(horizontalStrut);
 		
 		EventBus.getDefault().register(this);
 		
@@ -213,5 +201,33 @@ public class Main_Frame extends JFrame {
 		dialog.setModal(false);
 		dialog.setTitle("Attenzione! Malfunzionamento!");
 		dialog.setVisible(true);
+	}
+
+	private void loginHandler(JLabel lblWelcome, JLabel lblError, JButton btnLogOut) {
+		lblError.setVisible(false);
+		lblWelcome.setVisible(false);
+		String mail= txtMail.getText();
+		String pass= txtPass.getText();
+		if(mail.equals("") || pass.equals(""))
+		{
+			lblError.setText("Errore! Inserisci i campi mail e password!");
+			lblError.setVisible(true);
+		}
+		else
+		{
+			String role=ControllerFacade.login(mail,pass);
+			if(role!=null)
+			{
+				lblWelcome.setText("Benvenuto "+role+" "+ mail);
+				lblWelcome.setVisible(true);
+				btnLogOut.setVisible(true);
+			}
+			else
+			{
+				lblError.setText("Email o password errati!");
+				lblError.setVisible(true);					
+				btnLogOut.setVisible(false);
+			}
+		}
 	}
 }

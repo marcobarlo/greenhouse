@@ -23,7 +23,7 @@ public class ControllerParametriAmbientali {
 		try {			
 			if(temperatura == null || umidita == null || irradianza == null)
 			{
-				DettagliBusiness dbus = ControllerColtivazioni.getDettagliColtivazione(id);
+				DettagliBusiness dbus = ControllerColtivazioni.getDettagliBusiness(id);
 				if(temperatura == null)
 					temperatura = dbus.getTemperatura_target();
 				if(umidita == null)

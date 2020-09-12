@@ -56,5 +56,18 @@ public class ControllerColtivazioni {
 			return null;
 		}	
 	}
+	
+	protected static DettagliBusiness getDettagliBusiness(int id)
+	{
+		Coltivazione colt;
+		try {
+			colt = Coltivazione.getColtivazioneByORMID(id);
+			int amb = colt.getIDAmbiente();
+			DettagliBusiness b = new DettagliBusiness(colt.getDescrizione(),colt.getTemperaturaTarget(),colt.getUmiditaTarget(),colt.getIrradianzaTarget(),amb);
+			return b;
+		} catch (PersistentException e) {
+			return null;
+		}
+	}
 
 }
