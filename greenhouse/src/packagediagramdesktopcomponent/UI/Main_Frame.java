@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -21,6 +23,8 @@ import packagediagramdesktopcomponent.Business_Logic.ControllerFacade;
 import packagediagramdesktopcomponent.Connection.MexAllarme;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Frame;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import java.awt.Rectangle;
@@ -75,6 +79,7 @@ public class Main_Frame extends JFrame {
 		contentPane.setBounds(new Rectangle(100, 100, screenSize.width, screenSize.height));
 		setContentPane(contentPane);
 
+		Frame frame = this;
 		
 		getContentPane().setLayout(null);
 		
@@ -127,6 +132,28 @@ public class Main_Frame extends JFrame {
 		contentPane.add(txtPass);
 		txtPass.setColumns(10);
 		
+		JButton btnLogOut = new JButton("Log Out");
+		btnLogOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				lblError.setVisible(false);
+				lblWelcome.setText("Hai eseguito il log out!");
+				lblWelcome.setVisible(true);
+				ControllerFacade.logOut();
+				btnLogOut.setVisible(false);
+				//contentPane.dispatchEvent(new WindowEvent(,WindowEvent.WINDOW_CLOSED));
+				Frame[] lf=Frame.getFrames();
+				for(Frame f : lf)
+				{
+					if(!f.equals(frame))
+						f.dispose();
+				}
+			}
+		});
+		btnLogOut.setBounds(277, 27, 163, 23);
+		btnLogOut.setVisible(false);
+		contentPane.add(btnLogOut);
+
+		
 		JButton btnLogin = new JButton("Log in");
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLogin.addActionListener(new ActionListener() {
@@ -147,30 +174,19 @@ public class Main_Frame extends JFrame {
 					{
 						lblWelcome.setText("Benvenuto "+role+" "+ mail);
 						lblWelcome.setVisible(true);
+						btnLogOut.setVisible(true);
 					}
 					else
 					{
 						lblError.setText("Email o password errati!");
-						lblError.setVisible(true);
+						lblError.setVisible(true);					
+						btnLogOut.setVisible(false);
 					}
 				}
 			}
 		});
 		btnLogin.setBounds(600, 297, 155, 23);
 		contentPane.add(btnLogin);
-		
-		JButton btnLogOut = new JButton("Log Out");
-		btnLogOut.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				lblError.setVisible(false);
-				lblWelcome.setText("Hai eseguito il log out!");
-				lblWelcome.setVisible(true);
-				ControllerFacade.logOut();
-			}
-		});
-		btnLogOut.setBounds(277, 27, 163, 23);
-		contentPane.add(btnLogOut);
-
 		
 		EventBus.getDefault().register(this);
 		

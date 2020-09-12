@@ -15,6 +15,8 @@ package packagediagramdesktopcomponent.model;
 
 import org.orm.*;
 
+import packagediagramdesktopcomponent.Encryption_Utils.Encryption;
+
 import org.hibernate.Query;
 import org.hibernate.LockMode;
 import java.util.List;
@@ -407,10 +409,16 @@ public class Impiegato {
 		try {
 			ImpiegatoCriteria crit=new ImpiegatoCriteria();
 			crit.email.eq(mail);
-			crit.password.eq(password);
 			Impiegato[] imp=crit.listImpiegato();
+			String hash;
 			if(imp.length>0)
-				return imp[0].getRuolo();
+			{
+				hash=imp[0].getPassword();
+				if(Encryption.checkPassword(password, hash))
+					return imp[0].getRuolo();
+				else
+					return null;
+			}
 			else 
 				return null;
 		} catch (PersistentException e) {
