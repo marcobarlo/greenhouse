@@ -59,5 +59,12 @@ public class ControllerFacade {
 	{
 		return ControllerUtenti.login(mail,pass);
 	}
-	
+	public static String getSessionRole()
+	{
+		return ControllerUtenti.getSessionRole();
+	}
+
+	public static void logOut() {
+		ControllerUtenti.logOut();
+	}
 }

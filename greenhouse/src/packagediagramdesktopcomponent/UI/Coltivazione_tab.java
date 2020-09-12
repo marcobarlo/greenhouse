@@ -38,7 +38,7 @@ public class Coltivazione_tab extends JFrame {
 	 */
 	public Coltivazione_tab(ColtivazioneBusiness colt) throws PersistentException {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 681, 437);
+		setBounds(100, 100, 690, 490);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -84,29 +84,44 @@ public class Coltivazione_tab extends JFrame {
 		dettagli.setBounds(248, 25, 187, 25);
 		contentPane.add(dettagli);
 		
+		JLabel lblError = new JLabel("New label");
+		lblError.setHorizontalAlignment(SwingConstants.CENTER);
+		lblError.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblError.setBounds(101, 414, 486, 25);
+		contentPane.add(lblError);
+		lblError.setVisible(false);
 		
 		JLabel errorLabel = new JLabel("<html>Oops! Si è verificato un errore<br>si prega chiudere la finestra<br>");
 		errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		errorLabel.setFont(new Font("Tahoma", Font.BOLD, 26));
 		errorLabel.setBounds(183, 121, 345, 125);
 		contentPane.add(errorLabel);
+		errorLabel.setVisible(false);
 		
 		JButton modificaAmbientebutton = new JButton("Modifica Parametri Ambientali");
 		modificaAmbientebutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					
-					List<Integer> colts = new ArrayList<Integer>();
-					colts.add( colt.getID_coltivazione());
-					ModificaAmbienteTab mod = new ModificaAmbienteTab(colts);
-					mod.setVisible(true);
-				} catch (Exception e1) {
-					e1.printStackTrace();
+				lblError.setVisible(false);
+				String role= ControllerFacade.getSessionRole();
+				if(role!=null && role.equals("agronomo"))
+				{
+					try {
+						List<Integer> colts = new ArrayList<Integer>();
+						colts.add( colt.getID_coltivazione());
+						ModificaAmbienteTab mod = new ModificaAmbienteTab(colts);
+						mod.setVisible(true);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+				else
+				{
+					lblError.setText("Non hai i permessi per farlo, autenticati come agronomo!");
+					lblError.setVisible(true);
 				}
 			}
 		});
-		modificaAmbientebutton.setHorizontalAlignment(SwingConstants.RIGHT);
-		modificaAmbientebutton.setBounds(200, 351, 249, 32);
+		modificaAmbientebutton.setBounds(204, 371, 249, 32);
 		contentPane.add(modificaAmbientebutton);
 		
 		lblUmiAttuale = new JLabel("Umidit\u00E0 attuale: In attesa...");
@@ -120,11 +135,11 @@ public class Coltivazione_tab extends JFrame {
 		lblTempAttuale = new JLabel("Temperatura Attuale: In attesa...");
 		lblTempAttuale.setBounds(462, 326, 163, 14);
 		contentPane.add(lblTempAttuale);
-		errorLabel.setVisible(false);
 		
 		dett= ControllerFacade.getDettagliColtivazione(colt.getID_coltivazione());
 		if (dett == null) 
 		{
+			errorLabel.setText("<html>Oops! Si è verificato un errore<br>si prega chiudere la finestra<br>");
 			errorLabel.setVisible(true);
 		}
 		else
@@ -147,7 +162,7 @@ public class Coltivazione_tab extends JFrame {
 		    {
 				EventBus.getDefault().unregister(this);
 				ControllerFacade.sendClosedMex(dett.getIdAmbiente(), colt.getSezione());
-				System.out.println("Mi deregistro");
+				//System.out.println("Mi deregistro");
 		        e.getWindow().dispose();
 		    }
 		});

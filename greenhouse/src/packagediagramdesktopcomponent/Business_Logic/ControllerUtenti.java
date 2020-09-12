@@ -33,4 +33,10 @@ public class ControllerUtenti {
 	    }
 	    return hexString.toString();
 	}
+	protected static String getSessionRole() {
+		return session;
+	}
+	public static void logOut() {
+		session=null;
+	}
 }

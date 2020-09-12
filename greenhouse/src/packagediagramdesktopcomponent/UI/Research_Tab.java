@@ -21,6 +21,7 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 
 import packagediagramdesktopcomponent.Business_Logic.*;
+import java.awt.Font;
 
 
 public class Research_Tab extends JFrame {
@@ -240,29 +241,39 @@ public class Research_Tab extends JFrame {
 				}
 			}
 		});
-		mostra.setBounds(36, 374, 175, 23);
+		mostra.setBounds(36, 374, 211, 23);
 		contentPane.add(mostra);
 		
 		JButton modificaParamAmb = new JButton("Modifica Parametri Ambientali");
+		modificaParamAmb.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		modificaParamAmb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				lblError.setVisible(false);
-				int rows[] = table.getSelectedRows();
-				List<Integer> ids = new ArrayList<Integer>();
-				if(rows.length>0) 
+				String role=ControllerFacade.getSessionRole();
+				if(role!=null && role.equals("agronomo"))
 				{
-					for(int i=0 ; i< rows.length; i++)
-						ids.add(colts.get(rows[i]).getID_coltivazione());
-					try {
-						ModificaAmbienteTab frame2 = new ModificaAmbienteTab(ids);
-						frame2.setVisible(true);
-					} catch (Exception e1) {
-						e1.printStackTrace();
+					int rows[] = table.getSelectedRows();
+					List<Integer> ids = new ArrayList<Integer>();
+					if(rows.length>0) 
+					{
+						for(int i=0 ; i< rows.length; i++)
+							ids.add(colts.get(rows[i]).getID_coltivazione());
+						try {
+							ModificaAmbienteTab frame2 = new ModificaAmbienteTab(ids);
+							frame2.setVisible(true);
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
 					}
+				}
+				else
+				{
+					lblError.setVisible(true);
+					lblError.setText("Non hai i permessi per modificare gli ambienti, logga come agronomo!");
 				}
 			}
 		});
-		modificaParamAmb.setBounds(336, 374, 175, 23);
+		modificaParamAmb.setBounds(300, 374, 211, 23);
 		contentPane.add(modificaParamAmb);
 				
 		mostra.setVisible(false);

@@ -1,6 +1,6 @@
 package packagediagramdesktopcomponent.UI;
 
-import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.border.EmptyBorder;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -24,6 +23,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 
 public class Main_Frame extends JFrame {
 
@@ -55,8 +56,7 @@ public class Main_Frame extends JFrame {
 	 * Create the frame.
 	 */
 	public void ricercaColtivazione() {
-	// TODO - implement Main_Frame.ricercaColtivazione
-//		throw new UnsupportedOperationException();
+
 		try {
 			Research_Tab frameRes = new Research_Tab();
 			frameRes.setVisible(true);
@@ -66,17 +66,38 @@ public class Main_Frame extends JFrame {
 	}
 	public Main_Frame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 1439, 889);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setExtendedState( this.getExtendedState()|JFrame.MAXIMIZED_BOTH );
 		contentPane = new JPanel();
 		contentPane.setBorder(null);
 		contentPane.setSize(contentPane.getMaximumSize());
+		contentPane.setBounds(new Rectangle(100, 100, screenSize.width, screenSize.height));
 		setContentPane(contentPane);
-		this.setExtendedState( this.getExtendedState()|JFrame.MAXIMIZED_BOTH );
+
+		
 		getContentPane().setLayout(null);
+		
+		
+		JLabel lblWelcome = new JLabel("New label");
+		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
+		lblWelcome.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblWelcome.setBounds(422, 371, 502, 28);
+		contentPane.add(lblWelcome);
+		lblWelcome.setVisible(false);
+		
+		JLabel lblError = new JLabel("New label");
+		lblError.setHorizontalAlignment(SwingConstants.CENTER);
+		lblError.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblError.setBounds(422, 328, 502, 82);
+		contentPane.add(lblError);
+		lblError.setVisible(false);
 		
 		JButton searchButton = new JButton("Cerca una coltivazione");
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				lblError.setVisible(false);
+				lblWelcome.setVisible(false);
 				ricercaColtivazione();
 			}
 		});
@@ -87,36 +108,31 @@ public class Main_Frame extends JFrame {
 		JLabel lblMail = new JLabel("Email:");
 		lblMail.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblMail.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblMail.setBounds(232, 190, 109, 28);
+		lblMail.setBounds(433, 191, 109, 28);
 		contentPane.add(lblMail);
 		
 		JLabel lblPassword = new JLabel("Password:");
 		lblPassword.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblPassword.setBounds(232, 233, 109, 28);
+		lblPassword.setBounds(433, 234, 109, 28);
 		contentPane.add(lblPassword);
 		
 		txtMail = new JTextField();
-		txtMail.setBounds(382, 196, 177, 20);
+		txtMail.setBounds(591, 197, 177, 20);
 		contentPane.add(txtMail);
 		txtMail.setColumns(10);
 		
 		txtPass = new JPasswordField();
-		txtPass.setBounds(382, 239, 177, 20);
+		txtPass.setBounds(591, 240, 177, 20);
 		contentPane.add(txtPass);
 		txtPass.setColumns(10);
 		
-		JLabel lblError = new JLabel("New label");
-		lblError.setHorizontalAlignment(SwingConstants.CENTER);
-		lblError.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblError.setBounds(211, 97, 399, 82);
-		contentPane.add(lblError);
-		lblError.setVisible(false);
-		
 		JButton btnLogin = new JButton("Log in");
+		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				lblError.setVisible(false);
+				lblWelcome.setVisible(false);
 				String mail= txtMail.getText();
 				String pass= txtPass.getText();
 				if(mail.equals("") || pass.equals(""))
@@ -129,8 +145,8 @@ public class Main_Frame extends JFrame {
 					String role=ControllerFacade.login(mail,pass);
 					if(role!=null)
 					{
-						lblError.setText("Benvenuto "+role);
-						lblError.setVisible(true);
+						lblWelcome.setText("Benvenuto "+role+" "+ mail);
+						lblWelcome.setVisible(true);
 					}
 					else
 					{
@@ -140,8 +156,20 @@ public class Main_Frame extends JFrame {
 				}
 			}
 		});
-		btnLogin.setBounds(345, 149, 155, 23);
+		btnLogin.setBounds(600, 297, 155, 23);
 		contentPane.add(btnLogin);
+		
+		JButton btnLogOut = new JButton("Log Out");
+		btnLogOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				lblError.setVisible(false);
+				lblWelcome.setText("Hai eseguito il log out!");
+				lblWelcome.setVisible(true);
+				ControllerFacade.logOut();
+			}
+		});
+		btnLogOut.setBounds(277, 27, 163, 23);
+		contentPane.add(btnLogOut);
 
 		
 		EventBus.getDefault().register(this);
@@ -151,6 +179,7 @@ public class Main_Frame extends JFrame {
 		    public void windowClosing(java.awt.event.WindowEvent e) 
 		    {
 				lblError.setVisible(false);
+				lblWelcome.setVisible(false);
 		        e.getWindow().dispose();
 		        System.out.println("Shutting down Mainframe...");
 		        Main.shutdown();
