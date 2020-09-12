@@ -99,22 +99,22 @@ class Attuatore {
 class Serpentina : public Attuatore{
   public:
     Serpentina(){};
-    virtual void SetAttuatore();
-    virtual void SetUp();
+    virtual void SetAttuatore(){};
+    virtual void SetUp(){};
   };
 
 class Innaffiatoio : public Attuatore{
   public:
     Innaffiatoio(){};
-    virtual void SetAttuatore();
-    virtual void SetUp();
+    virtual void SetAttuatore(){};
+    virtual void SetUp(){};
   };
   
 class StrisciaLed : public Attuatore {
   public:
     StrisciaLed(){};
-    virtual void SetAttuatore();
-    virtual void SetUp();
+    virtual void SetAttuatore(){};
+    virtual void SetUp(){};
   };
 
 

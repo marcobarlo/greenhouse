@@ -28,8 +28,8 @@ class Controllore{
     static Controllore* MeStesso;
     Comunicazione * Link;
     Ambiente * ambiente;//allocato dinamicamente all'inizio
-    Sensore sensori [3];
-    Attuatore attuatori [3];
+    Sensore* sensori [3];
+    Attuatore* attuatori [3];
     bool Error[3];
     bool Observed;
     long ID;
@@ -46,6 +46,7 @@ class Controllore{
 //    void SetSoglia(float);
     long GetID();
     long GetSezione();
+    void SendDati();
 //    float GetSoglia();
     void ToggleObserved();
     ~Controllore(){};

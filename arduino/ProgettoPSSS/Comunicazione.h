@@ -10,9 +10,9 @@
 
 
 #include "Controllore.h"
-#include "PubSubClient.h"
-
-#define CLIENT_TEMP "TEMP" //DA CAMBIARE ?? come faccio a fare la connessione al primo Client ID il mac??
+//#include "PubSubClient.h"
+//
+//#define CLIENT_TEMP "TEMP" //DA CAMBIARE ?? come faccio a fare la connessione al primo Client ID il mac??
 //Dovrei già averlo fatto il CLIENT ID ora è il mac 
 void callback(char* topic, byte* payload, unsigned int length);
 
@@ -38,8 +38,8 @@ class Comunicazione{
     static Comunicazione* GetInstance();
     void SetUp(Ambiente *);
     void PublishTest();
-    void PublishData(byte * payload);
-    void PublishError(byte * payload);
+    void PublishDati(byte * payload, int lung);
+    void PublishErrore(byte * payload);
     void _callback(char* topic, byte* payload, unsigned int length);
     void keepalive();
     ~Comunicazione(){};

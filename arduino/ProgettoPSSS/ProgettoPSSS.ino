@@ -11,7 +11,7 @@
 //Controllore Contr;
 Controllore* Contr;
 Comunicazione * Com;
-Ambiente Amb;
+Ambiente * Amb;
 long previousMillis;
 
 
@@ -28,10 +28,11 @@ void setup() {
   Serial.begin(9600);
   while (!Serial) {};
   Serial.println("Start Setup delle componenti");
+  Amb=new Ambiente();
   Contr=Controllore::GetInstance();
-  Contr->SetUp2(&Amb);
+  Contr->SetUp2(Amb);
   Com=Comunicazione::GetInstance();
-  Com->SetUp(&Amb);
+  Com->SetUp(Amb);
   Serial.println("Fine Setup delle componenti");
 }
 
@@ -39,6 +40,7 @@ void loop() {
   if (millis() - previousMillis > CONTROL_DELAY) {
 //    Contr.Controllo();//Adesso come faccio iniziare solo se ho il Setup?? mi sa che devo fare il fatto dell'interrupt
 //    Com.PublishTest();
+//    Com->keepalive();
     Serial.println("CI SONO");
     previousMillis = millis();
   }

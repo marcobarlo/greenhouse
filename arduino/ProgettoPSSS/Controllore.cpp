@@ -11,6 +11,7 @@ void  Controllore :: SetID(long id) {
   ID = id;
 };
 void  Controllore :: SetObserved(bool obs) {
+  Serial.println("Sono proprio osservato");
   Observed = obs;
 };
 
@@ -38,30 +39,92 @@ long  Controllore :: GetSezione() {
 //  return Soglia;
 //};
 
+void Controllore :: SendDati(){
+    byte payload [16];
+    long Templ=ID;
+    //Fare refactiìoring per renderla più pulita basata sul for
+//    payload[0] = Templ & 0xFF;
+//    payload[1] = (Templ >> 8)  & 0xFF;
+//    payload[2] = (Templ >> 16) & 0xFF;
+//    payload[3] = (Templ >> 24) & 0xFF;
+//    union TEMPF{
+//      byte b [4];
+//      float f;
+//      }tempf;
+////    tempf.f=sensori[0]->GetDato();
+//    tempf.f=8.5;
+//    payload[4] = tempf.b[0];
+//    payload[5] = tempf.b[1];
+//    payload[6] = tempf.b[2];
+//    payload[7] = tempf.b[3];
+//        tempf.f=8.4;
+////    tempf.f=sensori[1]->GetDato();
+//    payload[8] = tempf.b[0];
+//    payload[9] = tempf.b[1];
+//    payload[10] = tempf.b[2];
+//    payload[11] = tempf.b[3];
+//        tempf.f=8.6;
+////    tempf.f=sensori[2]->GetDato();
+//    payload[12] = tempf.b[0];
+//    payload[13] = tempf.b[1];
+//    payload[14] = tempf.b[2];
+//    payload[15] = tempf.b[3];
+    payload[3] = Templ & 0xFF;
+    payload[2] = (Templ >> 8)  & 0xFF;
+    payload[1] = (Templ >> 16) & 0xFF;
+    payload[0] = (Templ >> 24) & 0xFF;
+    union TEMPF{
+      byte b [4];
+      float f;
+      }tempf;
+//    tempf.f=sensori[0]->GetDato();
+    tempf.f=8.5;
+    payload[7] = tempf.b[0];
+    payload[6] = tempf.b[1];
+    payload[5] = tempf.b[2];
+    payload[4] = tempf.b[3];
+        tempf.f=8.4;
+//    tempf.f=sensori[1]->GetDato();
+    payload[11] = tempf.b[0];
+    payload[10] = tempf.b[1];
+    payload[9] = tempf.b[2];
+    payload[8] = tempf.b[3];
+        tempf.f=8.6;
+//    tempf.f=sensori[2]->GetDato();
+    payload[15] = tempf.b[0];
+    payload[14] = tempf.b[1];
+    payload[13] = tempf.b[2];
+    payload[12] = tempf.b[3];
+    Serial.println("Faccio Publish dei Dati");
+    for (int i=0;i<16;i++){
+      Serial.println(payload[i]);
+      }
+    Link->PublishDati(payload,16);
+  };
+
 void  Controllore :: SetUp2(Ambiente * amb){
   ambiente=amb;
   Serial.println("Start Setup Controllore");
   Serial.println(freeMemory(), DEC);  // print how much RAM is available.
-//  Questo pezzotto è sbagliato va trasformato in un polimorifsmo vero e proprio con allocazione dinaimica
-//o la cosa che sta scritta nel link di barr group
-//  SensoreTemperatura Temp;
-//  sensori[0]=Temp;
-//  SensoreUmidita Um;
-//  sensori[1]=Um;
-//  SensoreIrradianza Irr;
-//  sensori[2]=Irr;
+//  Vedere la cosa che sta scritta nel link di barr group
+  Link=Comunicazione::GetInstance();
+  sensori[0]=new SensoreTemperatura();
+  sensori[1]=new SensoreUmidita();
+  sensori[2]=new SensoreIrradianza();
   for (int i=0;i<3;i++){
-    sensori[i].SetUp();
+    sensori[i]->SetUp();
+    Error[i]=false;
     }
-//  Serpentina Serp;
-//  attuatori[0]=Serp;
-//  Innaffiatoio Inn;
-//  attuatori[1]=Inn;
-//  StrisciaLed Str;
-//  attuatori[2]=Str;
+  attuatori[0]=new Serpentina();
+  attuatori[1]=new Innaffiatoio();
+  attuatori[2]=new StrisciaLed();
   for (int i=0;i<3;i++){
-    attuatori[i].SetUp();
+    attuatori[i]->SetUp();
     } 
+    Observed=false;
+    ID=0;
+    Sezione=0;
+    
 //Codice Sbagliato Timer 1 può contare solo fino a 10 secondi
 //  cli();
 //  TCCR1A = 0;// set entire TCCR1A register to 0
@@ -81,23 +144,19 @@ void  Controllore :: SetUp() {
   Serial.println("Start Setup Controllore");
   Serial.println(freeMemory(), DEC);  // print how much RAM is available.
   Serial.println("Ho letto la memoria");
-  SensoreTemperatura Temp;
-  sensori[0]=Temp;
-  SensoreUmidita Um;
-  sensori[1]=Um;
-  SensoreIrradianza Irr;
-  sensori[2]=Irr;
+  //Si deve rivedere questo codice per l'arduino uno o con l'acrocchio o rivedendolo come interfaccia e classi che le usano 
+  //questo presenterebbe di dover scrivere il codice a manella o rivedere le allocazioni e altro per recuperare megabytes
+  sensori[0]=new SensoreTemperatura();
+  sensori[1]=new SensoreUmidita();
+  sensori[2]=new SensoreIrradianza();
   for (int i=0;i<3;i++){
-    sensori[i].SetUp();
+    sensori[i]->SetUp();
     }
-  Serpentina Serp;
-  attuatori[0]=Serp;
-  Innaffiatoio Inn;
-  attuatori[1]=Inn;
-  StrisciaLed Str;
-  attuatori[2]=Str;
+  attuatori[0]=new Serpentina();
+  attuatori[1]=new Innaffiatoio();
+  attuatori[2]=new StrisciaLed();
   for (int i=0;i<3;i++){
-    attuatori[i].SetUp();
+    attuatori[i]->SetUp();
     } 
 //Codice Sbagliato Timer 1 può contare solo fino a 10 secondi
 //  cli();
@@ -120,13 +179,15 @@ static Controllore* Controllore :: GetInstance() {
     Serial.println("Sono nel Get Instance del controllore");
   if (Controllore::MeStesso == NULL) {
         Serial.println("Alloco la prima volta");
-    Controllore::MeStesso = new Controllore();
+        Controllore::MeStesso = new Controllore();
   }
   Serial.println("Faccio il return della istance del controllore");
   return Controllore::MeStesso;
 };
 
 void Controllore::Controllo() {
+  //Riscrivere per errori sui sensori e attuatori come ci siamo messi d'accordo
+  //per i sensori DHT c'è la funzione per il fotoresistore se diventa circuito aperto stesso per igrometro?? 
   Serial.println("Sono nella funzione di controllo");
     Serial.println(freeMemory(), DEC);  // print how much RAM is available.
   float target [3];
@@ -140,21 +201,22 @@ void Controllore::Controllo() {
   soglie[2] = ambiente->GetSogliaI();
   float valore[3];
   for (int i = 0; i < 3; i++) {
-    valore[i] = sensori[i].GetDato();
+    valore[i] = sensori[i]->GetDato();
     if (abs(target[i] - valore[i]) > soglie[0]) {
       if (Error[i] == false) {
-        //TODO Invertire i rami dell'if e dobbiamo accordarci su errori di sensori
         Error[i] = false;
-        attuatori[i].SetAttuatore();
+        attuatori[i]->SetAttuatore();
       }
       else {
+        //Togliere sto puntatore e mettere un buffer statico
         byte* bytes;
         bytes = (byte *) i;
-        Link->PublishError(bytes);
+        Link->PublishErrore(bytes);
       }
     }
   }
   if (Observed) {
+    //rivedere sto codice per la conversione e l'invio dei dati
     union TEMP{
       float f;
       byte b[4];
@@ -167,7 +229,7 @@ void Controllore::Controllo() {
         payload[j+4*i]=temp.b[j];
         }
       }
-    Link->PublishData(payload);
+    Link->PublishDati(payload,16);
   }
 };
 

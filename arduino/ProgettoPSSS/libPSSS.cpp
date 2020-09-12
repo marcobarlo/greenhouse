@@ -28,10 +28,13 @@ float Ambiente  :: GetTemperaturaTarget() {
 };
 
 void  Ambiente :: ModificaAmbiente(float T, float U, float I) {
-  Serial.println("Modifica Ambiente");
+  Serial.println("Modifica Ambiente valori:");
   UmiditaTarget = U;
   IrradianzaTarget = I;
   TemperaturaTarget = T;
+  Serial.println(TemperaturaTarget);
+  Serial.println(UmiditaTarget);
+  Serial.println(IrradianzaTarget);
 };
 
 float Ambiente :: GetSogliaU() {
@@ -50,6 +53,11 @@ void Ambiente :: SetSoglie(float T, float U, float I) {
   SogliaT = T;
   SogliaU = U;
   SogliaI = I;
+  Serial.println("Stampa delle soglie in ambiente");
+  Serial.println(SogliaT);
+  Serial.println(SogliaU);
+  Serial.println(SogliaI);
+
 };
 
 
@@ -84,7 +92,7 @@ void SensoreTemperatura  :: SetUp() {
 
 float SensoreTemperatura  :: GetDato() {
   
-  Serial.println(" Setup SensoreTemperatura");
+  Serial.println(" GetDato SensoreTemperatura");
   float chk = dht.readTemperature(DHTPIN);
   return chk;
 };
@@ -98,7 +106,7 @@ void SensoreIrradianza  :: SetUp() {
 };
 
 float SensoreIrradianza  :: GetDato() {
-  Serial.println(" Setup SensoreIrradianza");
+  Serial.println(" GetDato SensoreIrradianza");
   //TODO DA FARE CARATTERIZZARE PER BENE I VALORI ATTUALI CREDO DIANO PROBLEMI, I LUX SEMBRANO INCREDIBILMENTE ALTI
   float level = analogRead(LUXINPUT);
   //calculate analog voltage

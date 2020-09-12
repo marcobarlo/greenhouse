@@ -26,7 +26,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 static Comunicazione* Comunicazione::GetInstance() {
           Serial.println("Sono nel Get Instance del Comunicazione");
   if (Me == NULL) {
-        Serial.println("alloco la prima volta");
+    Serial.println("alloco la prima volta");
     //Rivedere forse da fare con allocazione dinamica
     Me = new Comunicazione();
   }
@@ -60,7 +60,11 @@ void Comunicazione :: SetUp(Ambiente * amb) {
   Serial.println(char_mac);
   Serial.println("Client ID");
   Serial.println(CLIENT_ID);
+//  char * ID_CONNESSIONE=CLIENT_ID;//Boh per qualche ragione questo è necessario, non credo sia un problema altrimenti devo necessariamente passare ad 
+//  //allocare dinamicamente l'ID che sarebbe molto sconveniente in realtà
+//  Serial.println(ID_CONNESSIONE);
   //  mqttClient.setCallback([this] (char* topic, byte* payload, unsigned int length) { this->callback(topic, payload, length); });
+//  mqttClient.connect(ID_CONNESSIONE);
   mqttClient.connect(CLIENT_ID);
   mqttClient.subscribe("GH/SetUp");
   mqttClient.publish("test/topic", "10, 0, 0, 3");
@@ -68,19 +72,26 @@ void Comunicazione :: SetUp(Ambiente * amb) {
 };
 
 void Comunicazione :: keepalive() {
-  mqttClient.loop();
+    
+    if(!mqttClient.loop()){
+      mqttClient.connect(CLIENT_ID);
+      };
 };
 
-void Comunicazione :: PublishData(byte * payload) {
+void Comunicazione :: PublishDati(byte * payload, int lung) {
   //      char * Topic;
   //      strcpy(Topic, Header);
   //      strcat(Topic, "Dati");
+  Serial.println("Sto inviando");
+//   mqttClient.publish("GH/Dati", payload);
+//  Serial.println(mqttClient.connect(CLIENT_ID));
   if (mqttClient.connect(CLIENT_ID)) {
-    mqttClient.publish("GH/Dati", payload);
-  }
+  
+    mqttClient.publish("GH/Dati", payload,lung);
+    }
 };
 
-void Comunicazione :: PublishError(byte * payload) {
+void Comunicazione :: PublishErrore(byte * payload) {
   //
   //    char * Topic;
   //      strcpy(Topic, Header);
@@ -272,7 +283,7 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
     byte ID_B [4];
     //Cambiare da modifica ambiente a 3 set ed un solo dato??
     //    byte Um_B[4];
-    long Um = 0;
+    float Um = 0;
     //    byte Irr_B[4];
     float Irr = 0;
     //    byte Tem_B[4];
@@ -299,11 +310,11 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
       long l;
       }templ;
       Serial.println("Prendo il payload");
-    for(int i=0;i<4;i++){
-        templ.b[i] = payload[i];
-        Serial.println(templ.b[i]);
-      }
-      Serial.println(templ.l);
+//    for(int i=0;i<4;i++){
+//        templ.b[i] = payload[i];
+//        Serial.println(templ.b[i]);
+//      }
+//      Serial.println(templ.l);
     while (corretto && j < 4) {
       if (ID_B[3-j] != payload[j]) {
         corretto = false;
@@ -379,14 +390,25 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
     ID_B[3] = (Temp >> 24) & 0xFF;
     bool corretto = true;
     int j = 0;
-    while (corretto && j < 12) {
-      if (ID_B[j] != payload[j]) {
+//    while (corretto && j < 4) {
+//      if (ID_B[j] != payload[j]) {
+//        corretto = false;
+//      }
+//      j = j + 1;
+//    }
+      while (corretto && j < 4) {
+      if (ID_B[3-j] != payload[j]) {
         corretto = false;
       }
+      Serial.println(ID_B[3-j]);
+      Serial.println(payload[j]);
       j = j + 1;
     }
     if (corretto) {
+      Serial.println("Mi sento osservato!");
       Controller->SetObserved(true);
+      //Invio il messaggio di ritorno
+      Controller->SendDati();
     }
   }
   strcpy(option, Header);
@@ -401,13 +423,22 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
     ID_B[3] = (Temp >> 24) & 0xFF;
     bool corretto = true;
     int j = 0;
-    while (corretto && j < 12) {
-      if (ID_B[j] != payload[j]) {
+//    while (corretto && j < 12) {
+//      if (ID_B[j] != payload[j]) {
+//        corretto = false;
+//      }
+//      j = j + 1;
+//    }
+      while (corretto && j < 4) {
+      if (ID_B[3-j] != payload[j]) {
         corretto = false;
       }
+      Serial.println(ID_B[3-j]);
+      Serial.println(payload[j]);
       j = j + 1;
-    }
+     }
     if (corretto) {
+      Serial.println("Non mi sento più osservato");
       Controller->SetObserved(false);
     }
   }
