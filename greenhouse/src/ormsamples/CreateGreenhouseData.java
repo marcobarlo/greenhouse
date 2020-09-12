@@ -4,6 +4,9 @@
  */
 package ormsamples;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 import org.orm.*;
@@ -88,10 +91,21 @@ public class CreateGreenhouseData {
 
 			
 			Impiegato i1 = Impiegato.createImpiegato();
-			i1.setEmail("hehehe@lol.sguoz");
+			i1.setEmail("mariorossi@unina.it");
+			i1.setPassword(encrypt("password"));
+			i1.setRuolo("direttore");
 			Impiegato i2 = Impiegato.createImpiegato();
-			i2.setEmail("ohohoh@asd.rofl");
-			
+			i2.setEmail("marcobarlo@hotmail.it");
+			i2.setPassword(encrypt("password"));
+			i2.setRuolo("agronomo");
+			Impiegato i3 = Impiegato.createImpiegato();
+			i3.setEmail("ravens@unina.it");
+			i3.setPassword(encrypt("password"));
+			i3.setRuolo("responsabile_software");
+			Impiegato i4 = Impiegato.createImpiegato();
+			i4.setEmail("amarchetta@hotmail.it");
+			i4.setPassword(encrypt("password"));
+			i4.setRuolo("operaio");
 			
 			
 			//sez1.aree.add(a1);
@@ -99,11 +113,14 @@ public class CreateGreenhouseData {
 			
 			if(i<5)
 				sez1.save();
-			i1.save();
-			i2.save();
+
 			
 			if(i==0)
 			{
+				i1.save();
+				i2.save();
+				i3.save();
+				i4.save();
 				d1.save();
 				d2.save();
 			}
@@ -165,5 +182,31 @@ public class CreateGreenhouseData {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	protected static String encrypt(String pass)
+	{
+		MessageDigest digest;
+		String encr;
+		try {
+			digest = MessageDigest.getInstance("SHA-256");
+			byte[] encodedhash = digest.digest(
+			pass.getBytes(StandardCharsets.UTF_8));
+			encr = bytesToHex(encodedhash);
+		}catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		return encr;
+	}
+	private static String bytesToHex(byte[] hash) {
+	    StringBuffer hexString = new StringBuffer();
+	    for (int i = 0; i < hash.length; i++) {
+	    String hex = Integer.toHexString(0xff & hash[i]);
+	    if(hex.length() == 1) hexString.append('0');
+	        hexString.append(hex);
+	    }
+	    return hexString.toString();
 	}
 }

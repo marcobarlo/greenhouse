@@ -21,17 +21,23 @@ import org.orm.criteria.*;
 public class ImpiegatoDetachedCriteria extends AbstractORMDetachedCriteria {
 	public final IntegerExpression ID;
 	public final StringExpression email;
+	public final StringExpression password;
+	public final StringExpression ruolo;
 	
 	public ImpiegatoDetachedCriteria() {
 		super(packagediagramdesktopcomponent.model.Impiegato.class, packagediagramdesktopcomponent.model.ImpiegatoCriteria.class);
 		ID = new IntegerExpression("ID", this.getDetachedCriteria());
 		email = new StringExpression("email", this.getDetachedCriteria());
+		password = new StringExpression("password", this.getDetachedCriteria());
+		ruolo = new StringExpression("ruolo", this.getDetachedCriteria());
 	}
 	
 	public ImpiegatoDetachedCriteria(DetachedCriteria aDetachedCriteria) {
 		super(aDetachedCriteria, packagediagramdesktopcomponent.model.ImpiegatoCriteria.class);
 		ID = new IntegerExpression("ID", this.getDetachedCriteria());
 		email = new StringExpression("email", this.getDetachedCriteria());
+		password = new StringExpression("password", this.getDetachedCriteria());
+		ruolo = new StringExpression("ruolo", this.getDetachedCriteria());
 	}
 	
 	public Impiegato uniqueImpiegato(PersistentSession session) {

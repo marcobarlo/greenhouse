@@ -21,11 +21,15 @@ import org.orm.criteria.*;
 public class ImpiegatoCriteria extends AbstractORMCriteria {
 	public final IntegerExpression ID;
 	public final StringExpression email;
+	public final StringExpression password;
+	public final StringExpression ruolo;
 	
 	public ImpiegatoCriteria(Criteria criteria) {
 		super(criteria);
 		ID = new IntegerExpression("ID", this);
 		email = new StringExpression("email", this);
+		password = new StringExpression("password", this);
+		ruolo = new StringExpression("ruolo", this);
 	}
 	
 	public ImpiegatoCriteria(PersistentSession session) {

@@ -14,9 +14,9 @@
 package packagediagramdesktopcomponent.model;
 
 import org.orm.*;
+
 import org.hibernate.Query;
 import org.hibernate.LockMode;
-
 import java.util.List;
 
 public class Impiegato {
@@ -363,6 +363,10 @@ public class Impiegato {
 	
 	private String email;
 	
+	private String password;
+	
+	private String ruolo;
+	
 	private void setID(int value) {
 		this.ID = value;
 	}
@@ -383,19 +387,30 @@ public class Impiegato {
 		return email;
 	}
 	
-	public String toString() {
-		return String.valueOf(getID());
+	public void setPassword(String value) {
+		this.password = value;
 	}
 	
-	public static String login(String mail, String pass)
-	{
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setRuolo(String value) {
+		this.ruolo = value;
+	}
+	
+	public String getRuolo() {
+		return ruolo;
+	}
+	
+	public static String login(String mail, String password) {
 		try {
 			ImpiegatoCriteria crit=new ImpiegatoCriteria();
 			crit.email.eq(mail);
-			//crit.password.eq(pass);
+			crit.password.eq(password);
 			Impiegato[] imp=crit.listImpiegato();
 			if(imp.length>0)
-				return "Ciao";//imp.getRole();
+				return imp[0].getRuolo();
 			else 
 				return null;
 		} catch (PersistentException e) {
@@ -404,5 +419,9 @@ public class Impiegato {
 			return null;
 		}
 	}
-
+	
+	public String toString() {
+		return String.valueOf(getID());
+	}
+	
 }

@@ -18,7 +18,6 @@ public class ControllerUtenti {
 			pass.getBytes(StandardCharsets.UTF_8));
 			encr = bytesToHex(encodedhash);
 		}catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}

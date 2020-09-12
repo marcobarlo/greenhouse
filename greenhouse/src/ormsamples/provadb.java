@@ -1,5 +1,8 @@
 package ormsamples;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 
 import org.orm.PersistentException;
@@ -8,7 +11,7 @@ import packagediagramdesktopcomponent.model.*;
 
 public class provadb {
 	public static void main(String[] args) throws PersistentException {
-		Sezione sez1[];
+		/*Sezione sez1[];
 		SezioneCriteria sezcrit;
 		sezcrit = new SezioneCriteria();
 		sez1 = sezcrit.listSezione();
@@ -42,10 +45,36 @@ public class provadb {
 			System.out.println(descr.getDescrizione());
 		}
 		Sezione sez = Sezione.getSezioneByORMID(8);
-		System.out.println(sez.aree.size());
+		System.out.println(sez.aree.size());*/
+		System.out.println(encrypt("password"));
+		System.out.println(encrypt("password").length());
 		
 		
 	}
 	
-	
+	protected static String encrypt(String pass)
+	{
+		MessageDigest digest;
+		String encr;
+		try {
+			digest = MessageDigest.getInstance("SHA-256");
+			byte[] encodedhash = digest.digest(
+			pass.getBytes(StandardCharsets.UTF_8));
+			encr = bytesToHex(encodedhash);
+		}catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		return encr;
+	}
+	private static String bytesToHex(byte[] hash) {
+	    StringBuffer hexString = new StringBuffer();
+	    for (int i = 0; i < hash.length; i++) {
+	    String hex = Integer.toHexString(0xff & hash[i]);
+	    if(hex.length() == 1) hexString.append('0');
+	        hexString.append(hex);
+	    }
+	    return hexString.toString();
+	}
 }

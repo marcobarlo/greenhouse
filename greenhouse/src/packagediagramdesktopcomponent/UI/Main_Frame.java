@@ -10,6 +10,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
 import org.greenrobot.eventbus.EventBus;
@@ -17,6 +18,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import packagediagramdesktopcomponent.Main;
+import packagediagramdesktopcomponent.Business_Logic.ControllerFacade;
 import packagediagramdesktopcomponent.Connection.MexAllarme;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -99,7 +101,7 @@ public class Main_Frame extends JFrame {
 		contentPane.add(txtMail);
 		txtMail.setColumns(10);
 		
-		txtPass = new JTextField();
+		txtPass = new JPasswordField();
 		txtPass.setBounds(382, 239, 177, 20);
 		contentPane.add(txtPass);
 		txtPass.setColumns(10);
@@ -115,8 +117,8 @@ public class Main_Frame extends JFrame {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				lblError.setVisible(false);
-				String mail= lblMail.getText();
-				String pass= lblPassword.getText();
+				String mail= txtMail.getText();
+				String pass= txtPass.getText();
 				if(mail.equals("") || pass.equals(""))
 				{
 					lblError.setText("Errore! Inserisci i campi mail e password!");
@@ -124,9 +126,17 @@ public class Main_Frame extends JFrame {
 				}
 				else
 				{
-					//String role=ControllerFacade.login(mail,pass);
-					//if(role.equals(""));
-					//{}
+					String role=ControllerFacade.login(mail,pass);
+					if(role!=null)
+					{
+						lblError.setText("Benvenuto "+role);
+						lblError.setVisible(true);
+					}
+					else
+					{
+						lblError.setText("Email o password errati!");
+						lblError.setVisible(true);
+					}
 				}
 			}
 		});

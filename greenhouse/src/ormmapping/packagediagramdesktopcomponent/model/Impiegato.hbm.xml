@@ -11,5 +11,7 @@ License Type: Evaluation
 			</generator>
 		</id>
 		<property name="email" column="Email" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="password" column="Password" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="ruolo" column="Ruolo" type="string" length="255" not-null="false" lazy="false"/>
 	</class>
 </hibernate-mapping>
