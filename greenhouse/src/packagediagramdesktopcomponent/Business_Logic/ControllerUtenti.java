@@ -8,7 +8,7 @@ import packagediagramdesktopcomponent.model.Impiegato;
 
 public class ControllerUtenti {
 	private static String session;
-	public static String login(String mail, String pass)
+	protected static String login(String mail, String pass)
 	{
 		MessageDigest digest;
 		String encr;

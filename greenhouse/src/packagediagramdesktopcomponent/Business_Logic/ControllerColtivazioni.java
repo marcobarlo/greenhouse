@@ -17,7 +17,7 @@ public class ControllerColtivazioni {
 	 * @param posizione
 	 * @param fila
 	 */
-	public static List<ColtivazioneBusiness> ricercaColtivazione(String tipo, int sezione, int posizione, int fila) 
+	protected static List<ColtivazioneBusiness> ricercaColtivazione(String tipo, int sezione, int posizione, int fila) 
 	{
 		List<ColtivazioneBusiness> coltbus = new ArrayList<ColtivazioneBusiness>();
 		Serra s = Serra.getInstance();
@@ -40,7 +40,7 @@ public class ControllerColtivazioni {
 			
 	}
 	
-	public static DettagliBusiness getDettagliColtivazione(int id)
+	protected static DettagliBusiness getDettagliColtivazione(int id)
 	{
 		Coltivazione colt;
 		try {

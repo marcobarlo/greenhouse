@@ -17,7 +17,7 @@ public class ControllerParametriAmbientali {
 	 * @param irradianza
 	 * @param umdita
 	 */
-	public static boolean modificaAmbiente(int id, Float temperatura, Float umidita, Float irradianza) {
+	protected static boolean modificaAmbiente(int id, Float temperatura, Float umidita, Float irradianza) {
 		Coltivazione c;
 		
 		try {			
@@ -45,7 +45,7 @@ public class ControllerParametriAmbientali {
 		}
 	}
 
-	public static void modificaAmbienteAttuale(int id, float temperatura, float umidita, float irradianza) {
+	protected static void modificaAmbienteAttuale(int id, float temperatura, float umidita, float irradianza) {
 		Ambiente amb;
 		try {
 			amb = Ambiente.getAmbienteByORMID(id);
@@ -57,7 +57,7 @@ public class ControllerParametriAmbientali {
 		}	
 	}
 
-	public static DettagliBusiness getParametriAmbiente(int idAmbiente)
+	protected static DettagliBusiness getParametriAmbiente(int idAmbiente)
 	{
 		DettagliBusiness b;
 		try {
@@ -77,14 +77,14 @@ public class ControllerParametriAmbientali {
 		}
 	}
 	
-	public static void sendClosedMex(int idAmbiente, int sez)
+	protected static void sendClosedMex(int idAmbiente, int sez)
 	{
 		Connection conn= Connection.getInstance();
 		if(!conn.sendStop(idAmbiente, sez))
 			System.out.println("Errore nell'invio del messaggio di stop!!");
 	}
 
-	public static void sendAllarme(int idAmbiente, String mex)
+	protected static void sendAllarme(int idAmbiente, String mex)
 	{
 		try {
 			Coltivazione[] colt = Coltivazione.getColtivazioneByAmbienteID(idAmbiente);
