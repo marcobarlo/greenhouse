@@ -8,6 +8,7 @@
 #include <Arduino.h>
 
 #include "PubSubClient.h"
+#include "func.h"
 
 #define CLIENT_TEMP "TEMP" //DA CAMBIARE ?? come faccio a fare la connessione al primo Client ID il mac??
 #define DHTPIN 2
@@ -18,7 +19,7 @@
 #define YL_69_PIN A1
 #define YL_69_VCC 6
 
-void array_to_string(byte array[], unsigned int len, char buffer[]);
+//void array_to_string(byte array[], unsigned int len, char buffer[]);
 
 class Controllore;
 class Comunicazione;
@@ -31,6 +32,9 @@ void callback(char* topic, byte* payload, unsigned int length);
 
 class Ambiente{
   private:
+    //Rifarlo in modo tale da avere due vettori invece si averli così
+    float target[3];
+    float soglie[3];
     float UmiditaTarget;
     float IrradianzaTarget;
     float TemperaturaTarget;
@@ -39,14 +43,21 @@ class Ambiente{
     float SogliaT;
   public:
     Ambiente(){};
-    void ModificaAmbiente(float T, float U, float I);//Implementata
+    //riscrivere con modifica Ambiente che prende un vettore
+    void ModificaAmbiente2(float array []);
+    void ModificaAmbiente(float T, float U, float I);
 //    void  SetUmiditaTarget(float);
 //    void  SetIrradianzaTarget(float);
 //    void  SetTemperaturaTarget(float);
+    // riscrivere facendo prendere un vettore
     void SetSoglie(float T, float U, float I);
+    void SetSoglie2(float array[]);
+    //fare altre due funzioni che prendano in questo caso tutti i target e tutte le soglie
+    int GetSoglie(float array[],int lung);//per farlo per bene servirebbero puntatori ma così evito di fare allocazione dinamica di cose piccole
     float GetSogliaU();
     float GetSogliaI();
     float GetSogliaT();
+    int GetTarget(float array[],int lung);//per farlo correttamente ci vorrebbero i puntatori alternatuìiva è il mega accrocchio di fare il ritorno di qualcosa di locale
     float GetUmiditaTarget();
     float GetIrradianzaTarget();
     float GetTemperaturaTarget();
@@ -92,29 +103,29 @@ class SensoreTemperatura : public Sensore{
 class Attuatore {
   public:
     Attuatore(){};
-    virtual void SetAttuatore(){};
+    virtual void SetAttuatore(float f){};
     virtual void SetUp(){};
   };
 
 class Serpentina : public Attuatore{
   public:
     Serpentina(){};
-    virtual void SetAttuatore(){};
-    virtual void SetUp(){};
+    virtual void SetAttuatore(float f);
+    virtual void SetUp();
   };
 
 class Innaffiatoio : public Attuatore{
   public:
     Innaffiatoio(){};
-    virtual void SetAttuatore(){};
-    virtual void SetUp(){};
+    virtual void SetAttuatore(float f);
+    virtual void SetUp();
   };
   
 class StrisciaLed : public Attuatore {
   public:
     StrisciaLed(){};
-    virtual void SetAttuatore(){};
-    virtual void SetUp(){};
+    virtual void SetAttuatore(float f);
+    virtual void SetUp();
   };
 
 

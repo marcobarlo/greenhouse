@@ -47,6 +47,7 @@ class Controllore{
     long GetID();
     long GetSezione();
     void SendDati();
+    void SendAck();
 //    float GetSoglia();
     void ToggleObserved();
     ~Controllore(){};

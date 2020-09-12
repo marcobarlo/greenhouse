@@ -2,18 +2,21 @@
 #include <DHT.h>
 #include <string.h>
 
+#define NUM_T 3
+#define NUM_S 3
 
-void array_to_string(byte array[], unsigned int len, char buffer[])
-{
-    for (unsigned int i = 0; i < len; i++)
-    {
-        byte nib1 = (array[i] >> 4) & 0x0F;
-        byte nib2 = (array[i] >> 0) & 0x0F;
-        buffer[i*2+0] = nib1  < 0xA ? '0' + nib1  : 'A' + nib1  - 0xA;
-        buffer[i*2+1] = nib2  < 0xA ? '0' + nib2  : 'A' + nib2  - 0xA;
-    }
-    buffer[len*2] = '\0';
-}
+// A sto punto la sposto in una libreria a parte insieme e quella byte float e viceversa e quella byte long e viceversa???
+//void array_to_string(byte array[], unsigned int len, char buffer[])
+//{
+//    for (unsigned int i = 0; i < len; i++)
+//    {
+//        byte nib1 = (array[i] >> 4) & 0x0F;
+//        byte nib2 = (array[i] >> 0) & 0x0F;
+//        buffer[i*2+0] = nib1  < 0xA ? '0' + nib1  : 'A' + nib1  - 0xA;
+//        buffer[i*2+1] = nib2  < 0xA ? '0' + nib2  : 'A' + nib2  - 0xA;
+//    }
+//    buffer[len*2] = '\0';
+//}
 
 float Ambiente  :: GetUmiditaTarget() {
   return UmiditaTarget;
@@ -37,6 +40,13 @@ void  Ambiente :: ModificaAmbiente(float T, float U, float I) {
   Serial.println(IrradianzaTarget);
 };
 
+void  Ambiente :: ModificaAmbiente2(float array []) {
+  Serial.println("Modifica Ambiente 2 valori:");
+  for(int i=0;i<NUM_T;i++){
+    target[i]=array[i];
+    }
+};
+
 float Ambiente :: GetSogliaU() {
   return SogliaU;
 };
@@ -49,6 +59,38 @@ float Ambiente :: GetSogliaT() {
   return SogliaT;
 };
 
+int Ambiente :: GetSoglie(float array[],int lung){
+  Serial.println(sizeof(array));
+  if(lung<(sizeof(soglie)/sizeof(soglie[0]))){
+        Serial.println("No no Troppo piccolo S");
+            Serial.println(sizeof(array));
+    Serial.println(sizeof(soglie));
+    return -1;
+    }
+    Serial.println("Valore Soglie");
+    for (int i=0;i<(sizeof(soglie)/sizeof(soglie[0]));i++){
+      array[i]=soglie[i];
+      Serial.println(soglie[i]);
+      }
+    return 0;
+  };//per farlo per bene servirebbero puntatori ma così evito di fare allocazione dinamica di cose piccole
+
+
+int Ambiente :: GetTarget(float array[],int lung){
+  Serial.println(sizeof(array));
+  if(lung<(sizeof(target)/sizeof(target[0]))){
+    Serial.println("No no Troppo piccolo F");
+    Serial.println(sizeof(array));
+    Serial.println(sizeof(target));
+    return -1;
+    }
+    Serial.println("Valori Target");
+    for (int i=0;i<(sizeof(target)/sizeof(target[0]));i++){
+      array[i]=target[i];
+      }
+    return 0;
+  };//per farlo per bene servirebbero puntatori ma così evito di fare allocazione dinamica di cose piccole
+  
 void Ambiente :: SetSoglie(float T, float U, float I) {
   SogliaT = T;
   SogliaU = U;
@@ -58,6 +100,13 @@ void Ambiente :: SetSoglie(float T, float U, float I) {
   Serial.println(SogliaU);
   Serial.println(SogliaI);
 
+};
+//Devo mettere un controllo sulla lunghezza come per la lettura??
+void Ambiente :: SetSoglie2(float array[]) {
+  Serial.println("Modifica Soglie 2 valori:");
+  for(int i=0;i<NUM_S;i++){
+    soglie[i]=array[i];
+    }
 };
 
 
@@ -76,6 +125,9 @@ float SensoreUmidita :: GetDato() {
   int value = analogRead(YL_69_PIN);
   digitalWrite(YL_69_VCC, LOW);
   Umidita = 1023 - value;
+  if(value ==0){
+    return -1;
+    }
   return Umidita;
 };
 
@@ -94,6 +146,9 @@ float SensoreTemperatura  :: GetDato() {
   
   Serial.println(" GetDato SensoreTemperatura");
   float chk = dht.readTemperature(DHTPIN);
+  if (isnan(chk)){
+    chk=-1;
+    }
   return chk;
 };
 
@@ -112,8 +167,10 @@ float SensoreIrradianza  :: GetDato() {
   //calculate analog voltage
   float voltage = 5 * level / 1024;
   //make sure the voltage isn't outside the acceptable range
+  // Se è più basso lo considero un errore?? boh lo metto a -1 anche se non so se abbia molto senso
   if (voltage < 0) {
     voltage = 0;
+    return -1;
   }
   if (voltage > 5) {
     voltage = 5;
@@ -139,3 +196,14 @@ float SensoreIrradianza  :: GetDato() {
   }
   return lux;
 };
+
+void Serpentina :: SetAttuatore(float f){};
+void Serpentina :: SetUp(){};
+
+
+void Innaffiatoio :: SetAttuatore(float f){};
+void Innaffiatoio :: SetUp(){};
+
+
+void StrisciaLed :: SetAttuatore(float f){};
+void StrisciaLed :: SetUp(){};

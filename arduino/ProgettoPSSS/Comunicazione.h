@@ -38,6 +38,7 @@ class Comunicazione{
     static Comunicazione* GetInstance();
     void SetUp(Ambiente *);
     void PublishTest();
+    void Publish(char topic [], byte * payload, int lung);
     void PublishDati(byte * payload, int lung);
     void PublishErrore(byte * payload);
     void _callback(char* topic, byte* payload, unsigned int length);
