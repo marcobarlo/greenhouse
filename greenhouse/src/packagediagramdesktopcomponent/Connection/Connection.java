@@ -1,6 +1,9 @@
 package packagediagramdesktopcomponent.Connection;
 
 import java.nio.ByteBuffer;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
+
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 
@@ -14,7 +17,7 @@ public class Connection{
 	private static Connection instance = null;
 	private MqttClient client;
 	private Connection(){}
-	
+	private static Semaphore sem = new Semaphore(0);
 	public void startup()
 	{
 		//setup mqtt client
@@ -38,6 +41,8 @@ public class Connection{
     	            	callback_data(message);
     	            else if(topic.equals("GH/Errore"))
     	            	callback_error(message);
+    	            else if(topic.equals("GH/Ack"))
+    	            	sem.release();
     	        }
     	    
     	        @Override
@@ -95,8 +100,6 @@ public class Connection{
         MqttMessage message = new MqttMessage(bytes);
         message.setQos(qos);
         message.setPayload(bytes);
-       // CountDownLatch processingFinishedLatch = new CountDownLatch(10);
-       // processingFinishedLatch.
         try {client.publish(topic, message);} 
         catch (MqttPersistenceException e) 
         {return false;} 
@@ -115,13 +118,19 @@ public class Connection{
         MqttMessage message = new MqttMessage(buf.array());
         message.setQos(qos);
         message.setPayload(buf.array());
-        try {client.publish(topic, message);} 
+        boolean acked;
+        try {
+        	client.publish(topic, message);
+			acked=sem.tryAcquire(1, TimeUnit.SECONDS);	
+        } 
         catch (MqttPersistenceException e) 
         {return false;} 
         catch (MqttException e) 
         {return false;}
+        catch (InterruptedException e) 
+        {return false;}
         //System.out.println("Message published");
-		return true;
+        return acked;
 	}
 	
 	public boolean sendStop(int id, int sez)
