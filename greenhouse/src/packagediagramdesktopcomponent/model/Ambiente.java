@@ -434,15 +434,11 @@ public class Ambiente {
 		return sogliaUmi;
 	}
 	
-	public void modificaAmbienteAttuale(float temperatura, float umidita, float irradianza) {
+	public synchronized void  modificaAmbienteAttuale(float temperatura, float umidita, float irradianza) {
 		if(ambienteAttuale == null)
-		{
 			ambienteAttuale = new AmbienteAttuale(this,temperatura, umidita, irradianza);
-		}
 		else
-		{
 			ambienteAttuale.setParametriAttuali(temperatura, umidita, irradianza);
-		}
 	}
 	
 	public boolean modificaAmbiente(float temperatura, float umidita, float irradianza) {
