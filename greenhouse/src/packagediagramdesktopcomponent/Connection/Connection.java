@@ -16,10 +16,12 @@ public class Connection{
 
 	private static Connection instance = null;
 	private MqttClient client;
+	private Semaphore sem;
+	private int idToAck;
 	private Connection(){}
-	private static Semaphore sem = new Semaphore(0);
 	public void startup()
 	{
+		sem= new Semaphore(0);
 		//setup mqtt client
         String broker = "tcp://localhost:1883";
 		String clientId = "Mainframe";
@@ -42,9 +44,9 @@ public class Connection{
     	            else if(topic.equals("GH/Errore"))
     	            	callback_error(message);
     	            else if(topic.equals("GH/Ack"))
-    	            	sem.release();
+    	        		callbackAck(message);
     	        }
-    	    
+
     	        @Override
     	        public void deliveryComplete(IMqttDeliveryToken token) {}
     	        
@@ -59,6 +61,7 @@ public class Connection{
     		client.setCallback(callback);
     		client.subscribe("GH/Dati");
     		client.subscribe("GH/Errore");
+    		client.subscribe("GH/Ack");
     		
         } catch(MqttException me) 
         {
@@ -118,6 +121,7 @@ public class Connection{
         MqttMessage message = new MqttMessage(buf.array());
         message.setQos(qos);
         message.setPayload(buf.array());
+        idToAck = id;
         boolean acked;
         try {
         	client.publish(topic, message);
@@ -193,6 +197,16 @@ public class Connection{
 		ControllerFacade.modificaAmbienteAttuale(id,temperatura,umidita,irradianza);
 	}
 	
+
+	private void callbackAck(MqttMessage message) {
+		//controlla se l'ack viene dal controllore interrogato, se si sblocca il thread
+		byte[] payload = message.getPayload();
+		ByteBuffer b = ByteBuffer.wrap(payload);
+		int id = b.getInt();
+		if(id == idToAck)
+			sem.release();
+	}
+
 	private static byte[] hexStringToByteArray(String s) 
 	{
 		int len = s.length();
