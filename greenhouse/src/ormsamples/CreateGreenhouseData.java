@@ -45,31 +45,31 @@ public class CreateGreenhouseData {
 			AreaColtivata a1 = AreaColtivata.createAreaColtivata();
 			a1.setPosizione(i);
 			a1.setFila(1);
-			a1.setEstensione((float) 32.4*i/5);
+			a1.setEstensione((float) 32.4*(i+1)/5);
 			a1.setSezione(sez1);
 			a1.setTipo_di_terreno("abbastanza fertile");
 			
 			AreaColtivata a2 = AreaColtivata.createAreaColtivata();
 			a2.setPosizione(i);
 			a2.setFila(2);
-			a2.setEstensione((float) 45.9*i/4);
+			a2.setEstensione((float) 45.9*(i+1)/4);
 			a2.setSezione(sez1);
 			a2.setTipo_di_terreno("poco fertile, buono per i cactus");
 			
 			Ambiente amb1 = Ambiente.createAmbiente();
-			amb1.setIrradianzaTarget((float) 7.8*i/5);
-			amb1.setTemperaturaTarget((float) 23.3*i/5);
-			amb1.setUmiditaSuoloTarget(78*i/5);
-			amb1.setSogliaTemp((float)1.5*i/4);
-			amb1.setSogliaUmi((float)4.1*i/4);
-			amb1.setSogliaIrr((float)1503.2*i/4);
+			amb1.setIrradianzaTarget((float) 7.8*(i+1)/5);
+			amb1.setTemperaturaTarget((float) 23.3*(i+1)/5);
+			amb1.setUmiditaSuoloTarget(78*(i+1)/5);
+			amb1.setSogliaTemp((float)1.5*(i+1)/4);
+			amb1.setSogliaUmi((float)4.1*(i+1)/4);
+			amb1.setSogliaIrr((float)1503.2*(i+1)/4);
 			
 			Ambiente amb2 = Ambiente.createAmbiente();
 			amb2.setSogliaTemp((float)1.5);
 			amb2.setSogliaUmi((float)4.1);
 			amb2.setSogliaIrr((float)1503.2);
-			amb2.setIrradianzaTarget((float) 9.5*i/5);
-			amb2.setTemperaturaTarget((float) 30.1*i/5);
+			amb2.setIrradianzaTarget((float) 9.5*(i+1)/5);
+			amb2.setTemperaturaTarget((float) 30.1*(i+1)/5);
 			amb2.setUmiditaSuoloTarget(60*i/5);
 			DescrizioneColtivazione d1;
 			DescrizioneColtivazione d2;
