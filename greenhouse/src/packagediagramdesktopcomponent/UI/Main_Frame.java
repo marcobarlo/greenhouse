@@ -161,7 +161,7 @@ public class Main_Frame extends JFrame {
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				loginHandler(lblWelcome, lblError, btnLogOut);
+				loginHandler(lblWelcome, lblError, btnLogOut,frame);
 			}
 		});
 		contentPane.add(btnLogin);
@@ -203,11 +203,17 @@ public class Main_Frame extends JFrame {
 		dialog.setVisible(true);
 	}
 
-	private void loginHandler(JLabel lblWelcome, JLabel lblError, JButton btnLogOut) {
+	private void loginHandler(JLabel lblWelcome, JLabel lblError, JButton btnLogOut, Frame frame) {
 		lblError.setVisible(false);
 		lblWelcome.setVisible(false);
 		String mail= txtMail.getText();
 		String pass= txtPass.getText();
+		Frame[] lf=Frame.getFrames();
+		for(Frame f : lf)
+		{
+			if(!f.equals(frame))
+				f.dispose();
+		}
 		if(mail.equals("") || pass.equals(""))
 		{
 			lblError.setText("Errore! Inserisci i campi mail e password!");
