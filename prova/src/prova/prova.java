@@ -8,6 +8,7 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+//import org.eclipse.paho.client.mqttv3.SimpleMQTTCallback;
 import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
@@ -21,6 +22,8 @@ public class prova {
  	     String clientId = "prova";
          //MemoryPersistence persistence = new MemoryPersistence();
          MqttDefaultFilePersistence dataStore = new MqttDefaultFilePersistence(System.getProperty("java.io.tmpdir") + "/" + clientId);
+         System.out.println(System.getProperty("java.io.tmpdir"));
+     //    SimpleMQTTCallback callback = new SimpleMQTTCallback();
          try {
              client = new MqttClient(broker, clientId, dataStore);
              MqttConnectOptions connOpts = new MqttConnectOptions();
@@ -29,14 +32,30 @@ public class prova {
      	        
      	        @Override
      	        public void messageArrived(String topic, MqttMessage message) throws Exception {
-	            	byte[] payload = message.getPayload();
+	            	/*byte[] payload = message.getPayload();
 	            	ByteBuffer b = ByteBuffer.wrap(payload);
 	            	int id = b.getInt();
 	            	byte[] dst=new byte[12];
 	            	b=b.get(dst, 0, 12);
 	            	String mac = new String(dst);
-	            	int sezione = b.getInt();
+	            	int sezione = b.getInt();*/
 	            	//System.out.println(id+" "+mac+ " "+ sezione);
+     	        	if(topic.equals("GH/1/cmd/Mod"))
+     	        	{
+     	        			byte[] payload = message.getPayload();
+     	        			ByteBuffer b = ByteBuffer.wrap(payload);
+     	        			int id = b.getInt();
+     	        	        int qos= 1;
+     	        	        byte[] bytes = ByteBuffer.allocate(4).putInt(id).array();
+     	        	        MqttMessage message2 = new MqttMessage(bytes);
+     	        	        message2.setQos(qos);
+     	        	        message2.setPayload(bytes);
+     	        	        try {client.publish("GH/Ack", message2);} 
+     	        	        catch (MqttPersistenceException e) 
+     	        	        {} 
+     	        	        catch (MqttException e) 
+     	        	        {}
+     	        	}
      	        }
      	        
      	        @Override
@@ -64,20 +83,27 @@ public class prova {
          }
 		try {
 			client.subscribe("GH/SetUp");
+			client.subscribe("GH/1/cmd/Mod");
 		} catch (MqttException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		/*for(int i=0 ; i< 15 ; i++)
+		{
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}*/
         float i = (float) 0.5;
         float j = (float) 2.98;
         float k = (float) 5.62;
-		for(int m=0; m<10;m++)
+		for(int m=0; m<50;m++)
 		{
-			/*lol(i,j,k);
-			i++;
-			j++;
-			k++;*/
-			lolAllarme(m);
+
+			//lolAllarme(m);
 			try {Thread.sleep(5000);}
 			catch (InterruptedException ex) 
 			{
@@ -93,6 +119,11 @@ public class prova {
 				  }
 		          System.out.println("Shutting down mqtt client ...");
 			}
+			System.out.println("Mando il messaggio dati!");
+			lol(i,j,k);
+			i++;
+			j++;
+			k++;
 		}
 		try {
 			client.disconnect();
@@ -125,7 +156,7 @@ public class prova {
 		String topic= "GH/Errore";
 	    int qos= 1;
 	    ByteBuffer buf = ByteBuffer.allocate(8);
-	    buf=buf.putInt(34+i).putInt(i);
+	    buf=buf.putInt(1).putInt(i);
 	    MqttMessage message = new MqttMessage();
 	    message.setQos(qos);
 	    message.setPayload(buf.array());
