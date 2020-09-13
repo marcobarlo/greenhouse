@@ -79,7 +79,7 @@ public class Connection{
 	{
         String topic= "GH/SetUp";
         int qos= 1;
-        ByteBuffer buf = ByteBuffer.allocate(4+12+4+24);
+        ByteBuffer buf = ByteBuffer.allocate(4+6+4+24);	//4 id 6 mac 4 sezionew 24 parametri float
         String mac= c.getMac();
         buf=buf.put(hexStringToByteArray(mac)).putInt(c.getId()).putInt(c.getSezione()).putFloat(c.getTempTarget()).putFloat(c.getUmiTarget()).putFloat(
         		c.getIrrTarget()).putFloat(c.getsogliaTemp()).putFloat(c.getsogliaUmi()).putFloat(c.getsogliaIrr());
