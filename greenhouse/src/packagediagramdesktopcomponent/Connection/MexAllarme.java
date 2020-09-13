@@ -4,7 +4,7 @@ public class MexAllarme {
 
 		private int idAmbiente;
 		private String mex;
-		private String tipo;
+		private String tipoColtivazione;
 		private int idColt, idSez;
 		public int getIdAmbiente() {
 			return idAmbiente;
@@ -17,11 +17,11 @@ public class MexAllarme {
 			idAmbiente = id;
 			mex = m;
 		}
-		public String getTipo() {
-			return tipo;
+		public String getTipoColtivazione() {
+			return tipoColtivazione;
 		}
-		public void setTipo(String tipo) {
-			this.tipo = tipo;
+		public void setTipoColtivazione(String tipo) {
+			this.tipoColtivazione = tipo;
 		}
 		public int getIdColt() {
 			return idColt;

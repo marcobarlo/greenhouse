@@ -21,6 +21,19 @@ public class Allarme
     	default: return new Allarme();
 		}
 	}
+	public static Allarme buildAllarme(int code, float delta)
+	{
+		switch(code)
+		{
+			case 4:
+				return new Allarme4(delta);
+			case 5:
+				return new Allarme5(delta);
+			case 6:
+				return new Allarme6(delta);
+		 	default: return new Allarme();
+		}
+	}
 	
 	public String getErrore()
 	{

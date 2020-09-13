@@ -436,9 +436,8 @@ public class Ambiente {
 	
 	public synchronized void  modificaAmbienteAttuale(float temperatura, float umidita, float irradianza) {
 		if(ambienteAttuale == null)
-			ambienteAttuale = new AmbienteAttuale(this,temperatura, umidita, irradianza);
-		else
-			ambienteAttuale.setParametriAttuali(temperatura, umidita, irradianza);
+			ambienteAttuale = new AmbienteAttuale(this);
+		ambienteAttuale.setParametriAttuali(temperatura, umidita, irradianza);
 	}
 	
 	public boolean modificaAmbiente(float temperatura, float umidita, float irradianza) {

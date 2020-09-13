@@ -94,7 +94,7 @@ public class ControllerParametriAmbientali {
 				int idSez =colt[0].getSezione();
 				int idColt =colt[0].getID();
 				String tipo = colt[0].getTipo();
-				m.setTipo(tipo);
+				m.setTipoColtivazione(tipo);
 				m.setIdSez(idSez);
 				m.setIdColt(idColt);
 			}

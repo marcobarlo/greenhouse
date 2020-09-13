@@ -181,7 +181,14 @@ public class Connection{
 		ByteBuffer b = ByteBuffer.wrap(payload);
 		int id = b.getInt();
 		int code =b.getInt();
-		Allarme all= Allarme.buildAllarme(code);
+		Float delta=null;
+		if(b.hasRemaining())
+			delta = b.getFloat();
+		Allarme all;
+		if(delta==null)
+			all= Allarme.buildAllarme(code);
+		else
+			all= Allarme.buildAllarme(code,delta);
 		String err=all.getErrore();
 		ControllerFacade.sendAllarme(id, err);
 	}
@@ -199,7 +206,7 @@ public class Connection{
 	
 
 	private void callbackAck(MqttMessage message) {
-		//controlla se l'ack viene dal controllore interrogato, se si sblocca il thread
+		//controlla se l'ack viene dal controllore interrogato, se sì sblocca il thread
 		byte[] payload = message.getPayload();
 		ByteBuffer b = ByteBuffer.wrap(payload);
 		int id = b.getInt();

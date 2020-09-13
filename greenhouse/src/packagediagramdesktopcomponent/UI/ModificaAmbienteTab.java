@@ -54,19 +54,19 @@ public class ModificaAmbienteTab extends JFrame {
 	{
 		if(temp!=null && (temp < -10 || temp >60))
 		{
-			lblError.setText("La temeperatura è fuori dal range, reinserisci un valore buono");
+			lblError.setText("La temeperatura è fuori dal range, reinserisci un valore tra -10 e 60");
 			lblError.setVisible(true);
 			return false;
 		}
 		else if(umi!=null && (umi < 0 || umi >100))
 		{
-			lblError.setText("L'umidità è fuori dal range, reinserisci un valore buono");
+			lblError.setText("L'umidità è fuori dal range, reinserisci un valore tra 0 e 100");
 			lblError.setVisible(true);
 			return false;
 		}
 		else if(irr!=null && (irr<25000 || irr>100000))
 		{
-			lblError.setText("L'irradianza è fuori dal range, reinserisci un valore buono");
+			lblError.setText("L'irradianza è fuori dal range, reinserisci un valore tra 25000 e 100000");
 			lblError.setVisible(true);
 			return false;
 		}

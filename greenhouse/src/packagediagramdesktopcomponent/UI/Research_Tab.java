@@ -36,68 +36,15 @@ public class Research_Tab extends JFrame {
 	private JTextField sezioneTextField;
 	private JTextField posizioneTextField;
 	private JTable table;
+	private static Research_Tab instance;
 	private ArrayList<ColtivazioneBusiness> colts= new ArrayList<ColtivazioneBusiness>();
-	/**
-	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Research_Tab frame = new Research_Tab();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
 
 	/**
 	 * Create the frame.
 	 */
+
 	
-	private int getInt(JLabel lblError,String text)
-	{
-		int number;
-		try {number=Integer.parseInt(text);}
-		catch(NumberFormatException e)
-		{
-			number = -1;
-			if(!text.equals(""))
-			{
-				lblError.setText("Errore, sezione, fila e posizione sono numeri positivi!");
-				lblError.setVisible(true);
-				throw e;
-			}
-		}
-		return number;
-	}
-	
-	private boolean validaValori(JLabel lblError,int sezione, int posizione,  int fila)
-	{
-		if(sezione==0 || sezione < -1)
-		{
-			lblError.setText("Errore, inserisci un identificativo di sezione positivo");
-			lblError.setVisible(true);
-			return false;
-		}
-		else if(posizione==0 || posizione < -1 )
-		{
-			lblError.setText("Errore, inserisci una posizione positiva");
-			lblError.setVisible(true);
-			return false;
-		}
-		else if(fila==0 || fila < -1 )
-		{
-			lblError.setText("Errore, inserisci una fila positiva");
-			lblError.setVisible(true);
-			return false;
-		}
-		return true;
-	}
-	
-	public Research_Tab() {
+	private Research_Tab() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 559, 454);
 		contentPane = new JPanel();
@@ -285,7 +232,56 @@ public class Research_Tab extends JFrame {
 		mostra.setVisible(true);
 		modificaParamAmb.setVisible(true); }
 		});
-
 	
+	}
+	
+	
+	private int getInt(JLabel lblError,String text)
+	{
+		int number;
+		try {number=Integer.parseInt(text);}
+		catch(NumberFormatException e)
+		{
+			number = -1;
+			if(!text.equals(""))
+			{
+				lblError.setText("Errore, sezione, fila e posizione sono numeri positivi!");
+				lblError.setVisible(true);
+				throw e;
+			}
+		}
+		return number;
+	}
+	
+	private boolean validaValori(JLabel lblError,int sezione, int posizione,  int fila)
+	{
+		if(sezione==0 || sezione < -1)
+		{
+			lblError.setText("Errore, inserisci un identificativo di sezione positivo");
+			lblError.setVisible(true);
+			return false;
+		}
+		else if(posizione==0 || posizione < -1 )
+		{
+			lblError.setText("Errore, inserisci una posizione positiva");
+			lblError.setVisible(true);
+			return false;
+		}
+		else if(fila==0 || fila < -1 )
+		{
+			lblError.setText("Errore, inserisci una fila positiva");
+			lblError.setVisible(true);
+			return false;
+		}
+		return true;
+	}
+	
+	public static Research_Tab getInstance()
+	{
+		if(instance != null)
+			return instance;
+		else
+			instance=new Research_Tab();
+		return instance;
 	}
 }

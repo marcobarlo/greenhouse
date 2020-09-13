@@ -4,12 +4,11 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
+//import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+//import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
@@ -66,7 +65,7 @@ public class Main_Frame extends JFrame {
 	public void ricercaColtivazione() {
 
 		try {
-			Research_Tab frameRes = new Research_Tab();
+			Research_Tab frameRes = Research_Tab.getInstance();
 			frameRes.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -194,13 +193,16 @@ public class Main_Frame extends JFrame {
 	@Subscribe(threadMode = ThreadMode.BACKGROUND)
 	public void onEvent(MexAllarme event)
 	{
-		JOptionPane optionPane = new JOptionPane(event.getMex() + "\nAmbiente : "+ event.getIdAmbiente()+
+		/*JOptionPane optionPane = new JOptionPane(event.getMex() + "\nAmbiente : "+ event.getIdAmbiente()+
 				" \nSezione: "+event.getIdSez()+ " \nColtivazione: "+event.getIdColt()+" -"+event.getTipo(), JOptionPane.WARNING_MESSAGE);
 		JDialog dialog = optionPane.createDialog(null, event.getMex() + "\nAmbiente : "+ event.getIdAmbiente()+
 				" \nSezione: "+event.getIdSez()+ " \nColtivazione: "+event.getIdColt()+" -"+event.getTipo());
 		dialog.setModal(false);
 		dialog.setTitle("Attenzione! Malfunzionamento!");
-		dialog.setVisible(true);
+		dialog.setVisible(true);*/
+		ErrorLog log = ErrorLog.getInstance();
+		log.addError(event.getMex(),  event.getIdAmbiente(),  event.getIdSez(),  event.getIdColt(),  event.getTipoColtivazione());
+		log.setVisible(true);
 	}
 
 	private void loginHandler(JLabel lblWelcome, JLabel lblError, JButton btnLogOut, Frame frame) {
@@ -221,6 +223,7 @@ public class Main_Frame extends JFrame {
 		}
 		else
 		{
+			mail.replace("'", "").trim().toLowerCase().replace("\"", "").replace("*", "");
 			String role=ControllerFacade.login(mail,pass);
 			if(role!=null)
 			{

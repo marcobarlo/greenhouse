@@ -31,8 +31,9 @@ public class AmbienteAttuale {
 		this.irradianzaAttuale = irradianzaAttuale;
 	}*/
 	
-	public AmbienteAttuale()
+	public AmbienteAttuale(Ambiente a)
 	{	
+		ambiente= a;
 	}
 	public AmbienteAttuale(Ambiente a, float temperatura, float umidita, float irradianza)
 	{

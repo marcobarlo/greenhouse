@@ -12,6 +12,7 @@ import org.orm.PersistentException;
 
 import packagediagramdesktopcomponent.Business_Logic.*;
 import packagediagramdesktopcomponent.Connection.MexAggiornaParametri;
+import packagediagramdesktopcomponent.Connection.MexAllarme;
 
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -32,6 +33,8 @@ public class Coltivazione_tab extends JFrame {
 	private JLabel lblUmiAttuale;
 	private JLabel lblTempAttuale;
 	private DettagliBusiness dett;
+	private ColtivazioneBusiness colt;
+	private boolean updateTemp = true,updateUmi = true,updateIrr = true;
 	/**
 	 * Create the frame.
 	 * @throws PersistentException 
@@ -45,6 +48,8 @@ public class Coltivazione_tab extends JFrame {
 		contentPane.setLayout(null);
 		contentPane.setLayout(null);
 		this.setResizable(false);
+		
+		this.colt = colt;
 		
 		JLabel lblTipo = new JLabel("Tipo: ");
 		lblTipo.setBounds(34, 103, 329, 14);
@@ -136,7 +141,10 @@ public class Coltivazione_tab extends JFrame {
 		lblTempAttuale.setBounds(462, 326, 163, 14);
 		contentPane.add(lblTempAttuale);
 		
+		EventBus.getDefault().register(this);
+		
 		dett= ControllerFacade.getDettagliColtivazione(colt.getID_coltivazione());
+		
 		if (dett == null) 
 		{
 			errorLabel.setText("<html>Oops! Si è verificato un errore<br>si prega chiudere la finestra<br>");
@@ -154,15 +162,12 @@ public class Coltivazione_tab extends JFrame {
 			lblluce.setText("Irradianza: "+dett.getIrradianza_target());
 		}
 		
-		EventBus.getDefault().register(this);
-		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent e) 
 		    {
 				EventBus.getDefault().unregister(this);
 				ControllerFacade.sendClosedMex(dett.getIdAmbiente(), colt.getSezione());
-				//System.out.println("Mi deregistro");
 		        e.getWindow().dispose();
 		    }
 		});
@@ -173,10 +178,37 @@ public class Coltivazione_tab extends JFrame {
 	public void onEvent(MexAggiornaParametri event)
 	{
 		if(event.getId()== dett.getIdAmbiente())
+		{	
+			if(updateTemp)
+				this.lblTempAttuale.setText("Temperatura attuale: "+event.getTemp());
+			if(updateUmi)
+				this.lblUmiAttuale.setText("Umidità attuale: "+event.getUmi());
+			if(updateIrr)
+				this.lblIrrAttuale.setText("Irradianza attuale: "+event.getIrr());
+		}
+	}
+	
+	@Subscribe(threadMode = ThreadMode.BACKGROUND)
+	public void onEvent(MexAllarme event)
+	{
+		if(event.getIdColt()== colt.getID_coltivazione())
 		{
-			this.lblTempAttuale.setText("Temperatura attuale: "+event.getTemp());
-			this.lblUmiAttuale.setText("Umidità attuale: "+event.getUmi());
-			this.lblIrrAttuale.setText("Irradianza attuale: "+event.getIrr());
+			if(event.getMex().startsWith("Sensore di temperatura"))
+			{
+				lblTempAttuale.setText("Errore nel sensore di temperatura!");
+				updateTemp = false;
+			}
+			else if(event.getMex().startsWith("Sensore di umidità"))
+			{
+				lblTempAttuale.setText("Errore nel sensore di umidità!");
+				updateUmi = false;
+			}
+			else if(event.getMex().startsWith("Sensore di irradianza"))
+			{
+				lblTempAttuale.setText("Errore nel sensore di irradianza!");
+				updateIrr = false;
+			}
+
 		}
 	}
 } 
