@@ -76,10 +76,10 @@ void Comunicazione :: Publish(char topic [], byte * payload, int lung){
   };
 
 
-void Comunicazione :: PublishErrore(byte * payload) {
+void Comunicazione :: PublishErrore(byte * payload,int lung) {
   if (mqttClient.connect(CLIENT_ID)) {
     //RISCRIVERE QUESTO TOPIC COME COSTANTI
-    mqttClient.publish("GH/Errore", payload);
+    mqttClient.publish("GH/Errore", payload,lung);
   }
 };
 
@@ -119,12 +119,17 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
       Serial.println("Sezione:");
       Serial.println(sez);
       Controller->SetSezione(sez);
+      Serial.println("PRELEVIAMOLI STI CAZZO DI DATI");
       for (int i = 0; i < 3; i++) {
+        Serial.println(i);
         target[i] = Convert_byte_to_float(payload, DISPLACEMENT_TRG_S + 4 * i);
+        Serial.println(target[i]);
         soglie[i] = Convert_byte_to_float(payload, DISPLACEMENT_SGL_S + 4 * i);
+        Serial.println(soglie[i]);
       }
       Target->ModificaAmbiente2(target);
       Target->SetSoglie2(soglie);
+      Controller->SetStart();
       float targetf[3];
       float soglief[3];
       Target->GetTarget(targetf,3);

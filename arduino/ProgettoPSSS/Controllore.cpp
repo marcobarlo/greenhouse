@@ -54,15 +54,21 @@ void Controllore :: SendDati(){
 //    for(int i=0;i<3;i++){
 //      dati[i]=sensori[i]->GetDato();
 //      }
-    dati[0]=8.4;
-    dati[1]=8.5;
-    dati[2]=8.6;
+    dati[0]=-1;
+    dati[1]=-1;
+    dati[2]=-1;
     Load_to_payload_long(payload,0,ID);
     int j=0;
     for (int i=4;i<16;i=i+4){
       Serial.println("Di 4 in 4");
       Serial.println(i);
       Serial.println(i-4*(i/4));
+      if (dati[j]<0){
+        byte payload [8];
+        Load_to_payload_long(payload,0,ID);
+        Load_to_payload_long(payload,4,j+1);
+        Link->PublishErrore(payload,8);
+        }
       Load_to_payload_float(payload,i,dati[j]);
       j=j+1;
       }
@@ -222,12 +228,13 @@ void Controllore::Controllo() {
 //  valore[2]=1;
   for (int i = 0; i < 3; i++) {
 //    valore[i] = sensori[i]->GetDato();
-    valore[i]=i*10000;
+    valore[i]=-10;
     if(valore[i]<0){
         byte payload [8];
         Load_to_payload_long(payload,0,ID);
-        Load_to_payload_long(payload,4,i);
-//        Link->PublishErrore(payload);
+        Load_to_payload_long(payload,4,i+1);
+        Serial.println(i+1);
+        Link->PublishErrore(payload,8);
       }else{
     if (abs(target[i] - valore[i]) > soglie[0]) {
       if (Error[i] == false) {
@@ -237,14 +244,16 @@ void Controllore::Controllo() {
       else {
         byte payload [8];
         Load_to_payload_long(payload,0,ID);
-        Load_to_payload_long(payload,4,(3+i));
-        Link->PublishErrore(payload);
+        Load_to_payload_long(payload,4,(4+i));
+        Load_to_payload_float(payload,8,abs(target[i] - valore[i]));
+        Link->PublishErrore(payload,12);
       }
     }else{
       Error[i]=false;
       }
       }
   }
+  
   if (Observed) {
     //rivedere sto codice per la conversione e l'invio dei dati
     //Usare le union per convertire i float in byte arrays

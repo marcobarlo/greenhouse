@@ -27,7 +27,10 @@ void setup() {
 void loop() {
   //Da rivedere se va usato invece l'interrupt per il calcolo del tempo
   if (millis() - previousMillis > CONTROL_DELAY) {
-    Contr->Controllo();//Adesso come faccio iniziare solo se ho il Setup?? mi sa che devo fare il fatto dell'interrupt
+    if(Contr->GetStart()){
+      Contr->Controllo();//Adesso come faccio iniziare solo se ho il Setup?? mi sa che devo fare il fatto dell'interrupt
+          Serial.println("CI SONO E CONTROLLO PURE");
+    }
     Serial.println("CI SONO");
     previousMillis = millis();
   }

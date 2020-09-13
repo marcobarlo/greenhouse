@@ -30,6 +30,7 @@ class Controllore{
     Ambiente * ambiente;//allocato dinamicamente all'inizio
     Sensore* sensori [3];
     Attuatore* attuatori [3];
+    bool Start=false;
     bool Error[3];
     bool Observed;
     long ID;
@@ -48,6 +49,9 @@ class Controllore{
     long GetSezione();
     void SendDati();
     void SendAck();
+    bool GetStart(){return Start;}
+    void SetStart(){Start=true;}
+
 //    float GetSoglia();
     void ToggleObserved();
     ~Controllore(){};

@@ -44,6 +44,8 @@ void  Ambiente :: ModificaAmbiente2(float array []) {
   Serial.println("Modifica Ambiente 2 valori:");
   for(int i=0;i<NUM_T;i++){
     target[i]=array[i];
+    Serial.println(array[i]);
+    Serial.println(target[i]);
     }
 };
 

@@ -40,7 +40,7 @@ class Comunicazione{
     void PublishTest();
     void Publish(char topic [], byte * payload, int lung);
     void PublishDati(byte * payload, int lung);
-    void PublishErrore(byte * payload);
+    void PublishErrore(byte * payload,int lung);
     void _callback(char* topic, byte* payload, unsigned int length);
     void keepalive();
     ~Comunicazione(){};
