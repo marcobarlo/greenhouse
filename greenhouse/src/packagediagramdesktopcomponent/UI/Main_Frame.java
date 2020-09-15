@@ -200,9 +200,12 @@ public class Main_Frame extends JFrame {
 		dialog.setModal(false);
 		dialog.setTitle("Attenzione! Malfunzionamento!");
 		dialog.setVisible(true);*/
-		ErrorLog log = ErrorLog.getInstance();
-		log.addError(event.getMex(),  event.getIdAmbiente(),  event.getIdSez(),  event.getIdColt(),  event.getTipoColtivazione());
-		log.setVisible(true);
+		if(ErrorLog.getIsUpdating()==true)
+		{
+			ErrorLog log = ErrorLog.getInstance();
+			log.addError(event.getMex(),  event.getIdAmbiente(),  event.getIdSez(),  event.getIdColt(),  event.getTipoColtivazione());
+			log.setVisible(true);
+		}
 	}
 
 	private void loginHandler(JLabel lblWelcome, JLabel lblError, JButton btnLogOut, Frame frame) {

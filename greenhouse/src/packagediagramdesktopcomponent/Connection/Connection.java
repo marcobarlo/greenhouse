@@ -19,12 +19,10 @@ public class Connection{
 	private Semaphore sem;
 	private int idToAck;
 	private Connection(){}
-	public void startup()
+	public void startup(String broker, String clientId)
 	{
 		sem= new Semaphore(0);
 		//setup mqtt client
-        String broker = "tcp://localhost:1883";
-		String clientId = "Mainframe";
         MqttDefaultFilePersistence dataStore = new MqttDefaultFilePersistence(System.getProperty("java.io.tmpdir") + "/" + clientId);
         try {
             client = new MqttClient(broker, clientId, dataStore);

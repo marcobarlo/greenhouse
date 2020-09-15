@@ -25,12 +25,17 @@ public class Main {
 			e1.printStackTrace();
 		}*/
 
+		//read config file
+		NodeList nList = null;
+		String host=null;
+		Document doc=readConfig();
+		host =doc.getElementsByTagName("brokerHost").item(0).getTextContent();
+		nList = doc.getElementsByTagName("device");	
+		
 		//startup the connection with broker
 		Connection conn = Connection.getInstance();
-		conn.startup();
+		conn.startup(host, "Mainframe");
 		
-		//read config file
-		NodeList nList = readConfig();
 		//send config packets
 		sendConfig(nList, conn);
 		
@@ -42,7 +47,7 @@ public class Main {
 		{e.printStackTrace();}
 	}
 	
-	private static NodeList readConfig()
+	private static Document readConfig()
 	{
 		try {
 			File fXmlFile = new File("config.xml");
@@ -50,9 +55,7 @@ public class Main {
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(fXmlFile);
 			doc.getDocumentElement().normalize();
-		
-			NodeList nList = doc.getElementsByTagName("device");
-			return nList;
+			return doc;
 	    	} 
 		catch (Exception e) 
 	    {e.printStackTrace();
