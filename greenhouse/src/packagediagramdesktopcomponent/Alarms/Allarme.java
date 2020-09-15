@@ -1,5 +1,12 @@
 package packagediagramdesktopcomponent.Alarms;
 
+import packagediagramdesktopcomponent.Connection.Allarme1;
+import packagediagramdesktopcomponent.Connection.Allarme2;
+import packagediagramdesktopcomponent.Connection.Allarme3;
+import packagediagramdesktopcomponent.Connection.Allarme4;
+import packagediagramdesktopcomponent.Connection.Allarme5;
+import packagediagramdesktopcomponent.Connection.Allarme6;
+
 public class Allarme 
 {
 	public static Allarme buildAllarme(int code)

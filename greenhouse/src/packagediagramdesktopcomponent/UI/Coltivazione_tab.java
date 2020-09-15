@@ -193,22 +193,21 @@ public class Coltivazione_tab extends JFrame {
 	{
 		if(event.getIdColt()== colt.getID_coltivazione())
 		{
-			if(event.getMex().startsWith("Sensore di temperatura"))
+			if(event.getSensoreMalfunzionante() == 1)
 			{
 				lblTempAttuale.setText("Errore nel sensore di temperatura!");
 				updateTemp = false;
 			}
-			else if(event.getMex().startsWith("Sensore di umidità"))
+			else if(event.getSensoreMalfunzionante() == 2)
 			{
 				lblTempAttuale.setText("Errore nel sensore di umidità!");
 				updateUmi = false;
 			}
-			else if(event.getMex().startsWith("Sensore di irradianza"))
+			else if(event.getSensoreMalfunzionante() == 3)
 			{
 				lblTempAttuale.setText("Errore nel sensore di irradianza!");
 				updateIrr = false;
 			}
-
 		}
 	}
 } 

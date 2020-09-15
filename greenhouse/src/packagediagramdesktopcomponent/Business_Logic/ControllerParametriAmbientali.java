@@ -84,11 +84,21 @@ public class ControllerParametriAmbientali {
 			System.out.println("Errore nell'invio del messaggio di stop!!");
 	}
 
-	protected static void sendAllarme(int idAmbiente, String mex)
+	protected static void sendAllarme(int code,int idAmbiente)
 	{
+		MexAllarme m = MexAllarme.buildAllarme(code, idAmbiente);
+		sendAllarmeHelper(idAmbiente, m);
+	}
+	
+	protected static void sendAllarme(int code,int idAmbiente, float delta)
+	{
+		MexAllarme m = MexAllarme.buildAllarme(code, idAmbiente,delta);
+		sendAllarmeHelper(idAmbiente, m);
+	}
+	
+	private static void sendAllarmeHelper(int idAmbiente, MexAllarme m) {
 		try {
 			Coltivazione[] colt = Coltivazione.getColtivazioneByAmbienteID(idAmbiente);
-			MexAllarme m = new MexAllarme(idAmbiente,mex);
 			if(colt.length>0)
 			{
 				int idSez =colt[0].getSezione();
@@ -97,11 +107,14 @@ public class ControllerParametriAmbientali {
 				m.setTipoColtivazione(tipo);
 				m.setIdSez(idSez);
 				m.setIdColt(idColt);
+				EventBus.getDefault().post(m);	
 			}
-			EventBus.getDefault().post(m);	
+			else
+				System.out.println("Allarmi provenienti da ambienti non trovati nel database, probabile inconsistenza!!!");
 		} catch (PersistentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+
 }

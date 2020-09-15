@@ -51,9 +51,13 @@ public class ControllerFacade {
 		ControllerParametriAmbientali.sendClosedMex(idAmbiente,sez);
 	}
 	
-	public static void sendAllarme(int idAmbiente, String mex)
+	public static void sendAllarme(int code,int idAmbiente)
 	{
-		ControllerParametriAmbientali.sendAllarme(idAmbiente,mex);
+		ControllerParametriAmbientali.sendAllarme(code,idAmbiente);
+	}
+	public static void sendAllarme(int code,int idAmbiente, float delta)
+	{
+		ControllerParametriAmbientali.sendAllarme(code,idAmbiente,delta);
 	}
 	public static String login(String mail, String pass)
 	{
@@ -67,4 +71,5 @@ public class ControllerFacade {
 	public static void logOut() {
 		ControllerUtenti.logOut();
 	}
+
 }

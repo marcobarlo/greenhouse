@@ -12,6 +12,7 @@ import javax.swing.JList;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.SpringLayout;
 
 public class ErrorLog extends JFrame {
 
@@ -28,12 +29,16 @@ public class ErrorLog extends JFrame {
 	private JList<String> list;
 	private ErrorLog() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 715, 264);
+		setBounds(100, 100, 692, 279);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		scrollPane.setBounds(0, 30, 699, 195);
+		SpringLayout sl_contentPane = new SpringLayout();
+		sl_contentPane.putConstraint(SpringLayout.NORTH, scrollPane, 30, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, scrollPane, 5, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, scrollPane, 225, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, scrollPane, -5, SpringLayout.EAST, contentPane);
+		contentPane.setLayout(sl_contentPane);
 		contentPane.add(scrollPane);
 		listModel = new DefaultListModel<String>();
 		list = new JList<String>(listModel);
@@ -51,15 +56,20 @@ public class ErrorLog extends JFrame {
 		});
 		
 		JButton btnClean = new JButton("Clear Log");
+		sl_contentPane.putConstraint(SpringLayout.NORTH, btnClean, 0, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, btnClean, 0, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, btnClean, 109, SpringLayout.WEST, contentPane);
 		btnClean.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				listModel.clear();
 			}
 		});
-		btnClean.setBounds(0, 0, 109, 23);
 		contentPane.add(btnClean);
 		
 		btnMute = new JButton("Mute Log");
+		sl_contentPane.putConstraint(SpringLayout.NORTH, btnMute, 0, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, btnMute, 119, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, btnMute, 228, SpringLayout.WEST, contentPane);
 		btnMute.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				update=!update;
@@ -69,7 +79,6 @@ public class ErrorLog extends JFrame {
 					btnMute.setText("Mute Log");
 			}
 		});
-		btnMute.setBounds(119, 0, 109, 23);
 		contentPane.add(btnMute);
 		this.setTitle("Log degli errori");
 	}
