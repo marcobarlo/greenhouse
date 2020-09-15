@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
+`	<brokerHost>tcp://localhost:1883</brokerHost>
     <device>
     	<ID>1</ID>
         <mac>0A-CF-B3-C4-D8-32</mac>
