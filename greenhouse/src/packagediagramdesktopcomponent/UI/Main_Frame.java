@@ -18,7 +18,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import packagediagramdesktopcomponent.Main;
 import packagediagramdesktopcomponent.Business_Logic.ControllerFacade;
-import packagediagramdesktopcomponent.Connection.MexAllarme;
+import packagediagramdesktopcomponent.Connection.Allarme;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Frame;
@@ -191,7 +191,7 @@ public class Main_Frame extends JFrame {
 		
 	}
 	@Subscribe(threadMode = ThreadMode.BACKGROUND)
-	public void onEvent(MexAllarme event)
+	public void onEvent(Allarme event)
 	{
 		/*JOptionPane optionPane = new JOptionPane(event.getMex() + "\nAmbiente : "+ event.getIdAmbiente()+
 				" \nSezione: "+event.getIdSez()+ " \nColtivazione: "+event.getIdColt()+" -"+event.getTipo(), JOptionPane.WARNING_MESSAGE);

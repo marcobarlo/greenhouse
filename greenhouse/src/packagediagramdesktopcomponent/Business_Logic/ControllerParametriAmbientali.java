@@ -86,17 +86,17 @@ public class ControllerParametriAmbientali {
 
 	protected static void sendAllarme(int code,int idAmbiente)
 	{
-		MexAllarme m = MexAllarme.buildAllarme(code, idAmbiente);
+		Allarme m = AllarmeFactory.buildAllarme(code, idAmbiente);
 		sendAllarmeHelper(idAmbiente, m);
 	}
 	
 	protected static void sendAllarme(int code,int idAmbiente, float delta)
 	{
-		MexAllarme m = MexAllarme.buildAllarme(code, idAmbiente,delta);
+		Allarme m = AllarmeFactory.buildAllarme(code, idAmbiente,delta);
 		sendAllarmeHelper(idAmbiente, m);
 	}
 	
-	private static void sendAllarmeHelper(int idAmbiente, MexAllarme m) {
+	private static void sendAllarmeHelper(int idAmbiente, Allarme m) {
 		try {
 			Coltivazione[] colt = Coltivazione.getColtivazioneByAmbienteID(idAmbiente);
 			if(colt.length>0)

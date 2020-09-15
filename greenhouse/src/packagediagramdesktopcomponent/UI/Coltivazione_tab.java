@@ -12,7 +12,7 @@ import org.orm.PersistentException;
 
 import packagediagramdesktopcomponent.Business_Logic.*;
 import packagediagramdesktopcomponent.Connection.MexAggiornaParametri;
-import packagediagramdesktopcomponent.Connection.MexAllarme;
+import packagediagramdesktopcomponent.Connection.Allarme;
 
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -189,7 +189,7 @@ public class Coltivazione_tab extends JFrame {
 	}
 	
 	@Subscribe(threadMode = ThreadMode.BACKGROUND)
-	public void onEvent(MexAllarme event)
+	public void onEvent(Allarme event)
 	{
 		if(event.getIdColt()== colt.getID_coltivazione())
 		{
