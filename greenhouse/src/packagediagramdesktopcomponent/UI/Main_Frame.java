@@ -82,26 +82,30 @@ public class Main_Frame extends JFrame {
 		contentPane.setBounds(new Rectangle(100, 100, screenSize.width, screenSize.height));
 		setContentPane(contentPane);
 
+		this.setResizable(false);
+		
 		Frame frame = this;
 		contentPane.setLayout(null);
 		
 		
 		lblWelcome = new JLabel("New label");
-		lblWelcome.setBounds(422, 371, 502, 28);
+		//lblWelcome.setBounds(422, 371, 502, 28);
+		lblWelcome.setBounds(new Rectangle(screenSize.width/2-177/2,screenSize.height/2-70, 177,20));
 		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWelcome.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		contentPane.add(lblWelcome);
 		lblWelcome.setVisible(false);
 		
 		lblError = new JLabel("New label");
-		lblError.setBounds(422, 328, 502, 82);
+		lblError.setBounds(new Rectangle(screenSize.width/2-177/2,screenSize.height/2-70, 177,20));
+		//lblError.setBounds(422, 328, 502, 82);
 		lblError.setHorizontalAlignment(SwingConstants.CENTER);
 		lblError.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		contentPane.add(lblError);
 		lblError.setVisible(false);
 		
 		JButton searchButton = new JButton("Cerca una coltivazione");
-		searchButton.setBounds(34, 27, 163, 23);
+		searchButton.setBounds(34, 27, 177, 23);
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				lblError.setVisible(false);
@@ -113,29 +117,33 @@ public class Main_Frame extends JFrame {
 		getContentPane().add(searchButton);
 		
 		JLabel lblMail = new JLabel("Email:");
-		lblMail.setBounds(433, 191, 109, 28);
+		//lblMail.setBounds(433, 191, 109, 28);
+		lblMail.setBounds(new Rectangle(screenSize.width/2-300,screenSize.height/2-30, 177,20));
 		lblMail.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblMail.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		contentPane.add(lblMail);
 		
 		JLabel lblPassword = new JLabel("Password:");
-		lblPassword.setBounds(433, 234, 109, 28);
+		lblPassword.setBounds(new Rectangle(screenSize.width/2-300,screenSize.height/2+10, 177,20));
+		//lblPassword.setBounds(433, 234, 109, 28);
 		lblPassword.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		contentPane.add(lblPassword);
 		
 		txtMail = new JTextField();
-		txtMail.setBounds(591, 197, 177, 20);
+		txtMail.setBounds(new Rectangle(screenSize.width/2-177/2,screenSize.height/2-30, 177,20));
+		//txtMail.setBounds(591, 197, 177, 20);
 		contentPane.add(txtMail);
 		txtMail.setColumns(10);
 		
 		txtPass = new JPasswordField();
-		txtPass.setBounds(591, 240, 177, 20);
+		txtPass.setBounds(new Rectangle(screenSize.width/2-177/2,screenSize.height/2+10, 177,20));
+		//txtPass.setBounds(591, 240, 177, 20);
 		contentPane.add(txtPass);
 		txtPass.setColumns(10);
 		
 		btnLogOut = new JButton("Log Out");
-		btnLogOut.setBounds(278, 27, 163, 23);
+		btnLogOut.setBounds(295, 27, 177, 23);
 		btnLogOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				lblError.setVisible(false);
@@ -156,7 +164,8 @@ public class Main_Frame extends JFrame {
 
 		
 		JButton btnLogin = new JButton("Log in");
-		btnLogin.setBounds(600, 297, 155, 23);
+		btnLogin.setBounds(new Rectangle(screenSize.width/2-177/2,screenSize.height/2+50, 177,20));
+		//btnLogin.setBounds(600, 297, 155, 23);
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -168,7 +177,7 @@ public class Main_Frame extends JFrame {
 		this.getRootPane().setDefaultButton(btnLogin);
 		
 		Component rigidArea = Box.createRigidArea(new Dimension(20, 20));
-		rigidArea.setBounds(195, 0, 85, 50);
+		rigidArea.setBounds(210, 10, 85, 50);
 		contentPane.add(rigidArea);
 		
 		Component horizontalStrut = Box.createHorizontalStrut(20);
