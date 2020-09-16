@@ -10,7 +10,7 @@
 #include "PubSubClient.h"
 #include "func.h"
 
-#define CLIENT_TEMP "TEMP" //DA CAMBIARE ?? come faccio a fare la connessione al primo Client ID il mac??
+//#define CLIENT_TEMP "TEMP" //DA CAMBIARE ?? come faccio a fare la connessione al primo Client ID il mac??
 #define DHTPIN 2
 #define DHTTYPE DHT11   // DHT 11
 
@@ -67,6 +67,7 @@ class Ambiente{
  class Sensore{
   public:
     Sensore(){};
+    virtual void  WhoAreYou(){};
     virtual float GetDato(){};
     virtual void SetUp(){};
   };
@@ -77,6 +78,7 @@ class SensoreUmidita : public Sensore{
 	
   public:
     SensoreUmidita(){};
+    virtual void  WhoAreYou(){Serial.println("Sono il sensore di Umidita");};
     virtual float GetDato();
     virtual void SetUp();
   };
@@ -86,6 +88,7 @@ class SensoreIrradianza : public Sensore{
     float Irradianza;
   public:
     SensoreIrradianza();
+    virtual void  WhoAreYou(){Serial.println("Sono il sensore di Irradianza");};
     virtual float GetDato();
     virtual void SetUp();
   };
@@ -96,6 +99,7 @@ class SensoreTemperatura : public Sensore{
 	  DHT dht;
   public:
     SensoreTemperatura();
+    virtual void  WhoAreYou(){Serial.println("Sono il sensore di Temperatura");};
     virtual float GetDato();
     virtual void SetUp();
   };

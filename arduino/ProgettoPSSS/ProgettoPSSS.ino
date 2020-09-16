@@ -3,8 +3,10 @@
 #include "Comunicazione.h"
 #include <SPI.h>
 #include "MemoryFree.h"
+#include "Tim.h"
 
-#define CONTROL_DELAY 60000
+
+#define CONTROL_DELAY 10000
 
 Controllore* Contr;
 Comunicazione * Com;

@@ -8,6 +8,8 @@
 #include "MemoryFree.h"
 
 
+#define SIZE 3
+
 #define DHTPIN 2
 #define DHTTYPE DHT11   // DHT 11
 

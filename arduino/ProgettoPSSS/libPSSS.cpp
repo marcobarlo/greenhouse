@@ -62,7 +62,10 @@ float Ambiente :: GetSogliaT() {
 };
 
 int Ambiente :: GetSoglie(float array[],int lung){
-  Serial.println(sizeof(array));
+  Serial.println("Me le getto proprio ste soglie");
+//  Serial.println(sizeof(array));
+  Serial.println(lung);
+  Serial.println((sizeof(soglie)/sizeof(soglie[0])));
   if(lung<(sizeof(soglie)/sizeof(soglie[0]))){
         Serial.println("No no Troppo piccolo S");
             Serial.println(sizeof(array));
@@ -72,7 +75,10 @@ int Ambiente :: GetSoglie(float array[],int lung){
     Serial.println("Valore Soglie");
     for (int i=0;i<(sizeof(soglie)/sizeof(soglie[0]));i++){
       array[i]=soglie[i];
+      Serial.println(F("Iterazione"));
+      Serial.println(i);
       Serial.println(soglie[i]);
+      Serial.println(array[i]);
       }
     return 0;
   };//per farlo per bene servirebbero puntatori ma così evito di fare allocazione dinamica di cose piccole
@@ -127,19 +133,25 @@ float SensoreUmidita :: GetDato() {
   int value = analogRead(YL_69_PIN);
   digitalWrite(YL_69_VCC, LOW);
   Umidita = 1023 - value;
+  Serial.println(value);
   if(value ==0){
     return -1;
     }
   return Umidita;
+//  return 30;
 };
 
 
 
 SensoreTemperatura::SensoreTemperatura(): dht(DHTPIN, DHTTYPE) {
 };
+//SensoreTemperatura::SensoreTemperatura() {
+//};
 
 void SensoreTemperatura  :: SetUp() {
   Serial.println(" Setup SensoreTemperatura");
+//  DHT  dht2(DHTPIN, DHTTYPE);
+//  dht=&dht2;
   Temperatura = -1;
   dht.begin();
 };
@@ -147,11 +159,13 @@ void SensoreTemperatura  :: SetUp() {
 float SensoreTemperatura  :: GetDato() {
   
   Serial.println(" GetDato SensoreTemperatura");
-  float chk = dht.readTemperature(DHTPIN);
+  float chk = dht.readTemperature();
+  Serial.println(chk);
   if (isnan(chk)){
     chk=-1;
     }
   return chk;
+//  return 10;
 };
 
 SensoreIrradianza::SensoreIrradianza() {};
@@ -164,7 +178,7 @@ void SensoreIrradianza  :: SetUp() {
 
 float SensoreIrradianza  :: GetDato() {
   Serial.println(" GetDato SensoreIrradianza");
-  //TODO DA FARE CARATTERIZZARE PER BENE I VALORI ATTUALI CREDO DIANO PROBLEMI, I LUX SEMBRANO INCREDIBILMENTE ALTI
+//  //TODO DA FARE CARATTERIZZARE PER BENE I VALORI ATTUALI CREDO DIANO PROBLEMI, I LUX SEMBRANO INCREDIBILMENTE ALTI
   float level = analogRead(LUXINPUT);
   //calculate analog voltage
   float voltage = 5 * level / 1024;
@@ -196,7 +210,9 @@ float SensoreIrradianza  :: GetDato() {
   if (lux < 0 ) {
     lux = 0;
   }
+  Serial.println(lux);
   return lux;
+//return 20;
 };
 
 void Serpentina :: SetAttuatore(float f){};

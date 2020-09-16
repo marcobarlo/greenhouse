@@ -6,22 +6,26 @@
 #define DISPLACEMENT_SGL_S  26
 #define DISPLACEMENT_TRG_M  4
 
+File myFile;
+
 Comunicazione* Comunicazione :: Me = NULL;
 
 //TODO Inserire il codice per fare la lettura da SD e fare solo poi begin e ti pigli l'IP?? testare
 
-byte mac[] = {
-  0x0A, 0xCF, 0xB3, 0xC4, 0xD8, 0x32
-};
+//byte mac[] = {
+//  0x0A, 0xCF, 0xB3, 0xC4, 0xD8, 0x32
+//};
 
 byte ip[] = {10, 0, 0, 3};
 
-const char* mqtt_server = "10.0.0.2";
+const char* mqtt_server = "10.0.0.3";
 
 byte gateway[] = {10, 0, 0, 1};  // gateway address
 
 byte subnet[] = {255, 255, 255, 0};  //subnet mask
 
+ byte mac_byte[6];
+ 
 int i = 0;
 
 void callback(char* topic, byte* payload, unsigned int length) {
@@ -40,15 +44,60 @@ static Comunicazione* Comunicazione::GetInstance() {
 void Comunicazione :: SetUp(Ambiente * amb) {
   Target = amb;
   Controller = Controllore::GetInstance();
-  Ethernet.begin(mac, ip);//Testare con solo mac, speriamo funzioni
+    Serial.println("Initializing the SD card ...");
+  pinMode(10, OUTPUT);
+  digitalWrite(10, HIGH);
+  if(!SD.begin(4)){
+    Serial.println("Initialization Failed");
+  while(1);
+  }
+  Serial.println("Initialization Done");
+  myFile=SD.open("conf.txt");
+    Serial.println(myFile.size());
+  int length=myFile.size();
+  char mac_char [length+1];
+    if(myFile){
+//  Serial.println(myFile.size());
+//  int length=myFile.size();
+//  char mac_char [length+1];
+  int i=0;
+  char inputchar;
+  while(myFile.available()){
+    Serial.println(i);
+    inputchar=myFile.read();
+    Serial.print(inputchar);
+    mac_char[i]=inputchar;
+    i=i+1;
+    mac_char[i]='\0';
+    }
+    Serial.println();
+    myFile.close();
+//      mac_char[length+1]='\0';
+    Serial.println("Lunghezza mac_char");
+    Serial.println(sizeof(mac_char));
+      Serial.println("Printo il mac_char");
+      Serial.println(mac_char);
+     for(int i=0;i<length;i++){
+      Serial.println(mac_char[i]);
+      }
+      str2byte(mac_char,mac_byte);
+    }else{
+      Serial.println("Errore nell'apertura del file");
+      }
+  strcpy(CLIENT_ID, mac_char);
+  Serial.println("CLIENT ID");
+  Serial.println(CLIENT_ID);
+  Ethernet.begin(mac_byte);
+//  Ethernet.begin(mac, ip);//Testare con solo mac, speriamo funzioni
   Serial.println(Ethernet.localIP());
   mqttClient.setClient(ethClient);
   mqttClient.setServer( mqtt_server, 1883); // or local broker
   mqttClient.setCallback(callback);
-  int lung = sizeof(mac) / sizeof(mac[0]);
-  char char_mac[lung + 1];
-  array_to_string(mac, lung, char_mac);
-  strcpy(CLIENT_ID, char_mac);
+//  int lung = sizeof(mac_byte) / sizeof(mac_byte[0]);
+//  
+//  char char_mac[lung + 1];
+//  array_to_string(mac_byte, lung, char_mac);
+//  char_mac[lung+1]='\0';
   mqttClient.connect(CLIENT_ID);
   mqttClient.subscribe("GH/SetUp");
   mqttClient.publish("test/topic", "10, 0, 0, 3");
@@ -56,28 +105,39 @@ void Comunicazione :: SetUp(Ambiente * amb) {
 
 void Comunicazione :: keepalive() {
   if (!mqttClient.loop()) {
+    Serial.println("Caduta la connessione");
     mqttClient.connect(CLIENT_ID);
   };
 };
 
 void Comunicazione :: PublishDati(byte * payload, int lung) {
   Serial.println("Sto inviando");
-  if (mqttClient.connect(CLIENT_ID)) {
+    if (mqttClient.connected()) {
+//  if (mqttClient.connect(CLIENT_ID)) {
+    Serial.println(CLIENT_ID);
     //RISCRIVERE QUESTO TOPIC COME COSTANTI
-    mqttClient.publish("GH/Dati", payload, lung);
+    if(!mqttClient.publish("GH/Dati", payload, lung)){
+      Serial.println("MA CHE MISERIACCIA LADRA");
+      };
   }
 };
 
 void Comunicazione :: Publish(char topic [], byte * payload, int lung){
     Serial.println("Sto inviando");
-  if (mqttClient.connect(CLIENT_ID)) {
+        if (mqttClient.connected()) {
+//  if (mqttClient.connect(CLIENT_ID)) {
+    Serial.println(CLIENT_ID);
     mqttClient.publish(topic, payload, lung);
   }
   };
 
 
 void Comunicazione :: PublishErrore(byte * payload,int lung) {
-  if (mqttClient.connect(CLIENT_ID)) {
+  Serial.println("Sto pubblicando un errore a:");
+  Serial.println(millis());
+      if (mqttClient.connected()) {
+//  if (mqttClient.connect(CLIENT_ID)) {
+    Serial.println(CLIENT_ID);
     //RISCRIVERE QUESTO TOPIC COME COSTANTI
     mqttClient.publish("GH/Errore", payload,lung);
   }
@@ -96,7 +156,7 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
     bool corretto = true;
     int j = 0;
     while (corretto && j < 6) {
-      if (mac[j] != payload[j]) {
+      if (mac_byte[j] != payload[j]) {
         corretto = false;
       }
       j = j + 1;
@@ -158,6 +218,10 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
       Serial.println(Header);
       mqttClient.subscribe(Topic);
       Serial.println(Topic);
+      Serial.println("STAMPO IL CLIENT ID NELLA CALLBACK SETUP");
+      Serial.println(CLIENT_ID);
+//      Timer t;
+//      t.SetUp();
       //Convertire Topic in una costante
       mqttClient.unsubscribe("GH/SetUp");
     }

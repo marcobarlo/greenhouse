@@ -40,7 +40,7 @@ long  Controllore :: GetSezione() {
 //};
 
 void Controllore :: SendAck(){
-      Serial.println("E inviamoli questi dati");
+      Serial.println("E inviamoli questo ACK");
     byte payload [4];
     Load_to_payload_long(payload,0,ID);
     Link->Publish("GH/Ack",payload,4);
@@ -48,15 +48,17 @@ void Controllore :: SendAck(){
 
 
 void Controllore :: SendDati(){
+    Serial.println(freeMemory(), DEC);  // print how much RAM is available.
     Serial.println("E inviamoli questi dati");
     byte payload [16];
-    float dati[3];
-//    for(int i=0;i<3;i++){
-//      dati[i]=sensori[i]->GetDato();
-//      }
-    dati[0]=-1;
-    dati[1]=-1;
-    dati[2]=-1;
+    float dati[SIZE];
+    for(int i=0;i<SIZE;i++){
+      sensori[i]->WhoAreYou();
+      dati[i]=sensori[i]->GetDato();
+      }
+//    dati[0]=8.4;
+//    dati[1]=8.5;
+//    dati[2]=8.6;
     Load_to_payload_long(payload,0,ID);
     int j=0;
     for (int i=4;i<16;i=i+4){
@@ -222,17 +224,28 @@ void Controllore::Controllo() {
   float soglie [3];
   ambiente->GetTarget(target,3);
   ambiente->GetSoglie(soglie,3);
-  float valore[3];
+  Serial.println(F("Prese sia Target che Soglie"));
+  float valore[SIZE];
 //  valore[0]=0.5;
+  sensori[0]->WhoAreYou();
+  valore[0]=sensori[0]->GetDato();
+  sensori[1]->WhoAreYou();
+  valore[1]=sensori[1]->GetDato();
+  sensori[2]->WhoAreYou();
+  valore[2]=sensori[2]->GetDato();
 //  valore[1]=0.8;
 //  valore[2]=1;
-  for (int i = 0; i < 3; i++) {
+  for (int i = 0; i < SIZE; i++) {
+//    sensori[i]->WhoAreYou();
 //    valore[i] = sensori[i]->GetDato();
-    valore[i]=-10;
+//    valore[i]=-10;
+    Serial.println(i);
+    Serial.println(valore[i]);
     if(valore[i]<0){
         byte payload [8];
         Load_to_payload_long(payload,0,ID);
         Load_to_payload_long(payload,4,i+1);
+        Serial.println("Errore");
         Serial.println(i+1);
         Link->PublishErrore(payload,8);
       }else{
@@ -240,8 +253,7 @@ void Controllore::Controllo() {
       if (Error[i] == false) {
         Error[i] = true;
 //        attuatori[i]->SetAttuatore(abs(target[i] - valore[i]));
-      }
-      else {
+      }else {
         byte payload [8];
         Load_to_payload_long(payload,0,ID);
         Load_to_payload_long(payload,4,(4+i));
@@ -253,7 +265,7 @@ void Controllore::Controllo() {
       }
       }
   }
-  
+  Serial.println(freeMemory(), DEC);  // print how much RAM is available.
   if (Observed) {
     //rivedere sto codice per la conversione e l'invio dei dati
     //Usare le union per convertire i float in byte arrays
@@ -265,12 +277,14 @@ void Controllore::Controllo() {
       }
     Link->PublishDati(payload,16);
   }
+  Serial.println(freeMemory(), DEC);  // print how much RAM is available.
+  Serial.println(F("Finito sto cazzo di controllo"));
 };
 
 
-ISR(TIMER1_COMPA_vect) {
-  //Da rivedere completamente
-  Controllore * contr;
-  contr = Controllore :: GetInstance();
-  contr->Controllo();
-}
+//ISR(TIMER1_COMPA_vect) {
+//  //Da rivedere completamente
+//  Controllore * contr;
+//  contr = Controllore :: GetInstance();
+//  contr->Controllo();
+//}

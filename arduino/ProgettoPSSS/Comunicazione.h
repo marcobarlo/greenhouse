@@ -7,6 +7,9 @@
 #include <SPI.h>
 #include "MemoryFree.h"
 #include "libPSSS.h"
+//#include "TimerInterrupt.h"
+#include "Tim.h"
+#include <SD.h>
 
 
 #include "Controllore.h"
@@ -30,7 +33,7 @@ class Comunicazione{
     Ambiente*  Target;
     Controllore* Controller;
     //vedere se trasformare da allocazione dinamica a instanziazione statica di buffer
-    char CLIENT_ID[10];//va visto dinamicamente se queste dimensioni vanno bene ed eventualmente metterle come define
+    char CLIENT_ID[13];//va visto dinamicamente se queste dimensioni vanno bene ed eventualmente metterle come define
     char Header[30];
      Comunicazione(){Me=this;};
   public:
