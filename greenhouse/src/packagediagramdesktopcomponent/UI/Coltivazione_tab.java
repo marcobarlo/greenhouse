@@ -177,20 +177,16 @@ public class Coltivazione_tab extends JFrame {
 	@Subscribe(threadMode = ThreadMode.BACKGROUND)
 	public void onEvent(MexAggiornaParametri event)
 	{
-		if(event.getId()== dett.getIdAmbiente())
-		{	
-			if(updateTemp)
-				this.lblTempAttuale.setText("Temperatura attuale: "+event.getTemp());
-			if(updateUmi)
-				this.lblUmiAttuale.setText("Umidità attuale: "+event.getUmi());
-			if(updateIrr)
-				this.lblIrrAttuale.setText("Irradianza attuale: "+event.getIrr());
-		}
+		callbackAggiornamento(event);
 	}
-	
+
 	@Subscribe(threadMode = ThreadMode.BACKGROUND)
 	public void onEvent(Allarme event)
 	{
+		callbackAllarme(event);
+	}
+
+	private synchronized void callbackAllarme(Allarme event) {
 		if(event.getIdColt()== colt.getID_coltivazione())
 		{
 			if(event.getSensoreMalfunzionante() == 1)
@@ -210,4 +206,17 @@ public class Coltivazione_tab extends JFrame {
 			}
 		}
 	}
+	
+	private synchronized void callbackAggiornamento(MexAggiornaParametri event) {
+		if(event.getId()== dett.getIdAmbiente())
+		{	
+			if(updateTemp)
+				this.lblTempAttuale.setText("Temperatura attuale: "+event.getTemp());
+			if(updateUmi)
+				this.lblUmiAttuale.setText("Umidità attuale: "+event.getUmi());
+			if(updateIrr)
+				this.lblIrrAttuale.setText("Irradianza attuale: "+event.getIrr());
+		}
+	}
+	
 } 
