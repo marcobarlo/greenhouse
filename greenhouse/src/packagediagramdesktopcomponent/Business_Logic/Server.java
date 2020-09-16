@@ -172,4 +172,5 @@ deregistrare il server alla chiusura ... ps come si chiude il server??
 gestire la chiusura dell' interfaccia e gestire meglio le eccezioni nella classe controllerfacade
 gestire il client quando il server è giu
 gestire meglio la chiamata al singleton del server...assicurarsi che sia già assegnato
+gestire ack connection e conflitti sulla connection
 */
