@@ -12,7 +12,7 @@ public class ControllerUtenti {
 	protected static String getSessionRole() {
 		return session;
 	}
-	public static void logOut() {
+	protected static void logOut() {
 		session=null;
 	}
 }
