@@ -28,13 +28,14 @@ public class Main {
 		//read config file
 		NodeList nList = null;
 		String host=null;
+		String clientID=null;
 		Document doc=readConfig();
 		host =doc.getElementsByTagName("brokerHost").item(0).getTextContent();
 		nList = doc.getElementsByTagName("device");	
-		
+		clientID = doc.getElementsByTagName("clientID").item(0).getTextContent();
 		//startup the connection with broker
 		Connection conn = Connection.getInstance();
-		conn.startup(host, "Mainframe");
+		conn.startup(host, clientID);
 		
 		//send config packets
 		sendConfig(nList, conn);
