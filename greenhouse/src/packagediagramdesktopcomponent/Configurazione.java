@@ -14,7 +14,7 @@ public class Configurazione {
 	private float umiTarget;
 	private float irrTarget;
 
-	Configurazione(int id, String mac,int sez)
+	public Configurazione(int id, String mac,int sez)
 	{
 		this.id=id;
 		this.mac= mac;
