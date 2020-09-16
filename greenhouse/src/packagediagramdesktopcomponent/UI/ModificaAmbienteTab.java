@@ -7,9 +7,6 @@ import javax.swing.border.EmptyBorder;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import packagediagramdesktopcomponent.Business_Logic.ControllerFacade;
-
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;

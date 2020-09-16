@@ -8,7 +8,8 @@ import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 
 import packagediagramdesktopcomponent.Configurazione;
-import packagediagramdesktopcomponent.Business_Logic.ControllerFacade;
+import packagediagramdesktopcomponent.Business_Logic.Server;
+import packagediagramdesktopcomponent.UI.ControllerFacade;
 
 
 public class Connection{
@@ -182,9 +183,9 @@ public class Connection{
 		if(b.hasRemaining())
 			delta = b.getFloat();
 		if(delta==null)
-			ControllerFacade.sendAllarme(code,id);
+			Server.getInstance().sendAllarme(code,id);
 		else
-			ControllerFacade.sendAllarme(code,id,delta);
+			Server.getInstance().sendAllarme(code,id,delta);
 	}
 
 	private void callback_data(MqttMessage message) {

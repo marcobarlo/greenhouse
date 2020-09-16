@@ -1,7 +1,8 @@
 package packagediagramdesktopcomponent;
 
 import packagediagramdesktopcomponent.Business_Logic.DettagliBusiness;
-import packagediagramdesktopcomponent.Business_Logic.ControllerFacade;
+import packagediagramdesktopcomponent.Business_Logic.Server;
+import packagediagramdesktopcomponent.UI.ControllerFacade;
 
 public class Configurazione {
 	private int id;
@@ -19,7 +20,7 @@ public class Configurazione {
 		this.id=id;
 		this.mac= mac;
 		this.sezione= sez;
-		DettagliBusiness dett =ControllerFacade.getParametriAmbiente(id);
+		DettagliBusiness dett =Server.getInstance().getParametriAmbiente(id);
 		if(dett != null)
 		{
 			this.tempTarget = dett.getTemperatura_target();

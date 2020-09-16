@@ -1,6 +1,12 @@
 package packagediagramdesktopcomponent.Business_Logic;
 
-public class DettagliBusiness {
+import java.io.Serializable;
+
+public class DettagliBusiness implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 15L;
 	private String descrizione;
 	private float temperatura_target;
 	private float umidita_target;
@@ -10,11 +16,12 @@ public class DettagliBusiness {
 	
 	public DettagliBusiness()
 	{
-		
+		super();
 	}
 	
 	public DettagliBusiness(String desc, float t, float u, float i, int id)
 	{
+		super();
 		this.descrizione = desc;
 		this.temperatura_target = t;
 		this.umidita_target = u;

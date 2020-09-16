@@ -1,8 +1,13 @@
 package packagediagramdesktopcomponent.Business_Logic;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class ColtivazioneBusiness implements Comparator<ColtivazioneBusiness> {
+public class ColtivazioneBusiness implements Comparator<ColtivazioneBusiness>, Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 13L;
 	private int ID_coltivazione;
 	private int sezione;
 	private int fila;
@@ -14,7 +19,7 @@ public class ColtivazioneBusiness implements Comparator<ColtivazioneBusiness> {
 	
 	public ColtivazioneBusiness() 
 	{
-		
+		super();
 	}
 	
 	public int compare(ColtivazioneBusiness a, ColtivazioneBusiness b)
@@ -24,6 +29,7 @@ public class ColtivazioneBusiness implements Comparator<ColtivazioneBusiness> {
 	
 	public ColtivazioneBusiness(int ID_colt, int sezione, int fila, int posizione, String tipo, String stato, Date data) 
 	{
+		super();
 		this.ID_coltivazione = ID_colt;
 		this.sezione = sezione;
 		this.fila = fila;

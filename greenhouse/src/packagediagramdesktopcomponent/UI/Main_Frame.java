@@ -17,7 +17,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import packagediagramdesktopcomponent.Main;
-import packagediagramdesktopcomponent.Business_Logic.ControllerFacade;
+import packagediagramdesktopcomponent.Business_Logic.FacadeServer;
 import packagediagramdesktopcomponent.Connection.Allarme;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -42,10 +42,10 @@ public class Main_Frame extends JFrame {
 	private JTextField txtMail;
 	private JTextField txtPass;
 	private JButton btnLogOut;
-
 	/**
 	 * Launch the application.
 	 */
+	/*
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -57,7 +57,7 @@ public class Main_Frame extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
@@ -194,7 +194,7 @@ public class Main_Frame extends JFrame {
 				lblWelcome.setVisible(false);
 		        e.getWindow().dispose();
 		        System.out.println("Shutting down Mainframe...");
-		        Main.shutdown();
+		        //Main.shutdown();
 		    }
 		});
 		
