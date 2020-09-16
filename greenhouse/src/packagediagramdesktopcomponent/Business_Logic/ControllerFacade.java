@@ -1,7 +1,6 @@
 package packagediagramdesktopcomponent.Business_Logic;
 
 import java.util.List;
-import org.orm.PersistentException;
 
 public class ControllerFacade {
 
@@ -29,10 +28,9 @@ public class ControllerFacade {
 
 	/**
 	 * 
-	 * @param idColtivazione
-	 * @throws PersistentException 
+	 * @param idColtivazione 
 	 */
-	public static DettagliBusiness getDettagliColtivazione(int idColtivazione) throws PersistentException {
+	public static DettagliBusiness getDettagliColtivazione(int idColtivazione) {
 			return ControllerColtivazioni.getDettagliColtivazione(idColtivazione);
 	}
 
