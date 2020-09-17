@@ -185,7 +185,7 @@ public class Research_Tab extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		sl_contentPane.putConstraint(SpringLayout.NORTH, scrollPane, 149, SpringLayout.NORTH, contentPane);
 		sl_contentPane.putConstraint(SpringLayout.WEST, scrollPane, 10, SpringLayout.WEST, contentPane);
-		sl_contentPane.putConstraint(SpringLayout.SOUTH, scrollPane, -10, SpringLayout.SOUTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, scrollPane, -40, SpringLayout.SOUTH, contentPane);
 		sl_contentPane.putConstraint(SpringLayout.EAST, scrollPane, -10, SpringLayout.EAST, contentPane);
 		contentPane.add(scrollPane);
 		
@@ -201,9 +201,9 @@ public class Research_Tab extends JFrame {
 		));
 		
 		JButton mostra = new JButton("Mostra dettagli");
-		sl_contentPane.putConstraint(SpringLayout.NORTH, mostra, 374, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.NORTH, mostra, -30, SpringLayout.SOUTH, contentPane);
 		sl_contentPane.putConstraint(SpringLayout.WEST, mostra, 36, SpringLayout.WEST, contentPane);
-		sl_contentPane.putConstraint(SpringLayout.SOUTH, mostra, 397, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, mostra, -10, SpringLayout.SOUTH, contentPane);
 		sl_contentPane.putConstraint(SpringLayout.EAST, mostra, 247, SpringLayout.WEST, contentPane);
 		mostra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -232,9 +232,10 @@ public class Research_Tab extends JFrame {
 		contentPane.add(mostra);
 		
 		JButton modificaParamAmb = new JButton("Modifica Parametri Ambientali");
-		sl_contentPane.putConstraint(SpringLayout.NORTH, modificaParamAmb, 374, SpringLayout.NORTH, contentPane);
-		sl_contentPane.putConstraint(SpringLayout.WEST, modificaParamAmb, 300, SpringLayout.WEST, contentPane);
-		sl_contentPane.putConstraint(SpringLayout.EAST, modificaParamAmb, 511, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.NORTH, modificaParamAmb, -30, SpringLayout.SOUTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, modificaParamAmb, -247, SpringLayout.EAST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, modificaParamAmb, -10, SpringLayout.SOUTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, modificaParamAmb, -36, SpringLayout.EAST, contentPane);
 		modificaParamAmb.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		modificaParamAmb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
