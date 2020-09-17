@@ -2,7 +2,6 @@
 
 
 
-//// A sto punto la sposto in una libreria a parte insieme e quella byte float e viceversa e quella byte long e viceversa???
 void array_to_string(byte array[], unsigned int len, char buffer[])
 {
   for (unsigned int i = 0; i < len; i++)
@@ -55,14 +54,14 @@ float Convert_byte_to_float(byte array[], unsigned int start) {
 };
 
 
-void Load_to_payload_long(byte array [], unsigned int start, long l) {
+void Convert_long_to_byte(byte array [], unsigned int start, long l) {
   array[start+3] = l & 0xFF;
   array[start+2] = (l >> 8)  & 0xFF;
   array[start+1] = (l >> 16) & 0xFF;
   array[start] = (l >> 24) & 0xFF;
 };
 
-void Load_to_payload_float(byte array[],unsigned int start, float f){
+void Convert_float_to_byte(byte array[],unsigned int start, float f){
   tempfloat tempf;
   tempf.f=f;
   array[start+3] = tempf.b[0];

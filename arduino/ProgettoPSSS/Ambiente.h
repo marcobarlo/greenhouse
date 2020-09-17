@@ -19,10 +19,6 @@ class Ambiente{
     //riscrivere con modifica Ambiente che prende un vettore
     void ModificaAmbiente2(float array []);
     void ModificaAmbiente(float T, float U, float I);
-//    void  SetUmiditaTarget(float);
-//    void  SetIrradianzaTarget(float);
-//    void  SetTemperaturaTarget(float);
-    // riscrivere facendo prendere un vettore
     void SetSoglie(float T, float U, float I);
     void SetSoglie2(float array[]);
     //fare altre due funzioni che prendano in questo caso tutti i target e tutte le soglie

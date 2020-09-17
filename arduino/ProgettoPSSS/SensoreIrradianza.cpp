@@ -10,22 +10,17 @@ void SensoreIrradianza  :: SetUp() {
 
 float SensoreIrradianza  :: GetDato() {
   Serial.println(" GetDato SensoreIrradianza");
-//  //TODO DA FARE CARATTERIZZARE PER BENE I VALORI ATTUALI CREDO DIANO PROBLEMI, I LUX SEMBRANO INCREDIBILMENTE ALTI
   float level = analogRead(LUXINPUT);
-  //calculate analog voltage
   float voltage = 5 * level / 1024;
-  //make sure the voltage isn't outside the acceptable range
-  // Se è più basso lo considero un errore?? boh lo metto a -1 anche se non so se abbia molto senso
+
   if (voltage < 0) {
     voltage = 0;
-    return -1;
   }
   if (voltage > 5) {
     voltage = 5;
   }
-  //initialize a lux value
   float lux = 0;
-  //based on the voltage, select the equation that will best convert it to a lux value
+
   if (voltage <= 0.534) {
     lux = 1286.47506604 * pow(voltage, 2) + 178.51342186 * voltage - 1.70982528;
   }
@@ -38,11 +33,11 @@ float SensoreIrradianza  :: GetDato() {
   else {
     lux = 23.9858393 * exp(2.28356737 * voltage);
   }
-  //ensure the lux value isn't less than 0
+
   if (lux < 0 ) {
     lux = 0;
+    return -1;
   }
   Serial.println(lux);
   return lux;
-//return 20;
 };

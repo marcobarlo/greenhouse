@@ -49,7 +49,6 @@ float Ambiente :: GetSogliaT() {
 
 int Ambiente :: GetSoglie(float array[],int lung){
   Serial.println("Me le getto proprio ste soglie");
-//  Serial.println(sizeof(array));
   Serial.println(lung);
   Serial.println((sizeof(soglie)/sizeof(soglie[0])));
   if(lung<(sizeof(soglie)/sizeof(soglie[0]))){
@@ -95,6 +94,7 @@ void Ambiente :: SetSoglie(float T, float U, float I) {
   Serial.println(SogliaI);
 
 };
+
 //Devo mettere un controllo sulla lunghezza come per la lettura??
 void Ambiente :: SetSoglie2(float array[]) {
   Serial.println("Modifica Soglie 2 valori:");

@@ -18,5 +18,4 @@ float SensoreUmidita :: GetDato() {
     return -1;
     }
   return Umidita;
-//  return 30;
 };

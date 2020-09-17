@@ -33,10 +33,9 @@ class Attuatore;
 
 class Controllore{
   private:
-    //Passare ad allocazione dinamica?
     static Controllore* MeStesso;
     Comunicazione * Link;
-    Ambiente * ambiente;//allocato dinamicamente all'inizio
+    Ambiente * ambiente;
     Sensore* sensori [3];
     Attuatore* attuatori [3];
     bool Start=false;
@@ -55,15 +54,12 @@ class Controllore{
     void SetID(long);
     void SetSezione(long);
     void SetObserved(bool);
-//    void SetSoglia(float);
     long GetID();
     long GetSezione();
     void SendDati();
     void SendAck();
     bool GetStart(){return Start;}
     void SetStart(){Start=true;}
-
-//    float GetSoglia();
     void ToggleObserved();
     ~Controllore(){};
   };

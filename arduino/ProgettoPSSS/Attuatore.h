@@ -4,8 +4,8 @@
 class Attuatore {
   public:
     Attuatore(){};
-    virtual void SetAttuatore(float f){};
-    virtual void SetUp(){};
+    virtual void SetAttuatore(float f)=0;
+    virtual void SetUp()=0;
   };
 
 
