@@ -21,7 +21,10 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 
 import packagediagramdesktopcomponent.Business_Logic.*;
+
+import java.awt.Dimension;
 import java.awt.Font;
+import javax.swing.SpringLayout;
 
 
 public class Research_Tab extends JFrame {
@@ -50,51 +53,83 @@ public class Research_Tab extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		this.setResizable(false);
-		
+		//this.setResizable(false);
+		SpringLayout sl_contentPane = new SpringLayout();
+		contentPane.setLayout(sl_contentPane);
+		Dimension screenSize = contentPane.getSize();
 		JLabel lblNewLabel = new JLabel("tipo");
-		lblNewLabel.setBounds(34, 22, 46, 14);
+		sl_contentPane.putConstraint(SpringLayout.NORTH, lblNewLabel, 22, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, lblNewLabel, 34, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, lblNewLabel, 36, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, lblNewLabel, 80, SpringLayout.WEST, contentPane);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblSezione = new JLabel("sezione");
-		lblSezione.setBounds(321, 22, 46, 14);
+		sl_contentPane.putConstraint(SpringLayout.NORTH, lblSezione, 22, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, lblSezione, -200, SpringLayout.EAST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, lblSezione, 36, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, lblSezione, -120, SpringLayout.EAST, contentPane);
 		contentPane.add(lblSezione);
 		
 		JLabel lblRiga = new JLabel("fila");
-		lblRiga.setBounds(34, 55, 46, 14);
+		sl_contentPane.putConstraint(SpringLayout.NORTH, lblRiga, 55, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, lblRiga, 34, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, lblRiga, 69, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, lblRiga, 80, SpringLayout.WEST, contentPane);
 		contentPane.add(lblRiga);
 		
 		JLabel lblPosizioneNellaRiga = new JLabel("posizione nella riga");
-		lblPosizioneNellaRiga.setBounds(257, 55, 131, 14);
+		sl_contentPane.putConstraint(SpringLayout.NORTH, lblPosizioneNellaRiga, 55, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, lblPosizioneNellaRiga, -240, SpringLayout.EAST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, lblPosizioneNellaRiga, 69, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, lblPosizioneNellaRiga, -120, SpringLayout.EAST, contentPane);
 		contentPane.add(lblPosizioneNellaRiga);
 		
 		rigaTextField = new JTextField();
-		rigaTextField.setBounds(80, 52, 86, 20);
+		sl_contentPane.putConstraint(SpringLayout.NORTH, rigaTextField, 52, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, rigaTextField, 80, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, rigaTextField, 72, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, rigaTextField, 166, SpringLayout.WEST, contentPane);
 		contentPane.add(rigaTextField);
 		rigaTextField.setColumns(10);
 		
 		tipoTextField = new JTextField();
-		tipoTextField.setBounds(80, 19, 86, 20);
+		sl_contentPane.putConstraint(SpringLayout.NORTH, tipoTextField, 19, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, tipoTextField, 80, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, tipoTextField, 39, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, tipoTextField, 166, SpringLayout.WEST, contentPane);
 		contentPane.add(tipoTextField);
 		tipoTextField.setColumns(10);
 		
 		sezioneTextField = new JTextField();
-		sezioneTextField.setBounds(388, 19, 86, 20);
+		sl_contentPane.putConstraint(SpringLayout.NORTH, sezioneTextField, 19, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, sezioneTextField, -120, SpringLayout.EAST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, sezioneTextField, 39, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, sezioneTextField, -34, SpringLayout.EAST, contentPane);
 		contentPane.add(sezioneTextField);
 		sezioneTextField.setColumns(10);
 		
 		posizioneTextField = new JTextField();
-		posizioneTextField.setBounds(388, 52, 86, 20);
+		sl_contentPane.putConstraint(SpringLayout.NORTH, posizioneTextField, 52, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, posizioneTextField, -120, SpringLayout.EAST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, posizioneTextField, 72, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, posizioneTextField, -34, SpringLayout.EAST, contentPane);
 		contentPane.add(posizioneTextField);
 		posizioneTextField.setColumns(10);
 		
 		JLabel lblError = new JLabel("Errore");
-		lblError.setBounds(20, 124, 501, 14);
+		sl_contentPane.putConstraint(SpringLayout.NORTH, lblError, 124, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, lblError, screenSize.width/2+50, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, lblError, 138, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, lblError, -(screenSize.width/2+50), SpringLayout.EAST, contentPane);
 		contentPane.add(lblError);
 		lblError.setVisible(false);
 
 		JButton btnNewButton = new JButton("Ricerca coltivazione");
+		sl_contentPane.putConstraint(SpringLayout.NORTH, btnNewButton, 80, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, btnNewButton, screenSize.width/2+150, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, btnNewButton, 110, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, btnNewButton, -(screenSize.width/2+150), SpringLayout.EAST, contentPane);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String tipo, pos,sez,row;
@@ -145,11 +180,13 @@ public class Research_Tab extends JFrame {
 				catch(NumberFormatException e){}
 			}
 		});
-		btnNewButton.setBounds(178, 80, 175, 30);
 		contentPane.add(btnNewButton);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 149, 526, 214);
+		sl_contentPane.putConstraint(SpringLayout.NORTH, scrollPane, 149, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, scrollPane, 10, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, scrollPane, -10, SpringLayout.SOUTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, scrollPane, -10, SpringLayout.EAST, contentPane);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
@@ -164,6 +201,10 @@ public class Research_Tab extends JFrame {
 		));
 		
 		JButton mostra = new JButton("Mostra dettagli");
+		sl_contentPane.putConstraint(SpringLayout.NORTH, mostra, 374, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, mostra, 36, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, mostra, 397, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, mostra, 247, SpringLayout.WEST, contentPane);
 		mostra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				lblError.setVisible(false);
@@ -188,10 +229,12 @@ public class Research_Tab extends JFrame {
 				}
 			}
 		});
-		mostra.setBounds(36, 374, 211, 23);
 		contentPane.add(mostra);
 		
 		JButton modificaParamAmb = new JButton("Modifica Parametri Ambientali");
+		sl_contentPane.putConstraint(SpringLayout.NORTH, modificaParamAmb, 374, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, modificaParamAmb, 300, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, modificaParamAmb, 511, SpringLayout.WEST, contentPane);
 		modificaParamAmb.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		modificaParamAmb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -220,7 +263,6 @@ public class Research_Tab extends JFrame {
 				}
 			}
 		});
-		modificaParamAmb.setBounds(300, 374, 211, 23);
 		contentPane.add(modificaParamAmb);
 				
 		mostra.setVisible(false);

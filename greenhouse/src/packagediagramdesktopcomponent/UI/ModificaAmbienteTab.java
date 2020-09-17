@@ -84,7 +84,7 @@ public class ModificaAmbienteTab extends JFrame {
 	public ModificaAmbienteTab(List<Integer> IDColtivazioni) {
 	    //Display the window.
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 499, 344);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -104,24 +104,24 @@ public class ModificaAmbienteTab extends JFrame {
 		contentPane.add(lblLux);
 		
 		umiTxt = new JTextField();
-		umiTxt.setBounds(188, 46, 96, 19);
+		umiTxt.setBounds(219, 46, 96, 19);
 		contentPane.add(umiTxt);
 		umiTxt.setColumns(10);
 		
 		tempTxt = new JTextField();
 		tempTxt.setColumns(10);
-		tempTxt.setBounds(188, 101, 96, 19);
+		tempTxt.setBounds(219, 101, 96, 19);
 		contentPane.add(tempTxt);
 		
 		irrTxt = new JTextField();
 		irrTxt.setColumns(10);
-		irrTxt.setBounds(188, 161, 96, 19);
+		irrTxt.setBounds(219, 161, 96, 19);
 		contentPane.add(irrTxt);
 		
 		
 		JLabel lblError = new JLabel("New label");
 		lblError.setHorizontalAlignment(SwingConstants.CENTER);
-		lblError.setBounds(48, 10, 378, 29);
+		lblError.setBounds(72, 10, 378, 29);
 		contentPane.add(lblError);
 		lblError.setVisible(false);
 		
@@ -156,11 +156,11 @@ public class ModificaAmbienteTab extends JFrame {
 							}
 							else
 							{
-								String error = new String("Problemi nel salvataggio dei parametri per le coltivazioni con ID:");
+								String error = new String("<html>Problemi nel salvataggio dei parametri per le coltivazioni con ID:<br>");
 								for(int i = 0; i < IDColtivazioni.size(); i++) 
 								{
 									if(retval.get(i)==false)
-										error = error + IDColtivazioni.get(i) + " ";
+										error = error + "-"+IDColtivazioni.get(i) + " ";
 								}
 								lblError.setText(error);
 								lblError.setVisible(true);
@@ -176,7 +176,7 @@ public class ModificaAmbienteTab extends JFrame {
 				}
 			}
 		});
-		modifyButt.setBounds(171, 218, 143, 21);
+		modifyButt.setBounds(199, 231, 143, 21);
 		contentPane.add(modifyButt);
 
 	}

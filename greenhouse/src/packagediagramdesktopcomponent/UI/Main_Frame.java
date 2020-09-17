@@ -82,7 +82,7 @@ public class Main_Frame extends JFrame {
 		contentPane.setBounds(new Rectangle(100, 100, screenSize.width, screenSize.height));
 		setContentPane(contentPane);
 
-		this.setResizable(false);
+		//this.setResizable(false);
 		
 		Frame frame = this;
 		contentPane.setLayout(null);
@@ -90,14 +90,14 @@ public class Main_Frame extends JFrame {
 		
 		lblWelcome = new JLabel("New label");
 		//lblWelcome.setBounds(422, 371, 502, 28);
-		lblWelcome.setBounds(new Rectangle(screenSize.width/2-177/2,screenSize.height/2-70, 177,20));
+		lblWelcome.setBounds(new Rectangle(screenSize.width/2-400/2,screenSize.height/2-70, 400,20));
 		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWelcome.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		contentPane.add(lblWelcome);
 		lblWelcome.setVisible(false);
 		
 		lblError = new JLabel("New label");
-		lblError.setBounds(new Rectangle(screenSize.width/2-177/2,screenSize.height/2-70, 177,20));
+		lblError.setBounds(new Rectangle(screenSize.width/2-400/2,screenSize.height/2-70, 400,20));
 		//lblError.setBounds(422, 328, 502, 82);
 		lblError.setHorizontalAlignment(SwingConstants.CENTER);
 		lblError.setFont(new Font("Tahoma", Font.PLAIN, 18));

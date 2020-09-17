@@ -109,7 +109,7 @@ public class Connection{
 		return true;
 	}
 	
-	public boolean modificaAmbiente(int id, float temperatura, float umidita, float irradianza, int sez)
+	public synchronized boolean modificaAmbiente(int id, float temperatura, float umidita, float irradianza, int sez)
 	{
         String topic= "GH/"+sez+"/cmd/Mod";
         int qos= 1;
