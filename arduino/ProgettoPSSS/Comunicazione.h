@@ -12,6 +12,7 @@
 
 #define TopicErrore "GH/Errore"
 #define TopicDati "GH/Dati"
+#define TopicAck  "GH/Ack"
 
 
 
@@ -42,22 +43,21 @@ class Comunicazione{
     //vedere se trasformare da allocazione dinamica a instanziazione statica di buffer
     char CLIENT_ID[13];//va visto dinamicamente se queste dimensioni vanno bene ed eventualmente metterle come define
     char Header[30];
-     Comunicazione(){Me=this;};
+    Comunicazione(){Me=this;};
+    void _callbackSetUp(byte * payload);
+    void _callbackMod(byte * payload);
+    void _callbackSTROBS();
+    void _callbackSTPOBS();
+    void Publish(char topic [], byte * payload, int lung);
   public:
 //    Comunicazione(){Me=this;};
     static Comunicazione* GetInstance();
     void SetUp();
     void PublishTest();
-    void Publish(char topic [], byte * payload, int lung);
 //    void PublishDati(byte * payload, int lung);
 //    void PublishErrore(byte * payload,int lung);
-    
     void _callback(char* topic, byte* payload, unsigned int length);
-    void _callbackSetUp(byte * payload);
-    void _callbackMod(byte * payload);
-    void _callbackSTROBS();
-    void _callbackSTPOBS();
-    void PublishAck();
+    void PublishAck(long ID);
     void PublishDati(long ID,float array []);
     void PublishErroreSensore(long ID, long Errore);
     void PublishErroreAttuatore(long ID, long Errore,float delta);

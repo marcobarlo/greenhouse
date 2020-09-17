@@ -108,6 +108,12 @@ void Comunicazione :: keepalive() {
   if (!mqttClient.loop()) {
     Serial.println("Caduta la connessione");
     mqttClient.connect(CLIENT_ID);
+    char Topic[30];
+    strcpy(Topic, Header);
+    strcat(Topic, "+");
+    Serial.println(Header);
+    mqttClient.subscribe(Topic);
+    
   };
 };
 
@@ -169,6 +175,13 @@ void Comunicazione :: PublishErroreAttuatore(long ID, long Errore,float delta){
         Load_to_payload_long(payload,4,Errore);
         Load_to_payload_float(payload,8,delta);
         this->Publish(TopicErrore,payload,12);
+  };
+
+void Comunicazione :: PublishAck(long ID){
+    Serial.println("E inviamoli questo ACK");
+    byte payload [4];
+    Load_to_payload_long(payload,0,ID);
+    this->Publish(TopicAck,payload,4);
   };
 
 
@@ -437,13 +450,13 @@ void Comunicazione::_callbackMod(byte * payload){
       Serial.println(target[2]);
 //      Target->ModificaAmbiente(Tem, Um, Irr);
       Controller->ModificaAmbiente(target);
-      Controller->SendAck();//FaccioFare direttamente al controllore
+      this->PublishAck(Controller->GetID());//FaccioFare direttamente al controllore
   };
 void Comunicazione::_callbackSTROBS(){
         Serial.println("Mi sento osservato!");
       Controller->SetObserved(true);
       //Invio il messaggio di ritorno
-      Controller->SendDati();
+//      Controller->SendDati();
   };
 void Comunicazione::_callbackSTPOBS(){
           Serial.println("Non mi sento più osservato");

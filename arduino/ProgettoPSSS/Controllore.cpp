@@ -39,12 +39,12 @@ long  Controllore :: GetSezione() {
 //  return Soglia;
 //};
 
-void Controllore :: SendAck(){
-      Serial.println("E inviamoli questo ACK");
-    byte payload [4];
-    Load_to_payload_long(payload,0,ID);
-    Link->Publish("GH/Ack",payload,4);
-  };
+//void Controllore :: SendAck(){
+//      Serial.println("E inviamoli questo ACK");
+//    byte payload [4];
+//    Load_to_payload_long(payload,0,ID);
+//    Link->Publish("GH/Ack",payload,4);
+//  };
 
 
 void Controllore :: SendDati(){
@@ -82,6 +82,7 @@ void Controllore :: SendDati(){
 //      Serial.println(payload[i]);
 //      }
     Link->PublishDati(ID,dati);
+//    Link->PublishAck(ID);
   };
 
 void  Controllore :: SetUp2(Ambiente * amb){
