@@ -4,7 +4,7 @@
 #include <SPI.h>
 #include "MemoryFree.h"
 #include "Tim.h"
-
+#include "limits.h"
 
 #define CONTROL_DELAY 10000
 
@@ -28,7 +28,15 @@ void setup() {
 
 void loop() {
   //Da rivedere se va usato invece l'interrupt per il calcolo del tempo
-  if (millis() - previousMillis > CONTROL_DELAY) {
+  if (millis()<previousMillis){
+//    unsigned long DIFF=(ULONG_MAX-previousMillis);
+    unsigned long MIL=(ULONG_MAX-previousMillis)+millis();
+    if (MIL>CONTROL_DELAY){
+      if(Contr->GetStart()){
+        Contr->Controllo();
+        }
+      }
+    }else  if (millis() - previousMillis > CONTROL_DELAY) {
     if(Contr->GetStart()){
       Contr->Controllo();//Adesso come faccio iniziare solo se ho il Setup?? mi sa che devo fare il fatto dell'interrupt
           Serial.println("CI SONO E CONTROLLO PURE");
