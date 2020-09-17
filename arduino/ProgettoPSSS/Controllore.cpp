@@ -50,35 +50,38 @@ void Controllore :: SendAck(){
 void Controllore :: SendDati(){
     Serial.println(freeMemory(), DEC);  // print how much RAM is available.
     Serial.println("E inviamoli questi dati");
-    byte payload [16];
+//    byte payload [16];
     float dati[SIZE];
     for(int i=0;i<SIZE;i++){
       sensori[i]->WhoAreYou();
       dati[i]=sensori[i]->GetDato();
+      if (dati [i]<0){
+        Link->PublishErroreSensore(ID,i);
+        }
       }
 //    dati[0]=8.4;
 //    dati[1]=8.5;
 //    dati[2]=8.6;
-    Load_to_payload_long(payload,0,ID);
-    int j=0;
-    for (int i=4;i<16;i=i+4){
-      Serial.println("Di 4 in 4");
-      Serial.println(i);
-      Serial.println(i-4*(i/4));
-      if (dati[j]<0){
-        byte payload [8];
-        Load_to_payload_long(payload,0,ID);
-        Load_to_payload_long(payload,4,j+1);
-        Link->PublishErrore(payload,8);
-        }
-      Load_to_payload_float(payload,i,dati[j]);
-      j=j+1;
-      }
-    Serial.println("Faccio Publish dei Dati");
-    for (int i=0;i<16;i++){
-      Serial.println(payload[i]);
-      }
-    Link->PublishDati(payload,16);
+//    Load_to_payload_long(payload,0,ID);
+//    int j=0;
+//    for (int i=4;i<16;i=i+4){
+//      Serial.println("Di 4 in 4");
+//      Serial.println(i);
+//      Serial.println(i-4*(i/4));
+//      if (dati[j]<0){
+////        byte payload [8];
+////        Load_to_payload_long(payload,0,ID);
+////        Load_to_payload_long(payload,4,j+1);
+//        Link->PublishErroreSensore(ID,j+1);
+//        }
+////      Load_to_payload_float(payload,i,dati[j]);
+//      j=j+1;
+//      }
+//    Serial.println("Faccio Publish dei Dati");
+//    for (int i=0;i<16;i++){
+//      Serial.println(payload[i]);
+//      }
+    Link->PublishDati(ID,dati);
   };
 
 void  Controllore :: SetUp2(Ambiente * amb){
@@ -220,45 +223,47 @@ void Controllore::Controllo() {
   //per i sensori DHT c'è la funzione per il fotoresistore se diventa circuito aperto stesso per igrometro?? 
   Serial.println("Sono nella funzione di controllo");
   Serial.println(freeMemory(), DEC);  // print how much RAM is available.
-  float target [3];
+  float target [SIZE];
   float soglie [3];
-  ambiente->GetTarget(target,3);
-  ambiente->GetSoglie(soglie,3);
+  ambiente->GetTarget(target,SIZE);
+  ambiente->GetSoglie(soglie,SIZE);
   Serial.println(F("Prese sia Target che Soglie"));
   float valore[SIZE];
 //  valore[0]=0.5;
-  sensori[0]->WhoAreYou();
-  valore[0]=sensori[0]->GetDato();
-  sensori[1]->WhoAreYou();
-  valore[1]=sensori[1]->GetDato();
-  sensori[2]->WhoAreYou();
-  valore[2]=sensori[2]->GetDato();
+//  sensori[0]->WhoAreYou();
+//  valore[0]=sensori[0]->GetDato();
+//  sensori[1]->WhoAreYou();
+//  valore[1]=sensori[1]->GetDato();
+//  sensori[2]->WhoAreYou();
+//  valore[2]=sensori[2]->GetDato();
 //  valore[1]=0.8;
 //  valore[2]=1;
   for (int i = 0; i < SIZE; i++) {
-//    sensori[i]->WhoAreYou();
-//    valore[i] = sensori[i]->GetDato();
+    sensori[i]->WhoAreYou();
+    valore[i] = sensori[i]->GetDato();
 //    valore[i]=-10;
     Serial.println(i);
     Serial.println(valore[i]);
     if(valore[i]<0){
-        byte payload [8];
-        Load_to_payload_long(payload,0,ID);
-        Load_to_payload_long(payload,4,i+1);
-        Serial.println("Errore");
-        Serial.println(i+1);
-        Link->PublishErrore(payload,8);
+//        byte payload [8];
+//        Load_to_payload_long(payload,0,ID);
+//        Load_to_payload_long(payload,4,i+1);
+//        Serial.println("Errore");
+//        Serial.println(i+1);
+//        Link->PublishErrore(payload,8);
+      Link->PublishErroreSensore(ID,i+1);
       }else{
     if (abs(target[i] - valore[i]) > soglie[0]) {
       if (Error[i] == false) {
         Error[i] = true;
 //        attuatori[i]->SetAttuatore(abs(target[i] - valore[i]));
       }else {
-        byte payload [8];
-        Load_to_payload_long(payload,0,ID);
-        Load_to_payload_long(payload,4,(4+i));
-        Load_to_payload_float(payload,8,abs(target[i] - valore[i]));
-        Link->PublishErrore(payload,12);
+//        byte payload [8];
+//        Load_to_payload_long(payload,0,ID);
+//        Load_to_payload_long(payload,4,(4+i));
+//        Load_to_payload_float(payload,8,abs(target[i] - valore[i]));
+//        Link->PublishErrore(payload,12);
+          Link->PublishErroreAttuatore(ID,i+4,abs(target[i] - valore[i]));
       }
     }else{
       Error[i]=false;
@@ -270,17 +275,25 @@ void Controllore::Controllo() {
     //rivedere sto codice per la conversione e l'invio dei dati
     //Usare le union per convertire i float in byte arrays
     //valore vettore già è pieno credo
-    byte payload [16];
-     Load_to_payload_long(payload,0,ID);
-    for(int i=0;i<3;i++){
-      Load_to_payload_float(payload,4+4*i,valore[i]);
-      }
-    Link->PublishDati(payload,16);
+//    byte payload [16];
+//     Load_to_payload_long(payload,0,ID);
+//    for(int i=0;i<3;i++){
+//      Load_to_payload_float(payload,4+4*i,valore[i]);
+//      }
+    Link->PublishDati(ID,valore);
   }
   Serial.println(freeMemory(), DEC);  // print how much RAM is available.
   Serial.println(F("Finito sto cazzo di controllo"));
 };
 
+
+void Controllore::ModificaAmbiente(float array []){
+  ambiente->ModificaAmbiente2(array);
+  };
+
+void Controllore::SetSoglie(float array[]){
+  ambiente->SetSoglie2(array);
+  };
 
 //ISR(TIMER1_COMPA_vect) {
 //  //Da rivedere completamente

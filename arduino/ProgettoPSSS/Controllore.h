@@ -3,15 +3,22 @@
 
 #include <Arduino.h>
 #include <SPI.h>
-#include "libPSSS.h"
+//#include "libPSSS.h"
+#include "Ambiente.h"
+#include "SensoreUmidita.h"
+#include "SensoreTemperatura.h"
+#include "SensoreIrradianza.h"
+#include "Serpentina.h"
+#include "StrisciaLed.h"
+#include "Innaffiatoio.h"
 #include "Comunicazione.h"
 #include "MemoryFree.h"
 
 
 #define SIZE 3
 
-#define DHTPIN 2
-#define DHTTYPE DHT11   // DHT 11
+//#define DHTPIN 2
+//#define DHTTYPE DHT11   // DHT 11
 
 #define LUXINPUT A0
 
@@ -40,6 +47,8 @@ class Controllore{
     Controllore();
   public:
     static Controllore* GetInstance();
+    void ModificaAmbiente(float array []);
+    void SetSoglie(float array[]);
     void Controllo();
     void SetUp();
     void SetUp2(Ambiente *);

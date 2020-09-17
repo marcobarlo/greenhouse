@@ -11,15 +11,18 @@
 //#define USE_TIMER_4     false
 //#define USE_TIMER_5     false
 
-#define TIMER1_INTERVAL_MS    10000
+//#define TIMER1_INTERVAL_MS    10000
 
-void TimerHandler1(void);
+void TimerSetup();
 
-class Timer{
-  public:
-  Test(){};
-  void SetUp();
-  
-  };
+
+//void TimerHandler1(void);
+//
+//class Timer{
+//  public:
+//  Test(){};
+//  void SetUp();
+//  
+//  };
 
 #endif

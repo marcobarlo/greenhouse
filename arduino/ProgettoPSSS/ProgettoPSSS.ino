@@ -1,4 +1,4 @@
-#include "libPSSS.h"
+#include "Ambiente.h"
 #include "Controllore.h"
 #include "Comunicazione.h"
 #include <SPI.h>
@@ -22,7 +22,7 @@ void setup() {
   Contr=Controllore::GetInstance();
   Contr->SetUp2(Amb);
   Com=Comunicazione::GetInstance();
-  Com->SetUp(Amb);
+  Com->SetUp();
   Serial.println("Fine Setup delle componenti");
 }
 
