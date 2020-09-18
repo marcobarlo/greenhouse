@@ -12,6 +12,7 @@
 #define TopicErrore "GH/Errore"
 #define TopicDati "GH/Dati"
 #define TopicAck  "GH/Ack"
+#define TopicSetUp "GH/SetUp"
 
 
 

@@ -122,7 +122,7 @@ void Controllore::Controllo() {
     if(valore[i]<0){
       Link->PublishErroreSensore(ID,i+1);
       }else{
-    if (abs(target[i] - valore[i]) > soglie[0]) {
+    if (abs(target[i] - valore[i]) > soglie[i]) {
       if (Error[i] == false) {
         Error[i] = true;
 //        attuatori[i]->SetAttuatore(abs(target[i] - valore[i]));
@@ -139,7 +139,7 @@ void Controllore::Controllo() {
     Link->PublishDati(ID,valore);
   }
   Serial.println(freeMemory(), DEC);  // print how much RAM is available.
-  Serial.println(F("Finito sto cazzo di controllo"));
+  Serial.println(F("Finito il controllo"));
 };
 
 

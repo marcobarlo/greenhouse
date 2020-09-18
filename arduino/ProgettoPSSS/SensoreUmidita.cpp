@@ -17,5 +17,6 @@ float SensoreUmidita :: GetDato() {
   if(value ==0){
     return -1;
     }
-  return Umidita;
+//  return Umidita;
+  return (Umidita/1023)*100;
 };

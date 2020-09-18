@@ -81,7 +81,7 @@ void Comunicazione :: SetUp() {
   mqttClient.setServer( mqtt_server, 1883); // or local broker
   mqttClient.setCallback(callback);
   mqttClient.connect(CLIENT_ID);
-  mqttClient.subscribe("GH/SetUp");
+  mqttClient.subscribe(TopicSetUp);
   mqttClient.publish("test/topic", "10, 0, 0, 3");
 };
 
@@ -89,12 +89,15 @@ void Comunicazione :: keepalive() {
   if (!mqttClient.loop()) {
     Serial.println("Caduta la connessione");
     mqttClient.connect(CLIENT_ID);
+    if (!Controller->GetStart()){
+        mqttClient.subscribe(TopicSetUp);
+      }
+    else{
     char Topic[30];
     strcpy(Topic, Header);
     strcat(Topic, "+");
     Serial.println(Header);
-    mqttClient.subscribe(Topic);
-    
+    mqttClient.subscribe(Topic); }
   };
 };
 
