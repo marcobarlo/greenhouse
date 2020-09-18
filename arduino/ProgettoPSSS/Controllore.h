@@ -14,6 +14,9 @@
 #include "Comunicazione.h"
 #include "MemoryFree.h"
 
+#ifndef CONTROLLORE_DEBUG
+#define CONTROLLORE_DEBUG  0
+#endif
 
 #define SIZE 3
 

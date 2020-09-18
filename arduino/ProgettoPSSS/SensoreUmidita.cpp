@@ -1,13 +1,17 @@
 #include "SensoreUmidita.h"
 
 void SensoreUmidita :: SetUp() {
+  if(UMIDITA_DEBUG>0){
   Serial.println(" Setup SensoreUmidita");
+  }
   pinMode(YL_69_VCC, OUTPUT);
   digitalWrite(YL_69_VCC, LOW);
 };
 
 float SensoreUmidita :: GetDato() {
-  Serial.println(" GetDato SensoreUmidita");
+  if(UMIDITA_DEBUG>0){
+  Serial.println(" Prelievo dato SensoreUmidita");
+  }
   digitalWrite(YL_69_VCC, HIGH);
   delay(500);
   int value = analogRead(YL_69_PIN);

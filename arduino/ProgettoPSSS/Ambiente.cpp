@@ -17,21 +17,20 @@ float Ambiente  :: GetTemperaturaTarget() {
 };
 
 void  Ambiente :: ModificaAmbiente(float T, float U, float I) {
+  if(AMBIENTE_DEBUG>0){
   Serial.println("Modifica Ambiente valori:");
+  }
   UmiditaTarget = U;
   IrradianzaTarget = I;
   TemperaturaTarget = T;
-  Serial.println(TemperaturaTarget);
-  Serial.println(UmiditaTarget);
-  Serial.println(IrradianzaTarget);
 };
 
 void  Ambiente :: ModificaAmbiente2(float array []) {
-  Serial.println("Modifica Ambiente 2 valori:");
+    if(AMBIENTE_DEBUG>0){
+    Serial.println("Modifica Ambiente2 valori:");
+    }
   for(int i=0;i<NUM_T;i++){
     target[i]=array[i];
-    Serial.println(array[i]);
-    Serial.println(target[i]);
     }
 };
 
@@ -48,36 +47,32 @@ float Ambiente :: GetSogliaT() {
 };
 
 int Ambiente :: GetSoglie(float array[],int lung){
-  Serial.println("Me le getto proprio ste soglie");
-  Serial.println(lung);
-  Serial.println((sizeof(soglie)/sizeof(soglie[0])));
+  if(AMBIENTE_DEBUG>0){
+  Serial.println(F("Prelevo le soglie"));
+  }
   if(lung<(sizeof(soglie)/sizeof(soglie[0]))){
-        Serial.println("No no Troppo piccolo S");
-            Serial.println(sizeof(array));
-    Serial.println(sizeof(soglie));
-    return -1;
+    if(AMBIENTE_DEBUG>0){
+      Serial.println(F("Vettore per il prelievo soglie troppo piccolo"));
     }
-    Serial.println("Valore Soglie");
+        return -1;
+    }
     for (int i=0;i<(sizeof(soglie)/sizeof(soglie[0]));i++){
       array[i]=soglie[i];
-      Serial.println(F("Iterazione"));
-      Serial.println(i);
-      Serial.println(soglie[i]);
-      Serial.println(array[i]);
       }
     return 0;
   };//per farlo per bene servirebbero puntatori ma così evito di fare allocazione dinamica di cose piccole
 
 
 int Ambiente :: GetTarget(float array[],int lung){
-  Serial.println(sizeof(array));
+  if(AMBIENTE_DEBUG>0){
+        Serial.println(F("Prelievo dei valori Target"));
+      }
   if(lung<(sizeof(target)/sizeof(target[0]))){
-    Serial.println("No no Troppo piccolo F");
-    Serial.println(sizeof(array));
-    Serial.println(sizeof(target));
+    if(AMBIENTE_DEBUG>0){
+      Serial.println(F("Vettore per il prelievo dei target troppo piccolo"));
+    }
     return -1;
     }
-    Serial.println("Valori Target");
     for (int i=0;i<(sizeof(target)/sizeof(target[0]));i++){
       array[i]=target[i];
       }
@@ -88,16 +83,13 @@ void Ambiente :: SetSoglie(float T, float U, float I) {
   SogliaT = T;
   SogliaU = U;
   SogliaI = I;
-  Serial.println("Stampa delle soglie in ambiente");
-  Serial.println(SogliaT);
-  Serial.println(SogliaU);
-  Serial.println(SogliaI);
-
 };
 
 //Devo mettere un controllo sulla lunghezza come per la lettura??
 void Ambiente :: SetSoglie2(float array[]) {
-  Serial.println("Modifica Soglie 2 valori:");
+  if(AMBIENTE_DEBUG>0){
+  Serial.println(F("Modifica Soglie 2 valori"));
+  }
   for(int i=0;i<NUM_S;i++){
     soglie[i]=array[i];
     }

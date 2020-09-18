@@ -7,6 +7,9 @@
 
 #define LUXINPUT A0
 
+#ifndef IRRADIANZA_DEBUG
+#define IRRADIANZA_DEBUG  0
+#endif
 
 class SensoreIrradianza : public Sensore{
   private:

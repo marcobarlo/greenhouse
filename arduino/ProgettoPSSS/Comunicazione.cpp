@@ -34,20 +34,22 @@ static Comunicazione* Comunicazione::GetInstance() {
 
 };
 void Comunicazione :: SetUp() {
-//  Target = amb;
   Controller = Controllore::GetInstance();
-    Serial.println(F("Initializing the SD card ..."));
+  if(COMUNICAZIONE_DEBUG>0){
+    Serial.println(F("Inizializzazione della SD card ..."));
+    }
   pinMode(10, OUTPUT);
   digitalWrite(10, HIGH);
   if(!SD.begin(4)){
-    Serial.println(F("Initialization Failed"));
+    if(COMUNICAZIONE_DEBUG>0){
+    Serial.println(F("Inizializzazione Fallita"));
+    }
   while(1);
   }
-  Serial.println(F("Initialization Done"));
+  if(COMUNICAZIONE_DEBUG>0){
+  Serial.println(F("Initialization Effettuata"));
+  }
   myFile=SD.open("conf5.txt");
-    Serial.println(myFile.size());
-//  int length=myFile.size();
-//  char mac_char [length+1];
   int length=12;
   char mac_char [length+1];
     if(myFile){
@@ -55,66 +57,48 @@ void Comunicazione :: SetUp() {
   char inputchar;
   while(myFile.available()){
     if (i<13){
-    Serial.println(i);
     inputchar=myFile.read();
-    Serial.print(inputchar);
     mac_char[i]=inputchar;
     i=i+1;
     mac_char[i]='\0';
-    }else 
-//    if(i==13){
-//     Serial.println(i);
-//    inputchar=myFile.read();
-//    Serial.print(inputchar);
-//    i=i+1;
-//    }else 
-    if(i>=13){
-    Serial.println(F("Valore di i"));
-    Serial.println(i);
+    }else if(i>=13){
     inputchar=myFile.read();
-    Serial.println(F("Valore di inputchar"));
-    Serial.print(inputchar);
     mqttserver[i-13]=inputchar;
-    Serial.println(F("Valore di mqqtserver[i-14]"));
-    Serial.print(mqttserver[i-13]);
     i=i+1;        
     mqttserver[i-13]='\0';
      }
     }
-    Serial.println();
     myFile.close();
-    Serial.println(F("Lunghezza mac_char"));
-    Serial.println(sizeof(mac_char));
-    Serial.println(F("Printo il mac_char"));
+    if(COMUNICAZIONE_DEBUG>0){
+    Serial.println(F("MAC:"));
     Serial.println(mac_char);
-    Serial.println(F("Lunghezza mqttserver"));
-    Serial.println(sizeof(mqttserver));
-    Serial.println(F("Printo il mac_char"));
+    Serial.println(F("IP Broker Mqtt:"));
     Serial.println(mqttserver);
-    for(int i=0;i<length;i++){
-      Serial.println(mac_char[i]);
-     }
+    }
     str2byte(mac_char,mac_byte);
     }else{
+      if(COMUNICAZIONE_DEBUG>0){
       Serial.println(F("Errore nell'apertura del file"));
-     }
+    }
+  }
   strcpy(CLIENT_ID, mac_char);
-  Serial.println("CLIENT ID");
-  Serial.println(CLIENT_ID);
   Ethernet.begin(mac_byte);
+  if(COMUNICAZIONE_DEBUG>0){
+  Serial.println(F("IP ottenuto tramite DHCP:"));
   Serial.println(Ethernet.localIP());
+  }
   mqttClient.setClient(ethClient);
   mqttClient.setServer( mqttserver, 1883); // or local broker
-//  mqttClient.setServer( mqtt_server, 1883); // or local broker
   mqttClient.setCallback(callback);
   mqttClient.connect(CLIENT_ID);
   mqttClient.subscribe(TopicSetUp);
-  mqttClient.publish("test/topic", "10, 0, 0, 3");
 };
 
 void Comunicazione :: keepalive() {
   if (!mqttClient.loop()) {
+    if(COMUNICAZIONE_DEBUG>0){
     Serial.println(F("Caduta la connessione"));
+    }
     mqttClient.connect(CLIENT_ID);
     if (!Controller->GetStart()){
         mqttClient.subscribe(TopicSetUp);
@@ -123,19 +107,18 @@ void Comunicazione :: keepalive() {
     char Topic[30];
     strcpy(Topic, Header);
     strcat(Topic, "+");
-    Serial.println(Header);
     mqttClient.subscribe(Topic); }
   };
 };
 
 void Comunicazione :: Publish(char topic [], byte * payload, int lung){
-    Serial.println("Sto inviando");
-        if (mqttClient.connected()) {
-//  if (mqttClient.connect(CLIENT_ID)) {
-    Serial.println(CLIENT_ID);
+   if(COMUNICAZIONE_DEBUG>0){
+    Serial.println("Invio del payload:");
+   }
+    if (mqttClient.connected()) {
     mqttClient.publish(topic, payload, lung);
   }
-  };
+};
 
 
 void Comunicazione :: PublishDati(long ID,float array []){
@@ -163,10 +146,12 @@ void Comunicazione :: PublishErroreAttuatore(long ID, long Errore,float delta){
         Convert_long_to_byte(payload,4,Errore);
         Convert_float_to_byte(payload,8,delta);
         this->Publish(TopicErrore,payload,12);
-  };
+};
 
 void Comunicazione :: PublishAck(long ID){
-    Serial.println("E inviamoli questo ACK");
+  if(COMUNICAZIONE_DEBUG>0){
+    Serial.println("Invio dell'ACK:");
+    }
     byte payload [4];
     Convert_long_to_byte(payload,0,ID);
     this->Publish(TopicAck,payload,4);
@@ -174,14 +159,15 @@ void Comunicazione :: PublishAck(long ID){
 
 
 void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
-  Serial.println("Sono nella Callback");
+  if(COMUNICAZIONE_DEBUG>0){
+  Serial.println("Sono nella Callback:");
+  }
   char option [30];
+  if(COMUNICAZIONE_DEBUG>0){
+  Serial.println(F("Topic per cui si è entrati nella callback"));
   Serial.println(topic);
-  Serial.println(freeMemory(), DEC);  // print how much RAM is available.
+  }
   if (strcmp("GH/SetUp", topic) == 0) {
-    Serial.print("Message arrived [");
-    Serial.print(topic);
-    Serial.print("] ");//MQTT_BROKER
     bool corretto = true;
     int j = 0;
     while (corretto && j < 6) {
@@ -196,20 +182,12 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
   }
   strcpy(option, Header);
   strcat(option, "Mod");
-  Serial.print(strcmp(option, topic));
   if (strcmp(option, topic) == 0) {
-    Serial.println("Sono in mod");
     byte ID_B2 [4];
     long Temp = Controller->GetID();
     Convert_long_to_byte(ID_B2, 0, Temp);
-
-    Serial.println(ID_B2[0]);
-    Serial.println(ID_B2[1]);
-    Serial.println(ID_B2[2]);
-    Serial.println(ID_B2[3]);
     bool corretto = true;
     int j = 0;
-    Serial.println("Prendo il payload");
     while (corretto && j < 4) {
       if (ID_B2[j] != payload[j]) {//Con la funzione viene già invertito quando messo in byte quindi non serve invertire qui
         corretto = false;
@@ -260,8 +238,9 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
 }
 
 void Comunicazione::_callbackSetUp(byte * payload){
-  Serial.println("Trovato il mac!!!");
-      Serial.println(freeMemory(), DEC);  // print how much RAM is available.
+      if(COMUNICAZIONE_DEBUG>0){
+      Serial.println(F("SetUp"));
+      }
       // Convertire in vettori di vettori di 4 byte
       byte ID_B[4];
       byte Sezione_B[4];
@@ -271,64 +250,52 @@ void Comunicazione::_callbackSetUp(byte * payload){
       float soglie [3];
       long ID = Convert_byte_to_long(payload, DISPLACEMENT_BYTE_S);
       Controller->SetID(ID);
-      Serial.println("ID:");
-      Serial.println(ID, DEC);
       long sez = Convert_byte_to_long(payload, DISPLACEMENT_SEZ_S);
-      Serial.println("Sezione:");
-      Serial.println(sez);
       Controller->SetSezione(sez);
-      Serial.println("PRELEVIAMOLI STI CAZZO DI DATI");
       for (int i = 0; i < 3; i++) {
-        Serial.println(i);
         target[i] = Convert_byte_to_float(payload, DISPLACEMENT_TRG_S + 4 * i);
-        Serial.println(target[i]);
         soglie[i] = Convert_byte_to_float(payload, DISPLACEMENT_SGL_S + 4 * i);
-        Serial.println(soglie[i]);
       }
       Controller->ModificaAmbiente(target);
       Controller->SetSoglie(soglie);
       Controller->SetStart();
-      Serial.println(Controller->GetSezione());
       char sezione [10];
       ltoa(Controller->GetSezione(), sezione, 10);
-      Serial.println("Dopo ltoa");
-      Serial.println(sezione);
       char Topic[30];
       strcpy(Header, "GH/");
       strcat(Header, sezione);
       strcat(Header, "/cmd/");
       strcpy(Topic, Header);
       strcat(Topic, "+");
-      Serial.println(Header);
       mqttClient.subscribe(Topic);
-      Serial.println(Topic);
-      Serial.println("STAMPO IL CLIENT ID NELLA CALLBACK SETUP");
-      Serial.println(CLIENT_ID);
       //Convertire Topic in una costante
-      mqttClient.unsubscribe("GH/SetUp");
+      mqttClient.unsubscribe(TopicSetUp);
+      if(COMUNICAZIONE_DEBUG>0){
+        Serial.println(F("Fine del SetUP"));
+        }
   };
 void Comunicazione::_callbackMod(byte * payload){
       float target[3];
-
-        Serial.print("Trovato ID");
+      if(COMUNICAZIONE_DEBUG>0){
+        Serial.println(F("Ricezione delle modifiche dei valori ambientali"));
+        }
       for (int i = 0; i < 3; i++) {
         target[i] = Convert_byte_to_float(payload, DISPLACEMENT_TRG_M + 4 * i);
       }
-      Serial.println("Temperatura Umidita Irradianze funzione");
-      Serial.println(target[0]);
-      Serial.println(target[1]);
-      Serial.println(target[2]);
       Controller->ModificaAmbiente(target);
       this->PublishAck(Controller->GetID());//FaccioFare direttamente al controllore
   };
 void Comunicazione::_callbackSTROBS(){
-        Serial.println("Mi sento osservato!");
+      if(COMUNICAZIONE_DEBUG>0){
+        Serial.println(F("Ricezione messaggio di osservazione"));
+        }
       Controller->SetObserved(true);
-      //Invio il messaggio di ritorno
       Controller->SendDati();
   };
 void Comunicazione::_callbackSTPOBS(){
-          Serial.println("Non mi sento più osservato");
+      if(COMUNICAZIONE_DEBUG>0){
+        Serial.println(F("Ricevuto messaggio di fine osservazione"));
+        }
       Controller->SetObserved(false);
   };
 

@@ -3,13 +3,17 @@
 SensoreIrradianza::SensoreIrradianza() {};
 
 void SensoreIrradianza  :: SetUp() {
-  Serial.println(" Setup SensoreIrradianza");
+  if(IRRADIANZA_DEBUG>0){
+  Serial.println(F("Setup SensoreIrradianza"));
+  }
   Irradianza = -1;
   //Da mettere la roba che sta nel setup del file per fare la caratterizzazioe del fotoresistore
 };
 
 float SensoreIrradianza  :: GetDato() {
-  Serial.println(" GetDato SensoreIrradianza");
+  if(IRRADIANZA_DEBUG>0){
+  Serial.println(F("Prelievo Dato SensoreIrradianza"));
+  }
   float level = analogRead(LUXINPUT);
   float voltage = 5 * level / 1024;
 
@@ -38,6 +42,5 @@ float SensoreIrradianza  :: GetDato() {
     lux = 0;
     return -1;
   }
-  Serial.println(lux);
   return lux;
 };

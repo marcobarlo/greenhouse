@@ -14,6 +14,9 @@
 #define TopicAck  "GH/Ack"
 #define TopicSetUp "GH/SetUp"
 
+#ifndef COMUNICAZIONE_DEBUG
+#define COMUNICAZIONE_DEBUG  0
+#endif
 
 
 #include "Controllore.h"

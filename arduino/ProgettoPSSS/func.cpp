@@ -32,7 +32,6 @@ void str2byte( char array [], byte array2[]){
            val2 = letter2 - 'A' + 10;
 
         array2[i]=val1*16+val2;
-        Serial.println(array2[i]);
         }
   }
 
@@ -72,10 +71,8 @@ void Convert_float_to_byte(byte array[],unsigned int start, float f){
 
   
 void Load_to_payload_float2(byte array[],unsigned int start, float f){
-  Serial.println("Carichiamoli Sti dati");
   tempfloat tempf;
   tempf.f=f;
-  Serial.println(tempf.f);
   array[start] = tempf.b[0];
   array[start+1] = tempf.b[1];
   array[start+2] = tempf.b[2];

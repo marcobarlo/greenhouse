@@ -11,7 +11,6 @@ void  Controllore :: SetID(long id) {
   ID = id;
 };
 void  Controllore :: SetObserved(bool obs) {
-  Serial.println("Sono proprio osservato");
   Observed = obs;
 };
 
@@ -36,8 +35,9 @@ long  Controllore :: GetSezione() {
 };
 
 void Controllore :: SendDati(){
-    Serial.println(freeMemory(), DEC);  // print how much RAM is available.
-    Serial.println("E inviamoli questi dati");
+    if(CONTROLLORE_DEBUG>0){
+    Serial.println(F("Invio dei dati"));
+    }
     float dati[SIZE];
     for(int i=0;i<SIZE;i++){
       sensori[i]->WhoAreYou();
@@ -50,8 +50,10 @@ void Controllore :: SendDati(){
   };
 
 void  Controllore :: SetUp2(Ambiente * amb){
+  if(CONTROLLORE_DEBUG>0){
+    Serial.println(F("SetUp Controllore"));
+    }
   ambiente=amb;
-// C'è un modo in cui sono costretto a fare i new non a mano non credo 
   Link=Comunicazione::GetInstance();
   sensori[0]=new SensoreTemperatura();
   sensori[1]=new SensoreUmidita();
@@ -69,14 +71,14 @@ void  Controllore :: SetUp2(Ambiente * amb){
     Observed=false;
     ID=0;
     Sezione=0;
+    if(CONTROLLORE_DEBUG>0){
+    Serial.println(F("Fine setup Controllore"));
+    }
   };
 
 
 //Devo togliere non serve più e rinominare il Setup2 in Setup
 void  Controllore :: SetUp() {
-  Serial.println("Start Setup Controllore");
-  Serial.println(freeMemory(), DEC);  // print how much RAM is available.
-  Serial.println("Ho letto la memoria");
   //Si deve rivedere questo codice per l'arduino uno o con l'acrocchio o rivedendolo come interfaccia e classi che le usano 
   //questo presenterebbe di dover scrivere il codice a manella o rivedere le allocazioni e altro per recuperare megabytes
   sensori[0]=new SensoreTemperatura();
@@ -91,34 +93,26 @@ void  Controllore :: SetUp() {
   for (int i=0;i<3;i++){
     attuatori[i]->SetUp();
     } 
-  Serial.println("End Setup Controllore");
 }
 
 static Controllore* Controllore :: GetInstance() {
-    Serial.println("Sono nel Get Instance del controllore");
   if (Controllore::MeStesso == NULL) {
-        Serial.println("Alloco la prima volta");
         Controllore::MeStesso = new Controllore();
   }
-  Serial.println("Faccio il return della istance del controllore");
   return Controllore::MeStesso;
 };
 
 void Controllore::Controllo() {
-  //Riscrivere per errori sui sensori e attuatori come ci siamo messi d'accordo
-  //per i sensori DHT c'è la funzione per il fotoresistore se diventa circuito aperto stesso per igrometro?? 
-  Serial.println("Sono nella funzione di controllo");
-  Serial.println(freeMemory(), DEC);  // print how much RAM is available.
+  if(CONTROLLORE_DEBUG>0){
+  Serial.println(F("Sono nella funzione di controllo"));
+  }
   float target [SIZE];
   float soglie [3];
   ambiente->GetTarget(target,SIZE);
   ambiente->GetSoglie(soglie,SIZE);
-  Serial.println(F("Prese sia Target che Soglie"));
   float valore[SIZE];
   for (int i = 0; i < SIZE; i++) {
     valore[i] = sensori[i]->GetDato();
-    Serial.println(i);
-    Serial.println(valore[i]);
     if(valore[i]<0){
       Link->PublishErroreSensore(ID,i+1);
       }else{
@@ -134,12 +128,12 @@ void Controllore::Controllo() {
       }
       }
   }
-  Serial.println(freeMemory(), DEC);  // print how much RAM is available.
   if (Observed) {
     Link->PublishDati(ID,valore);
   }
-  Serial.println(freeMemory(), DEC);  // print how much RAM is available.
+  if(CONTROLLORE_DEBUG>0){
   Serial.println(F("Finito il controllo"));
+  }
 };
 
 
