@@ -162,12 +162,14 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
   if(COMUNICAZIONE_DEBUG>0){
   Serial.println("Sono nella Callback:");
   }
-  char option [30];
+  char optionmod [30];
+  char optionstr [30];
+  char optionstp [30];
   if(COMUNICAZIONE_DEBUG>0){
   Serial.println(F("Topic per cui si è entrati nella callback"));
   Serial.println(topic);
   }
-  if (strcmp("GH/SetUp", topic) == 0) {
+  if (strcmp(TopicSetUp, topic) == 0) {
     bool corretto = true;
     int j = 0;
     while (corretto && j < 6) {
@@ -180,9 +182,13 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
         this->_callbackSetUp(payload);
     }
   }
-  strcpy(option, Header);
-  strcat(option, "Mod");
-  if (strcmp(option, topic) == 0) {
+  strcpy(optionmod, Header);
+  strcat(optionmod, "Mod");
+  strcpy(optionstr, Header);
+  strcat(optionstr, "STROBS");
+  strcpy(optionstp, Header);
+  strcat(optionstp, "STPOBS");
+  if (strcmp(optionmod, topic) == 0) {
     byte ID_B2 [4];
     long Temp = Controller->GetID();
     Convert_long_to_byte(ID_B2, 0, Temp);
@@ -197,10 +203,7 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
     if (corretto) {
       this->_callbackMod(payload);
     }
-  }
-  strcpy(option, Header);
-  strcat(option, "STROBS");
-  if (strcmp(option, topic) == 0) {
+  }else if (strcmp(optionstr, topic) == 0) {
     byte ID_B [4];
     long Temp = Controller->GetID();
     Convert_long_to_byte(ID_B, 0, Temp);
@@ -215,10 +218,7 @@ void Comunicazione::_callback(char* topic, byte* payload, unsigned int length) {
     if (corretto) {
       this->_callbackSTROBS();
     }
-  }
-  strcpy(option, Header);
-  strcat(option, "STPOBS");
-  if (strcmp(option, topic) == 0) {
+  }else if (strcmp(optionstp, topic) == 0) {
     //Primo byte conterrà i meno significativi
     byte ID_B [4];
     long Temp = Controller->GetID();
