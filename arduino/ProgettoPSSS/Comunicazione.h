@@ -36,6 +36,9 @@ class Comunicazione{
     Controllore* Controller;
     char CLIENT_ID[13];//va visto dinamicamente se queste dimensioni vanno bene ed eventualmente metterle come define
     char Header[30];
+    char mqttserver[9];
+    byte mac_byte[6];
+     
     Comunicazione(){Me=this;};
     void _callbackSetUp(byte * payload);
     void _callbackMod(byte * payload);

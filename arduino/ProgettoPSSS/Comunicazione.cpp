@@ -10,13 +10,13 @@ File myFile;
 
 Comunicazione* Comunicazione :: Me = NULL;
 
-const char* mqtt_server = "10.0.0.2";
+//const char* mqtt_server = "10.0.0.2";//Lo mantengo esterno?? oppure lo metto nella classe di comunicazione
 
-byte gateway[] = {10, 0, 0, 1};  // gateway address
-
-byte subnet[] = {255, 255, 255, 0};  //subnet mask
-
- byte mac_byte[6];
+//byte gateway[] = {10, 0, 0, 1};  // gateway address
+//
+//byte subnet[] = {255, 255, 255, 0};  //subnet mask
+//
+// byte mac_byte[6];
  
 int i = 0;
 
@@ -36,49 +36,76 @@ static Comunicazione* Comunicazione::GetInstance() {
 void Comunicazione :: SetUp() {
 //  Target = amb;
   Controller = Controllore::GetInstance();
-    Serial.println("Initializing the SD card ...");
+    Serial.println(F("Initializing the SD card ..."));
   pinMode(10, OUTPUT);
   digitalWrite(10, HIGH);
   if(!SD.begin(4)){
-    Serial.println("Initialization Failed");
+    Serial.println(F("Initialization Failed"));
   while(1);
   }
-  Serial.println("Initialization Done");
-  myFile=SD.open("conf.txt");
+  Serial.println(F("Initialization Done"));
+  myFile=SD.open("conf5.txt");
     Serial.println(myFile.size());
-  int length=myFile.size();
+//  int length=myFile.size();
+//  char mac_char [length+1];
+  int length=12;
   char mac_char [length+1];
     if(myFile){
   int i=0;
   char inputchar;
   while(myFile.available()){
+    if (i<13){
     Serial.println(i);
     inputchar=myFile.read();
     Serial.print(inputchar);
     mac_char[i]=inputchar;
     i=i+1;
     mac_char[i]='\0';
+    }else 
+//    if(i==13){
+//     Serial.println(i);
+//    inputchar=myFile.read();
+//    Serial.print(inputchar);
+//    i=i+1;
+//    }else 
+    if(i>=13){
+    Serial.println(F("Valore di i"));
+    Serial.println(i);
+    inputchar=myFile.read();
+    Serial.println(F("Valore di inputchar"));
+    Serial.print(inputchar);
+    mqttserver[i-13]=inputchar;
+    Serial.println(F("Valore di mqqtserver[i-14]"));
+    Serial.print(mqttserver[i-13]);
+    i=i+1;        
+    mqttserver[i-13]='\0';
+     }
     }
     Serial.println();
     myFile.close();
-    Serial.println("Lunghezza mac_char");
+    Serial.println(F("Lunghezza mac_char"));
     Serial.println(sizeof(mac_char));
-      Serial.println("Printo il mac_char");
-      Serial.println(mac_char);
-     for(int i=0;i<length;i++){
+    Serial.println(F("Printo il mac_char"));
+    Serial.println(mac_char);
+    Serial.println(F("Lunghezza mqttserver"));
+    Serial.println(sizeof(mqttserver));
+    Serial.println(F("Printo il mac_char"));
+    Serial.println(mqttserver);
+    for(int i=0;i<length;i++){
       Serial.println(mac_char[i]);
-      }
-      str2byte(mac_char,mac_byte);
+     }
+    str2byte(mac_char,mac_byte);
     }else{
-      Serial.println("Errore nell'apertura del file");
-      }
+      Serial.println(F("Errore nell'apertura del file"));
+     }
   strcpy(CLIENT_ID, mac_char);
   Serial.println("CLIENT ID");
   Serial.println(CLIENT_ID);
   Ethernet.begin(mac_byte);
   Serial.println(Ethernet.localIP());
   mqttClient.setClient(ethClient);
-  mqttClient.setServer( mqtt_server, 1883); // or local broker
+  mqttClient.setServer( mqttserver, 1883); // or local broker
+//  mqttClient.setServer( mqtt_server, 1883); // or local broker
   mqttClient.setCallback(callback);
   mqttClient.connect(CLIENT_ID);
   mqttClient.subscribe(TopicSetUp);
@@ -87,7 +114,7 @@ void Comunicazione :: SetUp() {
 
 void Comunicazione :: keepalive() {
   if (!mqttClient.loop()) {
-    Serial.println("Caduta la connessione");
+    Serial.println(F("Caduta la connessione"));
     mqttClient.connect(CLIENT_ID);
     if (!Controller->GetStart()){
         mqttClient.subscribe(TopicSetUp);
