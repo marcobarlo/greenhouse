@@ -24,7 +24,7 @@ public class Configurazione {
 		{
 			this.tempTarget = dett.getTemperatura_target();
 			this.umiTarget = dett.getUmidita_target();
-			this.irrTarget = dett.getUmidita_target();
+			this.irrTarget = dett.getIrradianza_target();
 			this.sogliaIrr = dett.getSogliaIrr();
 			this.sogliaTemp= dett.getSogliaTemp();
 			this.sogliaUmi = dett.getSogliaUmi();
