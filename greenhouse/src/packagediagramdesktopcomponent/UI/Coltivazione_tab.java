@@ -72,7 +72,8 @@ public class Coltivazione_tab extends JFrame {
 		contentPane.add(lblDescrizione);
 
 		JLabel lblTemp = new JLabel("Temperatura: ");
-		lblTemp.setBounds(462, 283, 163, 14);
+		lblTemp.setHorizontalAlignment(SwingConstants.LEFT);
+		lblTemp.setBounds(462, 283, 212, 14);
 		contentPane.add(lblTemp);
 
 		JLabel lblUmidita = new JLabel("Umidità: ");
@@ -80,7 +81,8 @@ public class Coltivazione_tab extends JFrame {
 		contentPane.add(lblUmidita);
 
 		JLabel lblluce = new JLabel("Irradianza: ");
-		lblluce.setBounds(272, 283, 142, 14);
+		lblluce.setHorizontalAlignment(SwingConstants.LEFT);
+		lblluce.setBounds(236, 283, 163, 14);
 		contentPane.add(lblluce);
 		
 		JLabel dettagli = new JLabel("Dettagli Coltivazione");
@@ -133,12 +135,14 @@ public class Coltivazione_tab extends JFrame {
 		lblUmiAttuale.setBounds(34, 326, 172, 14);
 		contentPane.add(lblUmiAttuale);
 		
-		lblIrrAttuale = new JLabel("Irradianza Attuale: In attesa...");
-		lblIrrAttuale.setBounds(272, 326, 163, 14);
+		lblIrrAttuale = new JLabel("Irradianza attuale: In attesa...");
+		lblIrrAttuale.setHorizontalAlignment(SwingConstants.LEFT);
+		lblIrrAttuale.setBounds(236, 326, 199, 14);
 		contentPane.add(lblIrrAttuale);
 		
-		lblTempAttuale = new JLabel("Temperatura Attuale: In attesa...");
-		lblTempAttuale.setBounds(462, 326, 163, 14);
+		lblTempAttuale = new JLabel("Temperatura attuale: In attesa...");
+		lblTempAttuale.setHorizontalAlignment(SwingConstants.LEFT);
+		lblTempAttuale.setBounds(462, 326, 212, 14);
 		contentPane.add(lblTempAttuale);
 		
 		EventBus.getDefault().register(this);
@@ -157,9 +161,9 @@ public class Coltivazione_tab extends JFrame {
 			lblRiga.setText("Fila: "+colt.getFila());
 			lblPosizioneNellaRiga.setText("Posizione: "+colt.getPosizione());
 			lblDescrizione.setText("<html>Descrizione: "+dett.getDescrizione());
-			lblTemp.setText("Temperatura: "+dett.getTemperatura_target());
-			lblUmidita.setText("Umidità: "+dett.getUmidita_target());
-			lblluce.setText("Irradianza: "+dett.getIrradianza_target());
+			lblTemp.setText("Temperatura: "+dett.getTemperatura_target()+ " °C");
+			lblUmidita.setText("Umidità: "+dett.getUmidita_target()+ " %");
+			lblluce.setText("Irradianza: "+dett.getIrradianza_target()+ " lux");
 		}
 		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -211,11 +215,11 @@ public class Coltivazione_tab extends JFrame {
 		if(event.getId()== dett.getIdAmbiente())
 		{	
 			if(updateTemp)
-				this.lblTempAttuale.setText("Temperatura attuale: "+event.getTemp());
+				this.lblTempAttuale.setText("Temperatura attuale: "+event.getTemp()+" °C");
 			if(updateUmi)
-				this.lblUmiAttuale.setText("Umidità attuale: "+event.getUmi());
+				this.lblUmiAttuale.setText("Umidità attuale: "+event.getUmi()+ " %");
 			if(updateIrr)
-				this.lblIrrAttuale.setText("Irradianza attuale: "+event.getIrr());
+				this.lblIrrAttuale.setText("Irradianza attuale: "+event.getIrr()+ " lux");
 		}
 	}
 	
