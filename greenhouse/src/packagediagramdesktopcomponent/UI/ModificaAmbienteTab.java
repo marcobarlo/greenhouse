@@ -46,7 +46,7 @@ public class ModificaAmbienteTab extends JFrame {
 	    private JTextField umiTxt;
 	    private JTextField tempTxt;
 	    private JTextField irrTxt;
-
+	    private Coltivazione_tab parent;
 	/**
 	 * Create the frame.
 	 */
@@ -153,6 +153,8 @@ public class ModificaAmbienteTab extends JFrame {
 							{
 								lblError.setText("Modifica avvenuta con successo!");
 								lblError.setVisible(true);
+								if(parent != null)
+									parent.refresh();
 							}
 							else
 							{
@@ -179,5 +181,10 @@ public class ModificaAmbienteTab extends JFrame {
 		modifyButt.setBounds(199, 231, 143, 21);
 		contentPane.add(modifyButt);
 
+	}
+	
+	public void setParent(Coltivazione_tab f)
+	{
+		parent = f;
 	}
 }
