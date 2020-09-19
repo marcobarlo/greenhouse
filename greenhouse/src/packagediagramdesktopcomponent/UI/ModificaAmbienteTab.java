@@ -64,9 +64,9 @@ public class ModificaAmbienteTab extends JFrame {
 			lblError.setVisible(true);
 			return false;
 		}
-		else if(irr!=null && (irr<25000 || irr>100000))
+		else if(irr!=null && (irr<0 || irr>10000))
 		{
-			lblError.setText("L'irradianza è fuori dal range, reinserisci un valore tra 25000 e 100000");
+			lblError.setText("L'irradianza è fuori dal range, reinserisci un valore tra 0 e 1000");
 			lblError.setVisible(true);
 			return false;
 		}
