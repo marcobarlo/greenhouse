@@ -9,14 +9,6 @@
 File myFile;
 
 Comunicazione* Comunicazione :: Me = NULL;
-
-//const char* mqtt_server = "10.0.0.2";//Lo mantengo esterno?? oppure lo metto nella classe di comunicazione
-
-//byte gateway[] = {10, 0, 0, 1};  // gateway address
-//
-//byte subnet[] = {255, 255, 255, 0};  //subnet mask
-//
-// byte mac_byte[6];
  
 int i = 0;
 
@@ -241,7 +233,6 @@ void Comunicazione::_callbackSetUp(byte * payload){
       if(COMUNICAZIONE_DEBUG>0){
       Serial.println(F("SetUp"));
       }
-      // Convertire in vettori di vettori di 4 byte
       byte ID_B[4];
       byte Sezione_B[4];
       byte target_b [3][4];
@@ -303,3 +294,15 @@ void Comunicazione::PublishTest() {
   mqttClient.publish("test/topic", String(i).c_str() );
   i = i + 1;
 };
+
+bool Comunicazione::CheckID(byte ID_B [4],byte payload []){
+  bool corretto = true;
+    int j = 0;
+        while (corretto && j < 4) {
+          if (ID_B[j] != payload[j]) {
+            corretto = false;
+          }
+          j = j + 1;
+        }
+  return corretto;
+  };

@@ -20,7 +20,7 @@ void setup() {
   Serial.println("Start Setup delle componenti");
   Amb=new Ambiente();
   Contr=Controllore::GetInstance();
-  Contr->SetUp2(Amb);
+  Contr->SetUp(Amb);
   Com=Comunicazione::GetInstance();
   Com->SetUp();
   Serial.println("Fine Setup delle componenti");

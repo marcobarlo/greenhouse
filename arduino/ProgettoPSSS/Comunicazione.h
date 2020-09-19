@@ -41,7 +41,7 @@ class Comunicazione{
     char Header[30];
     char mqttserver[9];
     byte mac_byte[6];
-     
+    bool CheckID(byte ID_B [4],byte payload []);
     Comunicazione(){Me=this;};
     void _callbackSetUp(byte * payload);
     void _callbackMod(byte * payload);

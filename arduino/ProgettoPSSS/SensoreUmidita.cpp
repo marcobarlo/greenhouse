@@ -9,6 +9,7 @@ void SensoreUmidita :: SetUp() {
 };
 
 float SensoreUmidita :: GetDato() {
+  float Umidita;
   if(UMIDITA_DEBUG>0){
   Serial.println(" Prelievo dato SensoreUmidita");
   }

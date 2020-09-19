@@ -1,31 +1,6 @@
 #include "Ambiente.h"
 
-#define NUM_T 3
-#define NUM_S 3
-
-
-float Ambiente  :: GetUmiditaTarget() {
-  return UmiditaTarget;
-};
-
-float Ambiente  :: GetIrradianzaTarget() {
-  return IrradianzaTarget;
-};
-
-float Ambiente  :: GetTemperaturaTarget() {
-  return TemperaturaTarget;
-};
-
-void  Ambiente :: ModificaAmbiente(float T, float U, float I) {
-  if(AMBIENTE_DEBUG>0){
-  Serial.println("Modifica Ambiente valori:");
-  }
-  UmiditaTarget = U;
-  IrradianzaTarget = I;
-  TemperaturaTarget = T;
-};
-
-void  Ambiente :: ModificaAmbiente2(float array []) {
+void  Ambiente :: ModificaAmbiente(float array []) {
     if(AMBIENTE_DEBUG>0){
     Serial.println("Modifica Ambiente2 valori:");
     }
@@ -34,17 +9,6 @@ void  Ambiente :: ModificaAmbiente2(float array []) {
     }
 };
 
-float Ambiente :: GetSogliaU() {
-  return SogliaU;
-};
-
-float Ambiente :: GetSogliaI() {
-  return SogliaI;
-};
-
-float Ambiente :: GetSogliaT() {
-  return SogliaT;
-};
 
 int Ambiente :: GetSoglie(float array[],int lung){
   if(AMBIENTE_DEBUG>0){
@@ -79,14 +43,9 @@ int Ambiente :: GetTarget(float array[],int lung){
     return 0;
   };//per farlo per bene servirebbero puntatori ma così evito di fare allocazione dinamica di cose piccole
   
-void Ambiente :: SetSoglie(float T, float U, float I) {
-  SogliaT = T;
-  SogliaU = U;
-  SogliaI = I;
-};
 
 //Devo mettere un controllo sulla lunghezza come per la lettura??
-void Ambiente :: SetSoglie2(float array[]) {
+void Ambiente :: SetSoglie(float array[]) {
   if(AMBIENTE_DEBUG>0){
   Serial.println(F("Modifica Soglie 2 valori"));
   }

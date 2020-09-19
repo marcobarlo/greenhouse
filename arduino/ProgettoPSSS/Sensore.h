@@ -4,7 +4,6 @@
  class Sensore{
   public:
     Sensore(){};
-    virtual void  WhoAreYou()=0;
     virtual float GetDato()=0;
     virtual void SetUp()=0;
   };

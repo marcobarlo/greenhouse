@@ -6,8 +6,6 @@
 #include "Config.h"
 #include <SPI.h>
 
-#define DHTPIN 2
-#define DHTTYPE DHT11   // DHT 11
 
 #ifndef TEMPERATURA_DEBUG
 #define TEMPERATURA_DEBUG  0
@@ -15,11 +13,9 @@
 
 class SensoreTemperatura : public Sensore{
   private:
-    float Temperatura;
 	  DHT dht;
   public:
     SensoreTemperatura();
-    virtual void  WhoAreYou(){Serial.println("Sono il sensore di Temperatura");};
     virtual float GetDato();
     virtual void SetUp();
   };

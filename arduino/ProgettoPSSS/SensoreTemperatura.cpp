@@ -8,7 +8,6 @@ void SensoreTemperatura  :: SetUp() {
   if(TEMPERATURA_DEBUG>0){
   Serial.println(F("Setup SensoreTemperatura"));
   }
-  Temperatura = -1;
   dht.begin();
 };
 

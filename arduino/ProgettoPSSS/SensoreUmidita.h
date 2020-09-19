@@ -6,17 +6,12 @@
 #include <SPI.h>
 
 
-#define YL_69_PIN A1
-#define YL_69_VCC 6
 
 #ifndef UMIDITA_DEBUG
 #define UMIDITA_DEBUG  0
 #endif
 
 class SensoreUmidita : public Sensore{
-  private:
-    float Umidita;
-	
   public:
     SensoreUmidita(){};
     virtual void  WhoAreYou(){Serial.println("Sono il sensore di Umidita");};

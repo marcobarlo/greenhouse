@@ -20,14 +20,6 @@
 
 #define SIZE 3
 
-//#define DHTPIN 2
-//#define DHTTYPE DHT11   // DHT 11
-
-#define LUXINPUT A0
-
-#define YL_69_PIN A1
-#define YL_69_VCC 6
-
 class Controllore;
 class Comunicazione;
 class Ambiente;
@@ -52,8 +44,8 @@ class Controllore{
     void ModificaAmbiente(float array []);
     void SetSoglie(float array[]);
     void Controllo();
-    void SetUp();
-    void SetUp2(Ambiente *);
+//    void SetUp();
+    void SetUp(Ambiente *);
     void SetID(long);
     void SetSezione(long);
     void SetObserved(bool);

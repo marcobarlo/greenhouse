@@ -40,7 +40,6 @@ void Controllore :: SendDati(){
     }
     float dati[SIZE];
     for(int i=0;i<SIZE;i++){
-      sensori[i]->WhoAreYou();
       dati[i]=sensori[i]->GetDato();
       if (dati [i]<0){
         Link->PublishErroreSensore(ID,i);
@@ -49,7 +48,7 @@ void Controllore :: SendDati(){
     Link->PublishDati(ID,dati);
   };
 
-void  Controllore :: SetUp2(Ambiente * amb){
+void  Controllore :: SetUp(Ambiente * amb){
   if(CONTROLLORE_DEBUG>0){
     Serial.println(F("SetUp Controllore"));
     }
@@ -77,23 +76,23 @@ void  Controllore :: SetUp2(Ambiente * amb){
   };
 
 
-//Devo togliere non serve più e rinominare il Setup2 in Setup
-void  Controllore :: SetUp() {
-  //Si deve rivedere questo codice per l'arduino uno o con l'acrocchio o rivedendolo come interfaccia e classi che le usano 
-  //questo presenterebbe di dover scrivere il codice a manella o rivedere le allocazioni e altro per recuperare megabytes
-  sensori[0]=new SensoreTemperatura();
-  sensori[1]=new SensoreUmidita();
-  sensori[2]=new SensoreIrradianza();
-  for (int i=0;i<3;i++){
-    sensori[i]->SetUp();
-    }
-  attuatori[0]=new Serpentina();
-  attuatori[1]=new Innaffiatoio();
-  attuatori[2]=new StrisciaLed();
-  for (int i=0;i<3;i++){
-    attuatori[i]->SetUp();
-    } 
-}
+////Devo togliere non serve più e rinominare il Setup2 in Setup
+//void  Controllore :: SetUp() {
+//  //Si deve rivedere questo codice per l'arduino uno o con l'acrocchio o rivedendolo come interfaccia e classi che le usano 
+//  //questo presenterebbe di dover scrivere il codice a manella o rivedere le allocazioni e altro per recuperare megabytes
+//  sensori[0]=new SensoreTemperatura();
+//  sensori[1]=new SensoreUmidita();
+//  sensori[2]=new SensoreIrradianza();
+//  for (int i=0;i<3;i++){
+//    sensori[i]->SetUp();
+//    }
+//  attuatori[0]=new Serpentina();
+//  attuatori[1]=new Innaffiatoio();
+//  attuatori[2]=new StrisciaLed();
+//  for (int i=0;i<3;i++){
+//    attuatori[i]->SetUp();
+//    } 
+//}
 
 static Controllore* Controllore :: GetInstance() {
   if (Controllore::MeStesso == NULL) {
@@ -138,9 +137,9 @@ void Controllore::Controllo() {
 
 
 void Controllore::ModificaAmbiente(float array []){
-  ambiente->ModificaAmbiente2(array);
+  ambiente->ModificaAmbiente(array);
   };
 
 void Controllore::SetSoglie(float array[]){
-  ambiente->SetSoglie2(array);
+  ambiente->SetSoglie(array);
   };
