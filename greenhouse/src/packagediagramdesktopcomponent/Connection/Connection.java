@@ -1,6 +1,8 @@
 package packagediagramdesktopcomponent.Connection;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
@@ -18,8 +20,11 @@ public class Connection{
 	private Semaphore sem;
 	private int idToAck;
 	private Connection(){}
+	private ArrayList<Integer> ids;
+	private PollingThread pt;
 	public void startup(String broker, String clientId)
 	{
+		ids= new ArrayList<Integer>();
 		sem= new Semaphore(0);
 		//setup mqtt client
         MqttDefaultFilePersistence dataStore = new MqttDefaultFilePersistence(System.getProperty("java.io.tmpdir") + "/" + clientId);
@@ -36,12 +41,20 @@ public class Connection{
     	        @Override
     	        public void messageArrived(String topic, MqttMessage message) throws Exception 
     	        {
+    	        	System.out.println(Thread.currentThread().getId()+Thread.currentThread().getName());
     	            if(topic.equals("GH/Dati")) 
     	            	callback_data(message);
     	            else if(topic.equals("GH/Errore"))
     	            	callback_error(message);
     	            else if(topic.equals("GH/Ack"))
     	        		callbackAck(message);
+    	            else if(topic.equals("GH/PingAck"))
+    	            {
+    	        		byte[] payload = message.getPayload();
+    	        		ByteBuffer b = ByteBuffer.wrap(payload);
+    	        		int id = b.getInt();
+    	            	pt.pingAck(id);
+    	            }
     	        }
 
     	        @Override
@@ -59,6 +72,10 @@ public class Connection{
     		client.subscribe("GH/Dati");
     		client.subscribe("GH/Errore");
     		client.subscribe("GH/Ack");
+    		pt = new PollingThread();
+    		Runnable r= pt;
+    		Thread t= new Thread(r);
+    		t.start();
     		
         } catch(MqttException me) 
         {
@@ -75,6 +92,7 @@ public class Connection{
 	public boolean sendSetUp(Configurazione c) 
 	{
         String topic= "GH/SetUp";
+        ids.add(c.getId());
         int qos= 1;
         ByteBuffer buf = ByteBuffer.allocate(4+6+4+24);	//4 id 6 mac 4 sezionew 24 parametri float
         String mac= c.getMac();
@@ -218,5 +236,45 @@ public class Connection{
 		}
 		return data;
 	}
+	
+	public void connect()
+	{
+        MqttConnectOptions connOpts = new MqttConnectOptions();
+        connOpts.setAutomaticReconnect(true);
+        connOpts.setCleanSession(true);
+        System.out.println("Connecting to broker: ...");
+        try {
+			client.connect(connOpts);
+		} catch (MqttSecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MqttException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void sendPing(int id)
+	{
+        String topic= "GH/ping";
+        int qos= 1;
+        ByteBuffer buf = ByteBuffer.allocate(4);
+        buf=buf.putInt(id);
+        MqttMessage message = new MqttMessage(buf.array());
+        message.setQos(qos);
+        message.setPayload(buf.array());
+        try {client.publish(topic, message);} 
+        catch (MqttPersistenceException e) 
+        {} 
+        catch (MqttException e) 
+        {}
+        System.out.println("Pubblico ping per"+ id);
+	}
+	public List<Integer> getIDS()
+	{
+		System.out.println(ids);
+		return ids;
+	}
+	
 
 }
