@@ -12,9 +12,11 @@
 #define TopicDati "GH/Dati"
 #define TopicAck  "GH/Ack"
 #define TopicSetUp "GH/SetUp"
+#define TopicLastWill "GH/LastWill"
+
 
 #ifndef COMUNICAZIONE_DEBUG
-#define COMUNICAZIONE_DEBUG  0
+#define COMUNICAZIONE_DEBUG  1
 #endif
 
 

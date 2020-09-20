@@ -42,6 +42,8 @@ public class Connection{
     	            	callback_error(message);
     	            else if(topic.equals("GH/Ack"))
     	        		callbackAck(message);
+    	            else if(topic.equals("GH/LastWill"))
+    	            	callbackLastWill(message);
     	        }
 
     	        @Override
@@ -59,6 +61,7 @@ public class Connection{
     		client.subscribe("GH/Dati");
     		client.subscribe("GH/Errore");
     		client.subscribe("GH/Ack");
+    		client.subscribe("GH/LastWill");
     		
         } catch(MqttException me) 
         {
@@ -217,6 +220,17 @@ public class Connection{
 			data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4) + Character.digit(s.charAt(i+1), 16));
 		}
 		return data;
+	}
+	
+	private void callbackLastWill(MqttMessage message) {
+		byte[] payload = message.getPayload();
+		String idString = new String(payload);
+		int id;
+		try{id = Integer.parseInt(idString);}
+		catch(NumberFormatException e)
+		{id = -1;}
+		if(id!= -1)
+			ControllerFacade.sendAllarme(0,id);
 	}
 
 }

@@ -48,12 +48,15 @@ void Comunicazione :: SetUp() {
   int i=0;
   char inputchar;
   while(myFile.available()){
-    if (i<13){
+    if (i<12){
     inputchar=myFile.read();
     mac_char[i]=inputchar;
     i=i+1;
     mac_char[i]='\0';
-    }else if(i>=13){
+    }else if(i==12 || i==13){
+      i=i+1;
+      inputchar=myFile.read();
+      }else if(i>13){
     inputchar=myFile.read();
     mqttserver[i-13]=inputchar;
     i=i+1;        
@@ -91,7 +94,11 @@ void Comunicazione :: keepalive() {
     if(COMUNICAZIONE_DEBUG>0){
     Serial.println(F("Caduta la connessione"));
     }
-    mqttClient.connect(CLIENT_ID);
+    char ID_char [10];
+      ltoa(Controller->GetID(),ID_char,10);
+          mqttClient.connect(CLIENT_ID,NULL,NULL,TopicLastWill,2,false,ID_char);
+//    mqttClient.connect(CLIENT_ID,NULL,NULL,TopicLastWill,2,false,tempc.message);
+//    mqttClient.connect(CLIENT_ID);
     if (!Controller->GetStart()){
         mqttClient.subscribe(TopicSetUp);
       }
@@ -99,7 +106,8 @@ void Comunicazione :: keepalive() {
     char Topic[30];
     strcpy(Topic, Header);
     strcat(Topic, "+");
-    mqttClient.subscribe(Topic); }
+    mqttClient.subscribe(Topic);
+    }
   };
 };
 
@@ -252,6 +260,10 @@ void Comunicazione::_callbackSetUp(byte * payload){
       Controller->SetStart();
       char sezione [10];
       ltoa(Controller->GetSezione(), sezione, 10);
+      char ID_char [10];
+      ltoa(ID,ID_char,10);
+      mqttClient.disconnect();
+      mqttClient.connect(CLIENT_ID,NULL,NULL,TopicLastWill,2,false,ID_char);
       char Topic[30];
       strcpy(Header, "GH/");
       strcat(Header, sezione);

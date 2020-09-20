@@ -6,6 +6,8 @@ public class AllarmeFactory {
 	{
 		switch(code)
 		{
+		case 0:
+			return new AllarmeDisconnessione(idAmb);
 		case 1:
 			return new Allarme1(idAmb);
 		case 2:
