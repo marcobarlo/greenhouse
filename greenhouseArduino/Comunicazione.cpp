@@ -95,10 +95,8 @@ void Comunicazione :: keepalive() {
     Serial.println(F("Caduta la connessione"));
     }
     char ID_char [10];
-      ltoa(Controller->GetID(),ID_char,10);
-          mqttClient.connect(CLIENT_ID,NULL,NULL,TopicLastWill,2,false,ID_char);
-//    mqttClient.connect(CLIENT_ID,NULL,NULL,TopicLastWill,2,false,tempc.message);
-//    mqttClient.connect(CLIENT_ID);
+    ltoa(Controller->GetID(),ID_char,10);
+    mqttClient.connect(CLIENT_ID,NULL,NULL,TopicLastWill,2,false,ID_char);
     if (!Controller->GetStart()){
         mqttClient.subscribe(TopicSetUp);
       }
