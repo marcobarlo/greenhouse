@@ -37,7 +37,8 @@ public class ControllerParametriAmbientali {
 			c = Coltivazione.getColtivazioneByORMID(id);
 			int sez= c.getSezione();
 			Connection conn = Connection.getInstance();
-			if(conn.modificaAmbiente(c.getIDAmbiente(), temperatura, umidita, irradianza,sez)) 
+			conn.modificaAmbiente(c.getIDAmbiente(), temperatura, umidita, irradianza,sez);
+			if(conn.getRetval(c.getIDAmbiente())) 
 			{
 				return c.modificaAmbiente(temperatura, umidita, irradianza);
 			}
@@ -49,9 +50,11 @@ public class ControllerParametriAmbientali {
 	}
 	
 	protected static List<Boolean> modificaAmbiente(List<Integer> ids, Float temperatura, Float umidita, Float irradianza) {
-		Coltivazione c;
+		List<Boolean> ret= new ArrayList<Boolean>();
+		List<Coltivazione> colts = new ArrayList<Coltivazione>();
 		for(int id : ids)
 		{
+			Coltivazione c;
 			try {			
 				if(temperatura == null || umidita == null || irradianza == null)
 				{
@@ -66,20 +69,20 @@ public class ControllerParametriAmbientali {
 				c = Coltivazione.getColtivazioneByORMID(id);
 				int sez= c.getSezione();
 				Connection conn = Connection.getInstance();
-				if(conn.modificaAmbiente(c.getIDAmbiente(), temperatura, umidita, irradianza,sez)) 
-				{
-					/*return*/ c.modificaAmbiente(temperatura, umidita, irradianza);
-				}
-				//else return false;
-				
+				colts.add(c);
+				conn.modificaAmbiente(c.getIDAmbiente(), temperatura, umidita, irradianza,sez);
 			} catch (PersistentException e) {
 				return null;
 			}
 		}
-		List<Boolean> ret= new ArrayList<Boolean>();
-		for(int id : ids)
+
+		for(Coltivazione c : colts)
 		{
-			ret.add(Connection.getInstance().getRetval(id));
+			if(Connection.getInstance().getRetval(c.getIDAmbiente())) 
+			{
+				ret.add(c.modificaAmbiente(temperatura, umidita, irradianza));
+			}
+			else ret.add(false);
 		}
 		return ret;
 	}
