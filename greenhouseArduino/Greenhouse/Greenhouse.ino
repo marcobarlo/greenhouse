@@ -4,7 +4,7 @@
 #include <SPI.h>
 #include "limits.h"
 
-#define CONTROL_DELAY 10000
+#define CONTROL_DELAY 60000
 
 Controllore* Contr;
 Comunicazione * Com;

@@ -94,7 +94,7 @@ void Controllore::Controllo() {
     if (abs(target[i] - valore[i]) > soglie[i]) {
       if (Error[i] == false) {
         Error[i] = true;
-//        attuatori[i]->SetAttuatore(abs(target[i] - valore[i]));
+        attuatori[i]->SetAttuatore(abs(target[i] - valore[i]));
       }else {
           Link->PublishErroreAttuatore(ID,i+4,abs(target[i] - valore[i]));
       }
