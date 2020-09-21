@@ -3,9 +3,6 @@ package packagediagramdesktopcomponent.Connection;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
-
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 
@@ -17,14 +14,11 @@ public class Connection{
 
 	private static Connection instance = null;
 	private MqttClient client;
-	private Semaphore sem;
-	private int idToAck;
 	private Connection(){}
 	private List<threadWait> threads; 
 	public void startup(String broker, String clientId)
 	{
 		threads= new ArrayList<threadWait>();
-		sem= new Semaphore(0);
 		//setup mqtt client
         MqttDefaultFilePersistence dataStore = new MqttDefaultFilePersistence(System.getProperty("java.io.tmpdir") + "/" + clientId);
         try {
@@ -116,7 +110,7 @@ public class Connection{
 		return true;
 	}
 	
-	public synchronized boolean modificaAmbiente(int id, float temperatura, float umidita, float irradianza, int sez)
+	public synchronized void modificaAmbiente(int id, float temperatura, float umidita, float irradianza, int sez)
 	{
         String topic= "GH/"+sez+"/cmd/Mod";
         int qos= 1;
@@ -125,48 +119,44 @@ public class Connection{
         MqttMessage message = new MqttMessage(buf.array());
         message.setQos(qos);
         message.setPayload(buf.array());
-        idToAck = id;
-        //boolean acked;
-        try {
-        	client.publish(topic, message);
-        	threadWait tw= new threadWait(id);
-			//acked=sem.tryAcquire(1, TimeUnit.SECONDS);	
-        	threads.add(tw);
-        	tw.start();
-    		System.out.println(threads);
-        } 
-        catch (MqttPersistenceException e) 
-        {return false;} 
-        catch (MqttException e) 
-        {return false;}
-        //catch (InterruptedException e) 
-        //{return false;}
-        
-        //System.out.println("Message published");
-        return true;
+        synchronized(instance)
+        {
+	        try {
+	        	client.publish(topic, message);
+	        	threadWait tw= new threadWait(id);	
+	        	threads.add(tw);
+	        	tw.start();
+	        } 
+	        catch (MqttPersistenceException e) 
+	        {e.printStackTrace();} 
+	        catch (MqttException e) 
+	        {e.printStackTrace();}
+        }
 	}
 	
 	public boolean getRetval(int id)
 	{
 		threadWait thread=null;
-		for(threadWait t : threads)
+		synchronized(instance)
 		{
-			if(t.getID() == id)
-				thread=t;
-		}
-		if(thread != null)
-		{
-			try {
-				thread.join();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			for(threadWait t : threads)
+			{
+				if(t.getID() == id)
+					thread=t;
 			}
-			boolean retval = thread.retval;
-			threads.remove(thread);
-			return retval;
+			if(thread != null)
+			{
+				try {
+					thread.join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				boolean retval = thread.retval;
+				threads.remove(thread);
+				return retval;
+			}
+			else return false;
 		}
-		else return false;
 	}
 	public boolean sendStop(int id, int sez)
 	{
@@ -238,16 +228,17 @@ public class Connection{
 		byte[] payload = message.getPayload();
 		ByteBuffer b = ByteBuffer.wrap(payload);
 		int id = b.getInt();
-		if(id == idToAck)
-			sem.release();
 		threadWait thread=null;
-		for(threadWait t : threads)
+		synchronized(instance)
 		{
-			if(t.getID() == id)
-				thread=t;
+			for(threadWait t : threads)
+			{
+				if(t.getID() == id)
+					thread=t;
+			}
+			if(thread != null)
+				thread.signal();
 		}
-		if(thread != null)
-			thread.signal();
 	}
 
 	private static byte[] hexStringToByteArray(String s) 
