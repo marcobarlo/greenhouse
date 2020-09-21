@@ -43,6 +43,5 @@ float SensoreIrradianza  :: GetDato() {
   if(IRRADIANZA_DEBUG>0){
     Serial.println(irr);
     }
-  Serial.println(irr);
   return irr;
 };

@@ -14,7 +14,6 @@
 class SensoreUmidita : public Sensore{
   public:
     SensoreUmidita(){};
-    virtual void  WhoAreYou(){Serial.println("Sono il sensore di Umidita");};
     virtual float GetDato();
     virtual void SetUp();
   };

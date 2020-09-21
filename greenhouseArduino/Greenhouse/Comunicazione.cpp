@@ -58,7 +58,6 @@ void Comunicazione :: SetUp() {
       inputchar=myFile.read();
       }else if(i>12){
     inputchar=myFile.read();
-    Serial.println(inputchar);
     mqttserver[i-13]=inputchar;
     i=i+1;        
     mqttserver[i-13]='\0';

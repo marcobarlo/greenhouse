@@ -30,20 +30,19 @@ class Controllore{
     static Controllore* MeStesso;
     Comunicazione * Link;
     Ambiente * ambiente;
-    Sensore* sensori [3];
-    Attuatore* attuatori [3];
+    Sensore* sensori [3]; //i sensori sono istanziati nel seguente ordine Temperatura Umidita Irradianza
+    Attuatore* attuatori [3];//gli attuatori sono nel seguente ordine serpentina innafiatoio Striscia led
     bool Start=false;
-    bool Error[3];
+    bool Error[3];//gli errori degli attuatori sono nel seguente ordine serpentina innafiatoio Striscia led
     bool Observed;
     long ID;
     long Sezione;
     Controllore();
   public:
     static Controllore* GetInstance();
-    void ModificaAmbiente(float array []);
-    void SetSoglie(float array[]);
+    void ModificaAmbiente(float array []);//i valori devono essere nel seguente ordine Temperatura Umidita Irradianza
+    void SetSoglie(float array[]);//le soglie devono essere nel seguente ordine Temperatura Umidita Irradianza
     void Controllo();
-//    void SetUp();
     void SetUp(Ambiente *);
     void SetID(long);
     void SetSezione(long);

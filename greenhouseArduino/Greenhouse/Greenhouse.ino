@@ -11,7 +11,6 @@ Comunicazione * Com;
 Ambiente * Amb;
 long previousMillis;
 
-
 void setup() {
   Serial.begin(9600);
   while (!Serial) {};
@@ -26,7 +25,6 @@ void setup() {
 
 void loop() {
   if (millis()<previousMillis){
-//    unsigned long DIFF=(ULONG_MAX-previousMillis);
     unsigned long MIL=(ULONG_MAX-previousMillis)+millis();
     if (MIL>CONTROL_DELAY){
       if(Contr->GetStart()){
@@ -35,10 +33,8 @@ void loop() {
       }
     }else  if (millis() - previousMillis > CONTROL_DELAY) {
     if(Contr->GetStart()){
-      Contr->Controllo();//Adesso come faccio iniziare solo se ho il Setup?? mi sa che devo fare il fatto dell'interrupt
-          Serial.println("CI SONO E CONTROLLO PURE");
+      Contr->Controllo();
     }
-    Serial.println("CI SONO");
     previousMillis = millis();
   }
   Com->keepalive();

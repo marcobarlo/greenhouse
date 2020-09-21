@@ -18,7 +18,6 @@ float SensoreUmidita :: GetDato() {
   int value = analogRead(YL_69_PIN);
   digitalWrite(YL_69_VCC, LOW);
   Umidita = 1023 - value;
-  Serial.println(value);
   if(value ==0){
     return -1;
     }

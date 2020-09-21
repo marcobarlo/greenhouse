@@ -16,7 +16,7 @@
 
 
 #ifndef COMUNICAZIONE_DEBUG
-#define COMUNICAZIONE_DEBUG  1
+#define COMUNICAZIONE_DEBUG  0
 #endif
 
 
@@ -38,7 +38,7 @@ class Comunicazione{
     EthernetClient ethClient;
     PubSubClient mqttClient;
     Controllore* Controller;
-    char CLIENT_ID[13];//va visto dinamicamente se queste dimensioni vanno bene ed eventualmente metterle come define
+    char CLIENT_ID[13];
     char Header[30];
     char mqttserver[9];
     byte mac_byte[6];
@@ -55,7 +55,7 @@ class Comunicazione{
     void PublishTest();
     void _callback(char* topic, byte* payload, unsigned int length);
     void PublishAck(long ID);
-    void PublishDati(long ID,float array []);
+    void PublishDati(long ID,float array []);//Formato dell pachetto prevede prima i dati del sensore di temperatura poi del sensore di umidita ed infine irradianza
     void PublishErroreSensore(long ID, long Errore);
     void PublishErroreAttuatore(long ID, long Errore,float delta);
 

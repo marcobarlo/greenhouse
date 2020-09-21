@@ -20,7 +20,7 @@ class Ambiente{
     void SetSoglie(float array[]);//Le soglie devono essere fornite nell'ordine Temperatura Umidita Irradianza
     //Le soglie prelevate nell'ordine Temperatura Umidita Irradianza
     int GetSoglie(float array[],int lung);//per farlo per bene servirebbero puntatori ma così evito di fare allocazione dinamica di cose piccole
-    //I valoei target prelevati nell'ordine Temperatura Umidita Irradianza
+    //I valori target prelevati nell'ordine Temperatura Umidita Irradianza
     int GetTarget(float array[],int lung);//per farlo correttamente ci vorrebbero i puntatori alternatuìiva è il mega accrocchio di fare il ritorno di qualcosa di locale
 
 

@@ -70,11 +70,3 @@ void Convert_float_to_byte(byte array[],unsigned int start, float f){
   };
 
   
-void Load_to_payload_float2(byte array[],unsigned int start, float f){
-  tempfloat tempf;
-  tempf.f=f;
-  array[start] = tempf.b[0];
-  array[start+1] = tempf.b[1];
-  array[start+2] = tempf.b[2];
-  array[start+3] = tempf.b[3];
-  };
