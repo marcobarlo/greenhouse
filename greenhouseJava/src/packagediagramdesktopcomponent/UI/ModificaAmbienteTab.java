@@ -47,6 +47,7 @@ public class ModificaAmbienteTab extends JFrame {
 	    private JTextField tempTxt;
 	    private JTextField irrTxt;
 	    private Coltivazione_tab parent;
+	    private JFrame frame;
 	/**
 	 * Create the frame.
 	 */
@@ -83,6 +84,7 @@ public class ModificaAmbienteTab extends JFrame {
 	}
 	public ModificaAmbienteTab(List<Integer> IDColtivazioni) {
 	    //Display the window.
+		frame = this;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 499, 344);
 		contentPane = new JPanel();
@@ -164,8 +166,7 @@ public class ModificaAmbienteTab extends JFrame {
 									if(retval.get(i)==false)
 										error = error + "-"+IDColtivazioni.get(i) + " ";
 								}
-								lblError.setText(error);
-								lblError.setVisible(true);
+								JOptionPane.showMessageDialog(frame, error, "Attenzione", JOptionPane.WARNING_MESSAGE);
 							}	
 							
 						}
