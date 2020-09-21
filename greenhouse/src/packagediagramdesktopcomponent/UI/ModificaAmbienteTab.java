@@ -165,8 +165,9 @@ public class ModificaAmbienteTab extends JFrame {
 									if(retval.get(i)==false)
 										error = error + "-"+IDColtivazioni.get(i) + " ";
 								}
-								lblError.setText(error);
-								lblError.setVisible(true);
+								//lblError.setText(error);
+								//lblError.setVisible(true);
+								JOptionPane.showMessageDialog(null, error);
 							}	
 							
 						}
