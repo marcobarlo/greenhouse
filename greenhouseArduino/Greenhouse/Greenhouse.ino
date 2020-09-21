@@ -25,7 +25,6 @@ void setup() {
 }
 
 void loop() {
-  //Da rivedere se va usato invece l'interrupt per il calcolo del tempo
   if (millis()<previousMillis){
 //    unsigned long DIFF=(ULONG_MAX-previousMillis);
     unsigned long MIL=(ULONG_MAX-previousMillis)+millis();

@@ -254,16 +254,16 @@ void Comunicazione::_callbackSetUp(byte * payload){
         target[i] = Convert_byte_to_float(payload, DISPLACEMENT_TRG_S + 4 * i);
         soglie[i] = Convert_byte_to_float(payload, DISPLACEMENT_SGL_S + 4 * i);
       }
-      Controller->ModificaAmbiente(target);
-      Controller->SetSoglie(soglie);
-      Controller->SetStart();
-      char sezione [10];
-      ltoa(Controller->GetSezione(), sezione, 10);
       char ID_char [10];
       ltoa(ID,ID_char,10);
       mqttClient.disconnect();
       mqttClient.connect(CLIENT_ID,NULL,NULL,TopicLastWill,2,false,ID_char);
       char Topic[30];
+      Controller->ModificaAmbiente(target);
+      Controller->SetSoglie(soglie);
+      Controller->SetStart();
+      char sezione [10];
+      ltoa(Controller->GetSezione(), sezione, 10);
       strcpy(Header, "GH/");
       strcat(Header, sezione);
       strcat(Header, "/cmd/");
