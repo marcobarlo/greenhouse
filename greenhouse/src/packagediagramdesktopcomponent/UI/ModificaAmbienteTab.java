@@ -144,10 +144,11 @@ public class ModificaAmbienteTab extends JFrame {
 						int dialogRes=JOptionPane.showConfirmDialog(null, "Sei sicuro di voler aggiornare i parametri?", "Attenzione!", JOptionPane.OK_CANCEL_OPTION);
 						if(dialogRes==JOptionPane.OK_OPTION)
 						{
-							for(int IDColtivazione : IDColtivazioni)
+							/*for(int IDColtivazione : IDColtivazioni)
 							{
 								retval.add(ControllerFacade.modificaAmbiente(IDColtivazione, temp, umi, irr));
-							}
+							}*/
+							retval= ControllerFacade.modificaAmbiente(IDColtivazioni, temp, umi, irr);
 							
 							if(!retval.contains(false))
 							{

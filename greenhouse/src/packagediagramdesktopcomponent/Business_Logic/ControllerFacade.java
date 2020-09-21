@@ -69,5 +69,8 @@ public class ControllerFacade {
 	public static void logOut() {
 		ControllerUtenti.logOut();
 	}
-
+	
+	public static List<Boolean> modificaAmbiente(List<Integer> ids, Float temperatura, Float umidita, Float irradianza) {
+		return ControllerParametriAmbientali.modificaAmbiente(ids, temperatura, umidita, irradianza);
+	}
 }

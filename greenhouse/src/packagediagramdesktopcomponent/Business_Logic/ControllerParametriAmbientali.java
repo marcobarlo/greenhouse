@@ -2,6 +2,9 @@ package packagediagramdesktopcomponent.Business_Logic;
 
 import packagediagramdesktopcomponent.Connection.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.greenrobot.eventbus.EventBus;
 import org.orm.PersistentException;
 
@@ -44,6 +47,43 @@ public class ControllerParametriAmbientali {
 			return false;
 		}
 	}
+	
+	protected static List<Boolean> modificaAmbiente(List<Integer> ids, Float temperatura, Float umidita, Float irradianza) {
+		Coltivazione c;
+		for(int id : ids)
+		{
+			try {			
+				if(temperatura == null || umidita == null || irradianza == null)
+				{
+					DettagliBusiness dbus = ControllerColtivazioni.getDettagliBusiness(id);
+					if(temperatura == null)
+						temperatura = dbus.getTemperatura_target();
+					if(umidita == null)
+						umidita = dbus.getUmidita_target();
+					if(irradianza == null)
+						irradianza = dbus.getIrradianza_target();
+				}
+				c = Coltivazione.getColtivazioneByORMID(id);
+				int sez= c.getSezione();
+				Connection conn = Connection.getInstance();
+				if(conn.modificaAmbiente(c.getIDAmbiente(), temperatura, umidita, irradianza,sez)) 
+				{
+					/*return*/ c.modificaAmbiente(temperatura, umidita, irradianza);
+				}
+				//else return false;
+				
+			} catch (PersistentException e) {
+				return null;
+			}
+		}
+		List<Boolean> ret= new ArrayList<Boolean>();
+		for(int id : ids)
+		{
+			ret.add(Connection.getInstance().getRetval(id));
+		}
+		return ret;
+	}
+
 
 	protected static void modificaAmbienteAttuale(int id, float temperatura, float umidita, float irradianza) {
 		Ambiente amb;
